@@ -1,10 +1,23 @@
 #include <stdio.h>
-
-printf, malloc, free, write, access, open, read, strerror, perror,
-close, fork, wait, waitpid, wait3, wait4, exit, execve, dup, dup2, pipe,
+malloc, free,
+printf, write, 
+access, open, read, close,
+strerror, perror,
+fork, wait, waitpid, wait3, wait4, 
+exit, 
+execve, 
+dup, dup2, pipe,
 
 char *readline (const char *prompt);
+		"readline will read a line from the terminal and return it, using prompt
+	as a prompt.  If prompt is NULL or the empty string, no prompt  is  is‐
+	sued.   The  line returned is allocated with malloc(3); the caller must
+	free it when finished.  The line returned has  the  final  newline  re‐
+	moved, so only the text of the line remains.
 
+	readline  offers  editing  capabilities  while the user is entering the
+	line.  By default, the line editing commands are similar  to  those  of
+	emacs.  A vi-style line editing interface is also available."
 
 void rl_clear_history (void)
 	"Clear the history list by deleting all of the entries, in the same manner as the History library's
@@ -31,38 +44,48 @@ void add_history (const char *string)
 
 #include <signal.h>
 
-       sighandler_t signal(int signum, sighandler_t handler)
+	sighandler_t signal(int signum, sighandler_t handler)
 
  #include <signal.h>
 
-       int sigaction(int signum, const struct sigaction *act,
-                     struct sigaction *oldact);
+	int sigaction(int signum, const struct sigaction *act,
+			struct sigaction *oldact);
 #include <signal.h>
 
-       int sigemptyset(sigset_t *set);
+	int sigemptyset(sigset_t *set);
 "sigemptyset() initializes the signal set given by set to empty, with all signals excluded from the set."
 int sigaddset(sigset_t *set, int signum);
 "sigaddset() and sigdelset() add and delete respectively signal signum from set."
 
 #include <sys/types.h>
-       #include <signal.h>
+	#include <signal.h>
 
-       int kill(pid_t pid, int sig);
+	int kill(pid_t pid, int sig);
 #include <unistd.h>
 
-       char *getcwd(char *buf, size_t size);
+	char *getcwd(char *buf, size_t size);
 #include <unistd.h>
+"The  getcwd() function copies an absolute pathname of the current working directory to the array pointed to by
+       buf, which is of length size.
 
-       int chdir(const char *path);
+       If the length of the absolute pathname of the current working directory, including the terminating null  byte,
+       exceeds  size bytes, NULL is returned, and errno is set to ERANGE; an application should check for this error,
+       and allocate a larger buffer if necessary.
+
+       As an extension to the POSIX.1-2001 standard, glibc's getcwd() allocates the  buffer  dynamically  using  mal‐
+       loc(3)  if  buf is NULL.  In this case, the allocated buffer has the length size unless size is zero, when buf
+       is allocated as big as necessary.  The caller should free(3) the returned buffer."
+
+	int chdir(const char *path);
 "chdir() changes the current working directory of the calling process to the directory specified in path."
 
 #include <sys/types.h>
-       #include <sys/stat.h>
-       #include <unistd.h>
+	#include <sys/stat.h>
+	#include <unistd.h>
 
-       int stat(const char *pathname, struct stat *statbuf);
-       int fstat(int fd, struct stat *statbuf);
-       int lstat(const char *pathname, struct stat *statbuf);
+	int stat(const char *pathname, struct stat *statbuf);
+	int fstat(int fd, struct stat *statbuf);
+	int lstat(const char *pathname, struct stat *statbuf);
 		"These  functions return information about a file, in the buffer pointed to by statbuf.  No permissions are required on the file itself, but—in the case of stat(), fs‐
 		tatat(), and lstat()—execute (search) permission is required on all of the directories in pathname that lead to the file.
 
@@ -73,54 +96,54 @@ int sigaddset(sigset_t *set, int signum);
 		fstat() is identical to stat(), except that the file about which information is to be retrieved is specified by the file descriptor fd."
 #include <unistd.h>
 
-       int unlink(const char *pathname);
+	int unlink(const char *pathname);
 	"unlink()  deletes  a name from the filesystem.  If that name was the last link to a file and no processes have the file open, the file is deleted and the space it was
-       using is made available for reuse.
+	using is made available for reuse.
 
-       If the name was the last link to a file but any processes still have the file open, the file will remain in existence until the last file descriptor referring  to  it
-       is closed.
+	If the name was the last link to a file but any processes still have the file open, the file will remain in existence until the last file descriptor referring  to  it
+	is closed.
 
-       If the name referred to a symbolic link, the link is removed.
+	If the name referred to a symbolic link, the link is removed.
 
-       If the name referred to a socket, FIFO, or device, the name for it is removed but processes which have the object open may continue to use it."
+	If the name referred to a socket, FIFO, or device, the name for it is removed but processes which have the object open may continue to use it."
 #include <sys/types.h>
-       #include <dirent.h>
+	#include <dirent.h>
 
-       DIR *opendir(const char *name);
+	DIR *opendir(const char *name);
 	   "The  opendir()  function opens a directory stream corresponding to the directory name, and returns a pointer to the directory stream.  The stream is positioned at the
-       first entry in the directory."
+	first entry in the directory."
 #include <dirent.h>
 
-       struct dirent *readdir(DIR *dirp); 
+	struct dirent *readdir(DIR *dirp); 
 	   "The  readdir()  function returns a pointer to a dirent structure representing the next directory entry in the directory stream pointed to by dirp.  It returns NULL on
-       reaching the end of the directory stream or if an error occurred.
+	reaching the end of the directory stream or if an error occurred.
 
-       In the glibc implementation, the dirent structure is defined as follows:
+	In the glibc implementation, the dirent structure is defined as follows:
 
-           struct dirent {
-               ino_t          d_ino;       /* Inode number */
-               off_t          d_off;       /* Not an offset; see below */
-               unsigned short d_reclen;    /* Length of this record */
-               unsigned char  d_type;      /* Type of file; not supported
-                                              by all filesystem types */
-               char           d_name[256]; /* Null-terminated filename */
-           };"
+	    struct dirent {
+		 ino_t	   d_ino;	/* Inode number */
+		 off_t	   d_off;	/* Not an offset; see below */
+		 unsigned short d_reclen;    /* Length of this record */
+		 unsigned char  d_type;      /* Type of file; not supported
+						    by all filesystem types */
+		 char	    d_name[256]; /* Null-terminated filename */
+	    };"
 #include <sys/types.h>
 #include <dirent.h>
 
-       int closedir(DIR *dirp);
+	int closedir(DIR *dirp);
 "The  closedir() function closes the directory stream associated with dirp.  A successful call to closedir() also closes the underlying file descriptor associated with
-       dirp.  The directory stream descriptor dirp is not available after this call."
+	dirp.  The directory stream descriptor dirp is not available after this call."
 #include <unistd.h>
 
-       int isatty(int fd); 
+	int isatty(int fd); 
 	   "The isatty() function tests whether fd is an open file descriptor referring to a terminal."
 #include <unistd.h>
 
 char *ttyname(int fd);
 "The function ttyname() returns a pointer to the null-terminated pathname of the terminal device that is open on the file descriptor fd, or NULL on error (for example,
-       if fd is not connected to a terminal).  The return value may point to static data, possibly overwritten by the next call.  The function ttyname_r() stores this  path‐
-       name in the buffer buf of length buflen."
+	if fd is not connected to a terminal).  The return value may point to static data, possibly overwritten by the next call.  The function ttyname_r() stores this  path‐
+	name in the buffer buf of length buflen."
 #include <unistd.h>
 
 int ttyslot(void);
@@ -128,32 +151,32 @@ int ttyslot(void);
 
 #include <sys/ioctl.h>
 
-       int ioctl(int fd, unsigned long request, ...);
+	int ioctl(int fd, unsigned long request, ...);
 "The  ioctl()  system  call  manipulates  the  underlying device parameters of special files.  In particular, many operating characteristics of character special files
-       (e.g., terminals) may be controlled with ioctl() requests.  The argument fd must be an open file descriptor.
+	(e.g., terminals) may be controlled with ioctl() requests.  The argument fd must be an open file descriptor.
 
-       The second argument is a device-dependent request code.  The third argument is an untyped pointer to memory.  It's traditionally char *argp (from the days before void
-       * was valid C), and will be so named for this discussion.
+	The second argument is a device-dependent request code.  The third argument is an untyped pointer to memory.  It's traditionally char *argp (from the days before void
+	* was valid C), and will be so named for this discussion.
 
-       An ioctl() request has encoded in it whether the argument is an in parameter or out parameter, and the size of the argument argp in bytes.  Macros and defines used in
-       specifying an ioctl() request are located in the file <sys/ioctl.h>."
+	An ioctl() request has encoded in it whether the argument is an in parameter or out parameter, and the size of the argument argp in bytes.  Macros and defines used in
+	specifying an ioctl() request are located in the file <sys/ioctl.h>."
 
 #include <stdlib.h>
 
-       char *getenv(const char *name);
+	char *getenv(const char *name);
 "The getenv() function searches the environment list to find the environment variable name, and returns a pointer to the corresponding value string."
 #include <termios.h>
-       #include <unistd.h>
+	#include <unistd.h>
 
-       int tcgetattr(int fd, struct termios *termios_p);
+	int tcgetattr(int fd, struct termios *termios_p);
 
-       int tcsetattr(int fd, int optional_actions,
-                     const struct termios *termios_p);
-"tcgetattr() gets the parameters associated with the object referred by fd and stores them in the termios structure referenced by termios_p.  This function may be  in‐
-       voked from a background process; however, the terminal attributes may be subsequently changed by a foreground process.
+	int tcsetattr(int fd, int optional_actions,
+			const struct termios *termios_p);
+	"tcgetattr() gets the parameters associated with the object referred by fd and stores them in the termios structure referenced by termios_p.  This function may be  in‐
+	voked from a background process; however, the terminal attributes may be subsequently changed by a foreground process.
 
-       tcsetattr()  sets  the parameters associated with the terminal (unless support is required from the underlying hardware that is not available) from the termios struc‐
-       ture referred to by termios_p.  optional_actions specifies when the changes take effect:"
+	tcsetattr()  sets  the parameters associated with the terminal (unless support is required from the underlying hardware that is not available) from the termios struc‐
+	ture referred to by termios_p.  optional_actions specifies when the changes take effect:"
 
 #include <curses.h>
 #include <term.h>
