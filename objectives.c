@@ -1,11 +1,10 @@
 /*get ac, av, env, heredoc
-get signals during heredoc(ctrl c, ctrl z)
 
 Afficher un prompt en l’attente d’une nouvelle commande.
-(probablement readline?)
+(probablement readline? puis wait until newline?)
 
 Posséder un historique fonctionnel.
-(haut bas, peut etre page down et autres?)
+(haut bas, liste chainee de lignes de commandes finies?)
 
 !!Ne pas interpréter de quotes (guillemets) non fermés ou de caractères spéciaux non
 demandés dans le sujet, tels que \ (le backslash) ou ; (le point-virgule).
@@ -21,17 +20,19 @@ then have active/inactive state for ignoring/interpreting metachar?)
 Gérer les variables d’environnement (un $ suivi d’une séquence de caractères)
 qui doivent être substituées par leur contenu.
 (variable must exist before being called)
-probably "char *getenv(const char *name)"
+probably "char *getenv(const char *name)" puis la var correspondante
 
 Gérer $? qui doit être substitué par le statut de sortie de la dernière pipeline
 exécutée au premier plan.
-(exit(XX) of last process? pas sur de comprendre "pipeline")
+(exit(XX) of last process? pas sur de comprendre "pipeline",
+"premier plan" veut probablement dire par rapport au process parent minishell)
 
 if "<<"
 << doit recevoir un délimiteur et lire l’input donné jusqu’à rencontrer une ligne
 contenant le délimiteur. Cependant, l’historique n’a pas à être mis à jour !
 lire delimiteur valide (restrictions possibles?) puis lire ligne par ligne en
 cherchant str END ds la string recue.
+(c'est juste heredoc)
 
 "<" doit rediriger l’entrée.
 ">" doit rediriger la sortie.
@@ -46,12 +47,21 @@ En mode interactif :
 ◦ ctrl-C affiche un nouveau prompt sur une nouvelle ligne.
 ◦ ctrl-D quitte le shell.
 ◦ ctrl-\ ne fait rien.
+get signals during heredoc(ctrl c, ctrl z) too
+	sighandler_t signal(int signum, sighandler_t handler)  
+	int sigaction(int signum, const struct sigaction *act, struct sigaction *oldact);
+	int sigemptyset(sigset_t *set);
+	int sigaddset(sigset_t *set, int signum);
 
-echo et l’option -n
+◦ echo et l’option -n
+(-n fait juste ignorer le dernier \n)
+ecrire ds le terminal avec l'input "deplie" pour les variable $xx
+
 ◦ cd uniquement avec un chemin relatif ou absolu
-(int chdir(const char *path))
+	(int chdir(const char *path))
 ◦ pwd sans aucune option
-(char *getcwd(char *buf, size_t size))
+	(char *getcwd(char *buf, size_t size))
+
 ◦ export sans aucune option
 The  shell  shall give the export attribute to the
        variables corresponding to  the  specified  names,
@@ -59,11 +69,14 @@ The  shell  shall give the export attribute to the
        subsequently executed commands. If the name  of  a
        variable  is  followed by =word, then the value of
        that variable shall be set to word.
-(update env with the specific variable i guess)
+	(update env with the specific variable i guess)
 
 ◦ unset sans aucune option
+	reverse of export, get a variable out of env list
 ◦ env sans aucune option ni argument
+	(it's just a print char** after getting update env, i guess)
 ◦ exit sans aucune option
+	exit(0)?
 
 //BONUSES
 1 - Les wildcards * doivent fonctionner pour le répertoire courant.

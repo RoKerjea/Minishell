@@ -23,11 +23,8 @@ void rl_clear_history (void)
 	"Clear the history list by deleting all of the entries, in the same manner as the History library's
 	 clear_history() function. This differs from clear_history because it frees private data Readline saves in the history list."
 
-
 int rl_on_new_line (void)
 	"Tell the update functions that we have moved onto a new (empty) line, usually after outputting a newline. "
-
-
 
 void rl_replace_line (const char *text, int clear_undo)
 	"Replace the contents of rl_line_buffer with text. The point and mark are preserved, if possible. If
@@ -35,7 +32,6 @@ void rl_replace_line (const char *text, int clear_undo)
 
 void rl_redisplay (void)
     "Change what's displayed on the screen to reflect the current contents of rl_line_buffer."
-
 
 void add_history (const char *string)
     "Place string at the end of the history list. The associated data field (if any) is set to NULL.
@@ -45,8 +41,17 @@ void add_history (const char *string)
 #include <signal.h>
 
 	sighandler_t signal(int signum, sighandler_t handler)
-
- #include <signal.h>
+		"The  behavior of signal() varies across UNIX versions, and has also varied historically across different versions of Linux.  Avoid
+	its use: use sigaction(2) instead.  See Portability below.
+	signal() sets the disposition of the signal signum to handler, which is either SIG_IGN, SIG_DFL, or the address of  a  programmer-
+	defined function (a "signal handler").
+	If the signal signum is delivered to the process, then one of the following happens:
+	*  If the disposition is set to SIG_IGN, then the signal is ignored.
+	*  If the disposition is set to SIG_DFL, then the default action associated with the signal (see signal(7)) occurs.
+	*  If  the  disposition is set to a function, then first either the disposition is reset to SIG_DFL, or the signal is blocked (see
+	   Portability below), and then handler is called with argument signum.  If invocation of the handler  caused  the  signal  to  be
+	   blocked, then the signal is unblocked upon return from the handler."
+#include <signal.h>
 
 	int sigaction(int signum, const struct sigaction *act,
 			struct sigaction *oldact);
@@ -66,15 +71,13 @@ int sigaddset(sigset_t *set, int signum);
 	char *getcwd(char *buf, size_t size);
 #include <unistd.h>
 "The  getcwd() function copies an absolute pathname of the current working directory to the array pointed to by
-       buf, which is of length size.
-
-       If the length of the absolute pathname of the current working directory, including the terminating null  byte,
-       exceeds  size bytes, NULL is returned, and errno is set to ERANGE; an application should check for this error,
-       and allocate a larger buffer if necessary.
-
-       As an extension to the POSIX.1-2001 standard, glibc's getcwd() allocates the  buffer  dynamically  using  mal‐
-       loc(3)  if  buf is NULL.  In this case, the allocated buffer has the length size unless size is zero, when buf
-       is allocated as big as necessary.  The caller should free(3) the returned buffer."
+	buf, which is of length size.
+	If the length of the absolute pathname of the current working directory, including the terminating null  byte,
+	exceeds  size bytes, NULL is returned, and errno is set to ERANGE; an application should check for this error,
+	and allocate a larger buffer if necessary.
+	As an extension to the POSIX.1-2001 standard, glibc's getcwd() allocates the  buffer  dynamically  using  mal‐
+	loc(3)  if  buf is NULL.  In this case, the allocated buffer has the length size unless size is zero, when buf
+	is allocated as big as necessary.  The caller should free(3) the returned buffer."
 
 	int chdir(const char *path);
 "chdir() changes the current working directory of the calling process to the directory specified in path."
@@ -186,25 +189,24 @@ int tgetnum(char *id);
 char *tgetstr(char *id, char **area);
 char *tgoto(const char *cap, int col, int row);
 int tputs(const char *str, int affcnt, int (*putc)(int));
-"These routines are included as a conversion aid for programs that use the termcap library. Their parameters are the same and the routines are emulated using the terminfo database. Thus, they can only be used to query the capabilities of entries for which a terminfo entry has been compiled.
-
-The tgetent routine loads the entry for name. It returns 1 on success, 0 if there is no such entry, and -1 if the terminfo database could not be found. The emulation ignores the buffer pointer bp.
-
-The tgetflag routine gets the boolean entry for id, or zero if it is not available.
-
-The tgetnum routine gets the numeric entry for id, or -1 if it is not available.
-
-The tgetstr routine returns the string entry for id, or zero if it is not available. Use tputs to output the returned string. The return value will also be copied to the buffer pointed to by area, and the area value will be updated to point past the null ending this value.
-
-Only the first two characters of the id parameter of tgetflag, tgetnum and tgetstr are compared in lookups.
-
-The tgoto routine instantiates the parameters into the given capability. The output from this routine is to be passed to tputs.
-
-The tputs routine is described on the curs_terminfo(3X) manual page. It can retrieve capabilities by either termcap or terminfo name.
-
-The variables PC, UP and BC are set by tgetent to the terminfo entry's data for pad_char, cursor_up and backspace_if_not_bs, respectively. UP is not used by ncurses. PC is used in the tdelay_output function. BC is used in the tgoto emulation. The variable ospeed is set by ncurses in a system-specific coding to reflect the terminal speed.
+	"These routines are included as a conversion aid for programs that use the termcap library. Their parameters 
+are the same and the routines are emulated using the terminfo database. Thus, they can only be used to query the 
+capabilities of entries for which a terminfo entry has been compiled.
+	The tgetent routine loads the entry for name. It returns 1 on success, 0 if there is no such entry, and -1 if the 
+terminfo database could not be found. The emulation ignores the buffer pointer bp.
+	The tgetflag routine gets the boolean entry for id, or zero if it is not available.
+	The tgetnum routine gets the numeric entry for id, or -1 if it is not available.
+	he tgetstr routine returns the string entry for id, or zero if it is not available. Use tputs to output the returned 
+string. The return value will also be copied to the buffer pointed to by area, and the area value will be updated to point past the null ending this value.
+	Only the first two characters of the id parameter of tgetflag, tgetnum and tgetstr are compared in lookups.
+	The tgoto routine instantiates the parameters into the given capability. The output from this routine is to be passed 
+to tputs.
+	The tputs routine is described on the curs_terminfo(3X) manual page. It can retrieve capabilities by either termcap or 
+terminfo name.
+	The variables PC, UP and BC are set by tgetent to the terminfo entry's data for pad_char, cursor_up and backspace_if_not_bs, 
+respectively. UP is not used by ncurses. PC is used in the tdelay_output function. BC is used in the tgoto emulation. 
+	The variable ospeed is set by ncurses in a system-specific coding to reflect the terminal speed.
 Return Value
-
-Except where explicitly noted, routines that return an integer return ERR upon failure and OK (SVr4 only specifies "an integer value other than ERR") upon successful completion.
-
+Except where explicitly noted, routines that return an integer return ERR upon failure and OK 
+(SVr4 only specifies "an integer value other than ERR") upon successful completion.
 Routines that return pointers return NULL on error."
