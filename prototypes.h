@@ -167,7 +167,7 @@ int ttyslot(void);
 #include <stdlib.h>
 
 	char *getenv(const char *name);
-"The getenv() function searches the environment list to find the environment variable name, and returns a pointer to the corresponding value string."
+		"The getenv() function searches the environment list to find the environment variable name, and returns a pointer to the corresponding value string."
 #include <termios.h>
 	#include <unistd.h>
 
