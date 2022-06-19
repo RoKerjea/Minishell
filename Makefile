@@ -53,7 +53,7 @@ printstart :
 
 ${NAME}:	${OBJECTS}
 	@echo "${_UNDER}${_RED}Creating Executable${_END}"
-	@echo "${_BOLD}${_GREEN}${CC} -o ${NAME} ${OBJECTS} libft/libft.a${_END}"
+	@echo "${_BOLD}${_GREEN}${CC} -o ${NAME} ${OBJECTS} -lreadline ${_END}"
 	@${CC} -o ${NAME} ${OBJECTS} -lreadline
 
 -include ${DEPEND}
