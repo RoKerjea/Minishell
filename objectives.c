@@ -8,7 +8,7 @@ Posséder un historique fonctionnel.
 
 !!Ne pas interpréter de quotes (guillemets) non fermés ou de caractères spéciaux non
 demandés dans le sujet, tels que \ (le backslash) ou ; (le point-virgule).
-(Ignorer ou dire erreur?)
+(probablement juste print erreur explicite?)
 
 Gérer ’ (single quote) qui doit empêcher le shell d’interpréter les méta-caractères
 présents dans la séquence entre guillemets.
@@ -25,7 +25,8 @@ probably "char *getenv(const char *name)" puis la var correspondante
 Gérer $? qui doit être substitué par le statut de sortie de la dernière pipeline
 exécutée au premier plan.
 (exit(XX) of last process? pas sur de comprendre "pipeline",
-"premier plan" veut probablement dire par rapport au process parent minishell)
+"premier plan" veut probablement dire par rapport au process parent minishell, 
+donc un int a garder en memoire ds struct globale)
 
 if "<<"
 << doit recevoir un délimiteur et lire l’input donné jusqu’à rencontrer une ligne
@@ -41,6 +42,7 @@ pas que au tt debut et a la tte fin!
 ">>" doit rediriger la sortie en mode append
 * comme pour > mais en ecrivant a partir de la fin de ce fichier je suppose?
 
+SIGNAUX
 signals a gerer
 Gérer ctrl-C, ctrl-D et ctrl-\ qui doivent fonctionner comme dans bash.
 En mode interactif :
@@ -53,12 +55,16 @@ get signals during heredoc(ctrl c, ctrl z) too
 	int sigemptyset(sigset_t *set);
 	int sigaddset(sigset_t *set, int signum);
 
+
+BUILTINS
 ◦ echo et l’option -n
 (-n fait juste ignorer le dernier \n)
 ecrire ds le terminal avec l'input "deplie" pour les variable $xx
+-nnnnnnn  et "-n -n -n -n -n" sont valides
 
 ◦ cd uniquement avec un chemin relatif ou absolu
 	(int chdir(const char *path))
+(modifier var PWD in ENV)
 ◦ pwd sans aucune option
 	(char *getcwd(char *buf, size_t size))
 
