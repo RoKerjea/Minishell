@@ -33,6 +33,7 @@ SRCS		=	${addprefix parsing/, \
 				ft_split.c \
 				ft_strjoin.c \
 				ft_freetab.c \
+				ft_strdup.c \
 				ft_strchr.c \
 				ft_strncmp.c}
 

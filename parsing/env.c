@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 21:07:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/18 22:49:07 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/20 16:30:46 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,29 @@ void	forgelink(t_env_link *prev, t_env_link *now)
 	prev->next = now;
 	now->prev = prev;
 }
+/*
+void	update_variable(char *name, char *content, t_env *env_list)
+{
+	t_env_link *link;
+
+	//parcourir liste until name == link->name
+	link = find_link(name, env_list);
+	//change link->variable to content
+	free(link->variable);
+	link->variable = ft_strdup(content);	
+}
+
+t_env_link *find_link(char *var_name, t_env *env_list)
+{
+	t_env_link	*link;
+	
+	link = env_list->first;
+	while(strncmp(var_name, link->name, ft_strlen(link->name)) != 0)//probablement pas assez precis
+	{
+		link = link->next;		
+	}	
+	return(link);
+}*/
 
 //Finish join pls
 t_env_link *create_link(char *envstr)

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/19 20:46:37 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/20 16:30:27 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <stdlib.h>
-
+# include <linux/limits.h>
 
 typedef struct s_env_link
 {
@@ -45,6 +44,10 @@ char			*ft_strjoin(char const *s1, char const *s2);
 
 //ENV.C
 t_env	env_list(char **env);
-
+t_env_link	*find_link(char *var_name, t_env *env_list);
+void	update_variable(char *name, char *content, t_env *env_list);
 void	printenv(t_env *env);
+
+//DIR.C
+void	printpath(void);
 #endif

@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Version_minishell.h                                :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/18 18:58:11 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/18 18:58:12 by rokerjea         ###   ########.fr       */
+/*   Created: 2021/07/21 16:51:26 by rokerjea          #+#    #+#             */
+/*   Updated: 2022/06/20 16:22:39 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VERSION_MINISHELL_H
-# define VERSION_MINISHELL_H
-# define MAJOR_VERSION "0"
-# define MINOR_VERSION "4"
-# define BUILD_DATE "20 06 2022 16h31 CEST"
-#endif
+#include "../include/minishell.h"
+
+char	*ft_strdup(const char *s1)
+{
+	char	*s2;
+	int		i;
+
+	i = 0;
+	s2 = malloc(sizeof(*s1));
+	while (s1[i])
+	{
+		s2[i] = s1[i];
+		i++;
+	}
+	s2[i] = '\0';
+	return (s2);
+}

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:47:11 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/18 22:55:00 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/20 16:30:12 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 void	builtin_parser(char *input, t_env *local_env)
 {
 	if (ft_strncmp(input, "exit", ft_strlen(input)) == 0)
-		exit (0);
+		exit (0);//exit value should be unsigned int specified after string "exit" (0 -> 255)
 	if (ft_strncmp(input, "env", ft_strlen(input)) == 0)
 		printenv(local_env);
+	if (ft_strncmp(input, "pwd", ft_strlen(input)) == 0)
+		printpath();
 }
 
 int	input(t_env *local_env)
@@ -49,5 +51,6 @@ int	main(int argc, char **argv, char **env)
 	{
 		status = input(&local_env);
 	}
+	//free and destroy everything before process end
 	return (status);
 }
