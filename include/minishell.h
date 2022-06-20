@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/20 16:30:27 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/20 17:11:38 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,17 @@ char			*ft_strchr(const char *s, int c);
 char			**ft_split(char const *s, char c);
 char			**ft_freetab(char **tab);
 char			*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strdup(const char *s1);
 
 //ENV.C
 t_env	env_list(char **env);
 t_env_link	*find_link(char *var_name, t_env *env_list);
 void	update_variable(char *name, char *content, t_env *env_list);
 void	printenv(t_env *env);
+char	*get_env_var(char *name, t_env *env_list);
 
 //DIR.C
 void	printpath(void);
+int		change_dir(char *str, t_env *env_list);
+
 #endif

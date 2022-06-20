@@ -26,6 +26,7 @@ _IWHITE=$'\033[47m
 
 SRCS		=	${addprefix parsing/, \
 				env.c \
+				directories.c \
 				print_env.c \
 				Start.c} \
 				${addprefix libft/, \

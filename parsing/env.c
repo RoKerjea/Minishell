@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 21:07:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/20 16:30:46 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/20 17:47:58 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	forgelink(t_env_link *prev, t_env_link *now)
 	prev->next = now;
 	now->prev = prev;
 }
-/*
+
 void	update_variable(char *name, char *content, t_env *env_list)
 {
 	t_env_link *link;
@@ -26,7 +26,28 @@ void	update_variable(char *name, char *content, t_env *env_list)
 	link = find_link(name, env_list);
 	//change link->variable to content
 	free(link->variable);
-	link->variable = ft_strdup(content);	
+	link->variable = ft_strdup(content);
+}
+
+void	new_link(char *newvar, t_env *env_list)
+{
+	t_env_link	*link;
+	t_env_link	*newlink;
+
+	newlink = create_link(newvar);//si la fonction est bien faite, la struct t_env_link est cree et assignee juste avec ca
+	link = env_list->last;
+	link->next = newlink;
+	env_list->last = newlink;
+	env_list->len++;
+	newlink->prev = link;
+}
+
+char	*get_env_var(char *name, t_env *env_list)
+{
+	t_env_link	*link;
+
+	link = find_link(name, env_list);
+	return(link->variable);
 }
 
 t_env_link *find_link(char *var_name, t_env *env_list)
@@ -39,7 +60,7 @@ t_env_link *find_link(char *var_name, t_env *env_list)
 		link = link->next;		
 	}	
 	return(link);
-}*/
+}
 
 //Finish join pls
 t_env_link *create_link(char *envstr)
@@ -67,6 +88,14 @@ t_env_link *create_link(char *envstr)
 	reslink->next = NULL;
 	reslink->prev = NULL;
 	return (reslink);
+}
+
+split_env(char *str, t_env_link *link)
+{
+	char	*tmp;
+
+	tmp = ft_strchr('=', str);
+	link->name = ft_strndup(str, tmp)//need ndup!
 }
 
 t_env env_list(char **env)

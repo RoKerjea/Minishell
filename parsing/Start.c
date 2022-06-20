@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:47:11 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/20 16:30:12 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/20 17:29:52 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ void	builtin_parser(char *input, t_env *local_env)
 		printenv(local_env);
 	if (ft_strncmp(input, "pwd", ft_strlen(input)) == 0)
 		printpath();
+	if (ft_strncmp(input, "cd", 2) == 0 && (input[2] == ' ' || input[2] == '\0'))
+		change_dir(input, local_env);
+	if (ft_strncmp(input, "export ", 7) == 0 && (input[8] != ' ' || input[8] != '\0'))
+		new_link(input + 7, local_env);
 }
 
 int	input(t_env *local_env)
