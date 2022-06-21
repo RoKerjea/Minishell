@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/21 15:33:17 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/21 16:28:07 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	update_variable(char *str, t_env *env_list);
 void	printenv(t_env *env);
 char	*get_env_var(char *name, t_env *env_list);
 t_env_link *create_link(char *envstr);
+void	remove_variable(char *str, t_env *env_list);
 
 //DIR.C
 void	printpath(void);

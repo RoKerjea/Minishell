@@ -6,12 +6,13 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:47:11 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/21 15:47:04 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/21 16:19:25 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+//rajouter une ft par builtin pour verifier input format et printerror
 void	builtin_parser(char *input, t_env *local_env)
 {
 	if (ft_strncmp(input, "exit", ft_strlen(input)) == 0)
@@ -22,8 +23,10 @@ void	builtin_parser(char *input, t_env *local_env)
 		printpath();
 	if (ft_strncmp(input, "cd", 2) == 0 && (input[2] == ' ' || input[2] == '\0'))
 		change_dir(input, local_env);
-	if (ft_strncmp(input, "export ", 7) == 0 && (input[8] != ' ' || input[8] != '\0'))
+	if (ft_strncmp(input, "export ", 7) == 0 && (input[7] != ' ' || input[7] != '\0'))
 		update_variable(input + 7, local_env);
+	if (ft_strncmp(input, "unset ", 6) == 0 && (input[7] != ' ' || input[7] != '\0'))
+		remove_variable(input + 6, local_env);
 }
 
 int	input(t_env *local_env)
@@ -34,7 +37,7 @@ int	input(t_env *local_env)
 	{
 		input = readline ("cmd>");
 		printf ("//input== \"%s\"\n", input);//to del
-		builtin_parser(input, local_env);
+		builtin_parser(input, local_env);//ca il faudra le mettre ailleur, mais il marchera pareil
 	}
 	return (0);
 }
