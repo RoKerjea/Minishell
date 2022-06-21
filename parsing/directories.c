@@ -6,16 +6,16 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 14:22:26 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/21 15:46:32 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/21 19:57:52 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	update_env(char *name, char *content, t_env *env_list)
+void	update_envdir(char *name, char *content, t_env *env_list)
 {
-	t_env_link *link;
-	
+	t_env_link	*link;
+
 	link = find_link(name, env_list);
 	free (link->variable);
 	link->variable = strdup(content);
@@ -30,18 +30,17 @@ int	change_dir(char *str, t_env *env_list)
 		path_cmd = get_env_var("HOME", env_list);
 	else
 		path_cmd = str + 3;
-	if(chdir(path_cmd) != 0)
+	if (chdir(path_cmd) != 0)
 	{
-		//error message
+		//error message mais en vrai
 		printf("error, str = \"%s\"\n", str + 3);
 	}
-	else
+	else//update env
 	{
-		//update env
 		printf("SUCCESS\n");//TO DELETE
 		getcwd(new_path, PATH_MAX);
-		update_env("OLDPWD", get_env_var("PWD", env_list), env_list);//TO FINISH
-		update_env("PWD", new_path, env_list);
+		update_envdir("OLDPWD", get_env_var("PWD", env_list), env_list);//TO FINISH
+		update_envdir("PWD", new_path, env_list);
 	}
 	return (0);
 }
@@ -49,7 +48,7 @@ int	change_dir(char *str, t_env *env_list)
 void	printpath(void)
 {
 	char	cur_path[PATH_MAX];
-	
+
 	getcwd(cur_path, PATH_MAX);
 	printf("%s\n", cur_path);
 }

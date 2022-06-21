@@ -13,6 +13,6 @@
 #ifndef VERSION_MINISHELL_H
 # define VERSION_MINISHELL_H
 # define MAJOR_VERSION "0"
-# define MINOR_VERSION "9"
-# define BUILD_DATE "21 06 2022 16h29 CEST"
+# define MINOR_VERSION "10"
+# define BUILD_DATE "21 06 2022 20h50 CEST"
 #endif

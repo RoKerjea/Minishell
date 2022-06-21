@@ -25,9 +25,9 @@ _ICYAN=$'\033[46m
 _IWHITE=$'\033[47m
 
 SRCS		=	${addprefix parsing/, \
-				env.c \
+				env_make.c \
 				directories.c \
-				print_env.c \
+				env_use.c \
 				Start.c} \
 				${addprefix libft/, \
 				ft_strlen.c \
@@ -48,10 +48,7 @@ DEPEND	= ${OBJECTS:.o=.d}
 
 CFLAGS		= -Wall -Werror -Wextra
 
-all:	printstart $(NAME)
-
-printstart :
-	@echo "${_UNDER}${_RED}"Creating Objects Directories"${_END}"
+all:	$(NAME)
 
 ${NAME}:	${OBJECTS}
 	@echo "${_UNDER}${_RED}Creating Executable${_END}"
@@ -61,6 +58,9 @@ ${NAME}:	${OBJECTS}
 -include ${DEPEND}
 
 ${OBJECTS}: $(subst .o,.c,$(subst /build/,/,$@))
+	@if [ ! -d "./parsing/build" ]; then\
+		echo "${_UNDER}${_RED}"Creating Objects Directories"${_END}";\
+	fi
 	@if [ ! -d "./$(dir $@)" ]; then\
 		echo "${_BOLD}${_UNDER}${_BLUE}"mkdir -p $(dir $@)"${_END}";\
 		mkdir -p $(dir $@);\
@@ -72,10 +72,10 @@ clean:
 	@echo "${_UNDER}${_RED}Deleting Objects and Dependencies${_END}"
 	@echo "${_BOLD}${_YELLOW}"${RM} ${OBJECTS} ${DEPEND}"${_END}"
 	@${RM} ${OBJECTS} ${DEPEND}
-	@echo "${_BOLD}${_YELLOW}"${RM} srcs/build"${_END}"
-	@${RM} srcs/build
-	@echo "${_BOLD}${_YELLOW}"${RM} not_libft/build"${_END}"
-	@${RM} not_libft/build
+	@echo "${_BOLD}${_YELLOW}"${RM} parsing/build"${_END}"
+	@${RM} parsing/build
+	@echo "${_BOLD}${_YELLOW}"${RM} libft/build"${_END}"
+	@${RM} libft/build
 
 fclean: clean
 	@echo "${_UNDER}${_RED}Deleting Executable${_END}"

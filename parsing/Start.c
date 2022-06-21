@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:47:11 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/21 16:19:25 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/21 20:17:23 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,24 @@
 //rajouter une ft par builtin pour verifier input format et printerror
 void	builtin_parser(char *input, t_env *local_env)
 {
-	if (ft_strncmp(input, "exit", ft_strlen(input)) == 0)
+	if (ft_strncmp(input, "exit", 4) == 0)
 		exit (0);//exit value should be unsigned int specified after string "exit" (0 -> 255)
-	if (ft_strncmp(input, "env", ft_strlen(input)) == 0)
+	if (ft_strncmp(input, "env", 3) == 0)
 		printenv(local_env);
-	if (ft_strncmp(input, "pwd", ft_strlen(input)) == 0)
+	if (ft_strncmp(input, "pwd", 3) == 0)
 		printpath();
 	if (ft_strncmp(input, "cd", 2) == 0 && (input[2] == ' ' || input[2] == '\0'))
 		change_dir(input, local_env);
 	if (ft_strncmp(input, "export ", 7) == 0 && (input[7] != ' ' || input[7] != '\0'))
 		update_variable(input + 7, local_env);
-	if (ft_strncmp(input, "unset ", 6) == 0 && (input[7] != ' ' || input[7] != '\0'))
+	if (ft_strncmp(input, "unset ", 6) == 0 && (input[6] != ' ' || input[6] != '\0'))
 		remove_variable(input + 6, local_env);
 }
 
 int	input(t_env *local_env)
 {
-	char *input;
-	
+	char	*input;
+
 	while (1)
 	{
 		input = readline ("cmd>");
@@ -44,12 +44,12 @@ int	input(t_env *local_env)
 
 int	main(int argc, char **argv, char **env)
 {
+	int		status;
+	t_env	local_env;
+
 	if (!argc || !argv || !env)
 		return (0);
-	int	status;
-	t_env local_env;
-	
-	status = 1;	
+	status = 1;
 	local_env = env_list(env);
 	//copy env to chained list so it can be edited later
 	//if end, destroy env list,

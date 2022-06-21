@@ -1,29 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   env_use.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/18 21:07:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/21 16:27:11 by rokerjea         ###   ########.fr       */
+/*   Created: 2022/06/18 22:10:02 by rokerjea          #+#    #+#             */
+/*   Updated: 2022/06/21 18:54:37 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	forgelink(t_env_link *prev, t_env_link *now)
+void	printenv(t_env *env)
 {
-	prev->next = now;
-	now->prev = prev;
+	int			i;
+	t_env_link	*now;
+
+	i = 0;
+	now = env->first;
+	while (now)
+	{
+		printf("%s=%s\n", now->name, now->variable);
+		now = now->next;
+		i++;
+	}
 }
 
 void	remove_variable(char *str, t_env *env_list)
 {
-	t_env_link *link;
-	t_env_link *linkprev;
-	t_env_link *linknext;
-	
+	t_env_link	*link;
+	t_env_link	*linkprev;
+	t_env_link	*linknext;
+
 	link = find_link(str, env_list);
 	linkprev = link->prev;
 	linknext = link->next;
@@ -47,9 +56,9 @@ void	remove_variable(char *str, t_env *env_list)
 
 void	update_variable(char *str, t_env *env_list)
 {
-	t_env_link *link;
-	char	*strvar;
-	char	*name;
+	t_env_link	*link;
+	char		*strvar;
+	char		*name;
 
 	strvar = ft_strchr(str, '=');
 	name = ft_strndup(str, (strvar - &str[0]));
@@ -74,14 +83,14 @@ char	*get_env_var(char *name, t_env *env_list)
 	t_env_link	*link;
 
 	link = find_link(name, env_list);
-	return(link->variable);
+	return (link->variable);
 }
 
-t_env_link *find_link(char *var_name, t_env *env_list)
+t_env_link	*find_link(char *var_name, t_env *env_list)
 {
-	t_env_link	*link;
-	unsigned int i;
-	
+	t_env_link		*link;
+	unsigned int	i;
+
 	i = 0;
 	link = env_list->first;
 	while (i < env_list->len)//probablement pas assez precis
@@ -91,57 +100,5 @@ t_env_link *find_link(char *var_name, t_env *env_list)
 		link = link->next;
 		i++;
 	}
-	return(NULL);
-}
-
-void	split_env(char *str, t_env_link *link)
-{
-	char	*tmp;
-
-	tmp = ft_strchr(str, '=');
-	link->name = ft_strndup(str, (tmp - &str[0]));//need ndup!
-	if (link->name == NULL)
-		return ;
-	link->variable = ft_strdup(&tmp[1]);
-	if (link->variable == NULL)
-		return ;
-	return ;
-}
-
-//Finish join pls
-t_env_link *create_link(char *envstr)
-{
-	t_env_link *reslink;
-	
-
-	reslink = malloc (sizeof(t_env_link));
-	split_env(envstr, reslink);
-	reslink->next = NULL;
-	reslink->prev = NULL;
-	return (reslink);
-}
-
-t_env env_list(char **env)
-{
-	int i;
-	t_env envlist;
-	t_env_link *now;
-	t_env_link *prev;
-
-	i = 0;
-	
-	envlist.first = create_link(env[i]);
-	i++;
-	prev = envlist.first;
-	while (env[i])
-	{
-		now = create_link(env[i]);
-		if (prev)
-			forgelink(prev, now);
-		i++;
-		prev = prev->next;
-	}
-	envlist.len = i;
-	envlist.last = now;
-	return (envlist);
+	return (NULL);
 }
