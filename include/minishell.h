@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/20 17:11:38 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/21 14:47:56 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ char			**ft_split(char const *s, char c);
 char			**ft_freetab(char **tab);
 char			*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strdup(const char *s1);
+char	*ft_strndup(const char *s1, int j);
 
 //ENV.C
 t_env	env_list(char **env);
