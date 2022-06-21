@@ -6,11 +6,20 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 14:22:26 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/20 17:15:21 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/21 15:46:32 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	update_env(char *name, char *content, t_env *env_list)
+{
+	t_env_link *link;
+	
+	link = find_link(name, env_list);
+	free (link->variable);
+	link->variable = strdup(content);
+}
 
 int	change_dir(char *str, t_env *env_list)
 {
@@ -31,8 +40,8 @@ int	change_dir(char *str, t_env *env_list)
 		//update env
 		printf("SUCCESS\n");//TO DELETE
 		getcwd(new_path, PATH_MAX);
-		update_variable("OLDPWD", get_env_var("PWD", env_list), env_list);//TO FINISH
-		update_variable("PWD", new_path, env_list);
+		update_env("OLDPWD", get_env_var("PWD", env_list), env_list);//TO FINISH
+		update_env("PWD", new_path, env_list);
 	}
 	return (0);
 }

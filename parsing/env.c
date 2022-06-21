@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 21:07:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/21 15:32:06 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/21 15:52:34 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,21 @@ void	update_variable(char *str, t_env *env_list)
 	t_env_link *link;
 	char	*strvar;
 	char	*name;
+	printf("str got == %s\n", str);
 
 	strvar = ft_strchr(str, '=');
 	name = ft_strndup(str, (strvar - &str[0]));
 	link = find_link(name, env_list);
 	free (name);
+	printf("gate2\n");
 	if (link)
 	{
 		free(link->variable);
 		link->variable = ft_strdup(&strvar[1]);
 	}
-	else
+	else if (link == NULL)
 	{
+		printf("gate1\n");
 		link = create_link(str);
 		forgelink(env_list->last, link);
 		env_list->last = link;
