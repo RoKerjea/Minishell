@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 21:07:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/21 14:58:59 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/21 15:32:06 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,28 @@ void	forgelink(t_env_link *prev, t_env_link *now)
 	now->prev = prev;
 }
 
-void	update_variable(char *name, char *content, t_env *env_list)
+void	update_variable(char *str, t_env *env_list)
 {
 	t_env_link *link;
+	char	*strvar;
+	char	*name;
 
-	//parcourir liste until name == link->name
+	strvar = ft_strchr(str, '=');
+	name = ft_strndup(str, (strvar - &str[0]));
 	link = find_link(name, env_list);
-	//change link->variable to content
-	free(link->variable);
-	link->variable = ft_strdup(content);
+	free (name);
+	if (link)
+	{
+		free(link->variable);
+		link->variable = ft_strdup(&strvar[1]);
+	}
+	else
+	{
+		link = create_link(str);
+		forgelink(env_list->last, link);
+		env_list->last = link;
+		env_list->len++;
+	}
 }
 
 char	*get_env_var(char *name, t_env *env_list)
@@ -44,7 +57,7 @@ t_env_link *find_link(char *var_name, t_env *env_list)
 	link = env_list->first;
 	while(strncmp(var_name, link->name, ft_strlen(link->name)) != 0)//probablement pas assez precis
 	{
-		link = link->next;		
+		link = link->next;
 	}	
 	return(link);
 }
