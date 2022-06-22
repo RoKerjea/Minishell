@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:06:47 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/21 20:04:25 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/22 12:17:21 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,16 @@ unset//should have a return value depending of success O or >0
 
 export//always return (0)
 
-env//no return, NO ARGS, NO OPTIONS, but do we ignore or fail?
+env//always return 0, NO ARGS, NO OPTIONS, but do we ignore or fail?
 
 DIRECTORIES.C
 cd//return 0 for success or >0 for error
 
-pwd//no return, no option, args cause failure unless spaces
+pwd//always return 0, no option, args cause failure unless spaces
 
 echo//
 
 
 returns can be tested in real shell with "cmd && cmd"!
+returns should be between 0 and 255 -> "unsigned char"
 */
