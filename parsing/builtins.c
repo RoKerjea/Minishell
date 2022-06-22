@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:06:47 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/22 12:17:21 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/22 13:46:11 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	builtin_parser(char *input, t_env *local_env)
 
 /*
 exit//return either arg (exit (arg)) OR exit value of last action
-//should be unsigned int (0 -> 255) in any case
+//should be unsigned char (0 -> 255) in any case
 
 unset//should have a return value depending of success O or >0
 

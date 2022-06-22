@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/21 20:49:56 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/22 18:36:09 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ BUT : fournir une liste chainee cree a partir de inputstr
 (avec marqueur de debut et find d'inputstr specifiques?)
 Virer les espaces pas entre quotes,
 return liste avec un maillon par str, a reassembler par lexer ensuite en cmdstr et metachar important
-redirections et leurs cibles en un seul token?
-meme chose pour heredoc start et son EOF?
+redirections et leurs cibles en un seul token? OUI, avec type defini
+meme chose pour heredoc start et son EOF? OUI
 */
 
 /*
@@ -37,6 +37,11 @@ can be a recursive cycle of same function who only return last position and add 
 !!PB, $VAR must expand if only between "", could be slightly annoying to find if opened '' when $VAR
 but functions for quotes could give beginning and end position too...
 lots of parameter for a single string...could keep coordinates of '' "zones" for this string?
+maybe in struct of link?
+
+need to parse >> before >
+and << before <
+not separate automatically every metachar from char immediatly next? NEED TESTS!! 
 */
 
 /*
