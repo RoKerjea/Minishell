@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/24 14:33:16 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/24 14:38:33 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ typedef struct s_tok_list
 	struct s_tok_link	*first;
 	struct s_tok_link	*last;
 }		t_tok_list;
-
+/*
 parse_token(char *str), un token par str ou metachar, separated stupidly
 make_list
 parse_str
 expand
 check_errors for metastr incoherences(during metaparse? after all tokens are created?)
-
+*/
 //  |  < et << peuvent etres colles a des str et continuer a fonctionner, > >> problement aussi
 
 //mais si metachars are consequents in a wrong way, message "process : parse error near (symbol that's a problem)"
