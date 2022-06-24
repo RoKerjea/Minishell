@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 18:16:40 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/22 18:21:31 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/24 13:29:30 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # define OUT 5
 # define APPEND 6
 
+# define NO 0
+# define YES 1
 #endif
 
 //OUT, APPEND, et IN, peuvent servir pour savoir l'etat de ce qui est envoye entre pipes!

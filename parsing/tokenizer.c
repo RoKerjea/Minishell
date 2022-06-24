@@ -6,11 +6,12 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/22 21:20:46 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/24 14:33:16 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include "../include/macro.h"
 
 typedef struct s_tok_link
 {
@@ -20,7 +21,7 @@ typedef struct s_tok_link
 	struct s_tok_link	*prev;
 }		t_tok_link;
 
-typedef struct s_token_list
+typedef struct s_tok_list
 {
 	unsigned int		len;
 	struct s_tok_link	*first;
@@ -41,15 +42,23 @@ check_errors for metastr incoherences(during metaparse? after all tokens are cre
 t_tok_list	tokenizerstart(char *input)
 {
 	t_tok_list	*list;
+	
 	list = make_list();
 	sep_token(input, list);
 	expand_var(list);
+	//print token list;
 	return (list);
 }
 
 t_tok_list make_list()
 {
+	t_tok_list	*list;
 
+	list = malloc(sizeof(t_tok_list));
+	list->len = 0;
+	list->first = NULL;
+	list->last = NULL;
+	return (list);
 }
 
 //strparser et metaparser cree le maillon, et malloc la bonne taille pour la str 
@@ -61,9 +70,9 @@ void	sep_token(char *str, t_tok_list *list)
 	i = 0;
 	while (str[i])
 	{
-		while (isspace(str[i]) == 1)
+		while (isspace(str[i]) == YES)
 			i++;
-		if (is_meta (str[i]) == 0)
+		if (is_meta (str[i]) == NO)
 		{
 			//i += strparser(list, str + i) //manage start and end of quotes as a single block of str
 			j = i;
@@ -73,7 +82,7 @@ void	sep_token(char *str, t_tok_list *list)
 			token[z] = strndup(str + y, i - y - 1);
 			z++;
 		}
-		if (is_meta (str[i]) == 1)
+		if (is_meta (str[i]) == YES)
 		{
 			//i += metaparser(list, str + i)
 			token[z] = metaparser(str, i);		
@@ -81,13 +90,63 @@ void	sep_token(char *str, t_tok_list *list)
 	}
 }
 
-/*Parcourir les str de gauche a droite, suivant les cas de $x(et quotes), translate from env ou delete/ignore
-do i need to split the str to translate and then rejoin?, maybe...
-*/
-void	expand_var(list)//need to delete exterior quotes of str
+int	is_meta(char c)
 {
-	
+	if (c == '|' || c == '<' || c == '>')
+		return (YES);
+	else
+		return (NO);
 }
+
+int	strparser(t_tok_list *list, char *str)
+{
+	int	i;
+	t_tok_link *link;
+
+	i = 0;
+	link = make_add_link(list);
+	while (is_meta (str[i]) == NO && isspace(str[i]) == NO)
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+			i += find_end_quote(str + i);
+		else
+			i++;
+	}
+	list->last->str = ft_strndup(str, i);
+	list->last->meta = CMD;
+	return (i);
+}
+
+int	metaparser(t_tok_list *list, char *str)
+{
+	int	i;
+	t_tok_link *link;
+
+	i = 0;
+	link = make_add_link(list);
+	i += metachar_parser(str)
+	list->last->str = ft_strndup(str, i);
+	//is strlen(str) == 1 or 2, problem!(possibly super simple way of finding input error??!)
+	list->last->meta = 0;
+	return (i);	
+}
+
+int	find_end_quote(char *str)
+{
+	int		i;
+	char	quote;
+	
+	i = 1;
+	quote = str[0];
+	while (str[i] != quote && str[i] != '\0')
+	{
+		i++;
+	}
+	return (i);
+}
+
+
+
 
 /*
 BUT : fournir une liste chaine cree a partir de inputstr
@@ -98,8 +157,39 @@ redirections et leurs cibles en un seul token? OUI, avec type defini
 meme chose pour heredoc start et son EOF? OUI
 */
 
+int	metachar_parser(char *str)
+{
+	if (strncmp(str, "<<", 2) == 0)
+		return (xx(str + 2) + 2)
+	if (strncmp(str, "<", 1) == 0)
+		return (xx(str + 1) + 1)
+	if (strncmp(str, ">>", 2) == 0)
+		return (xx(str + 2) + 2)
+	if (strncmp(str, ">", 1) == 0)
+		return (xx(str + 1) + 1)
+	if (strncmp(str, "|", 1) == 0)
+		return (1);
+}
+
+int	duplicate_str_finder(char *str)//can be fused later with str parser
+{
+	int	i;
+
+	i = 0;
+	while (isspace(str[i]) == YES)
+		i++;
+	while (is_meta (str[i]) == NO && isspace(str[i]) == NO)
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+			i += find_end_quote(str + i);
+		else
+			i++;		
+	}
+	return (i);	
+}
+
 /*
-quotes:
+nested quotes:
 if char[i] == '\'' ou '\"'
 
 i++ until quotes, if same as start, end of quoted str,
@@ -125,40 +215,3 @@ could use a program test exec by minishell
 cmd "binary arg1arg2 'arg3'arg4"
 and it gives number et format of args it received?
 */
-
-//need mini pasrser step after tokenizer?
-
-/*
-if $VAR$VAR$VAR, can i separate them in tokens?
-if "ste $VAR str " can i tokenized to then expand and still remake the str original between ""?
-can i just split in three, expand 2, and then rejoin?
-could i tokenize a full string and only then expand it?
-what if $VAR doesn't exist? $"$VAR", 
-!! if $VAR doesn't exist, $ is deleted, and VAR is just an str of char, can just parse from left to right then?
-*/
-
-/*4 cas de "$x" a parser donc
-x = EXIST -> content
-x = WRONG -> "" (empty)
-x = ' -> $ is deleted
-x = " -> $ is a char forever in THIS minishell
-*/
-
-if $", $ is a char,
-if $', $ is deleted,
-if $WRONG, all of it mean ""
-
-
-
-echo $"rfrgrg"
-$rfrgrg
-
-diff de :
-
-echo $'rfrgrg'
-rfrgrg
-
-et diff de
-
-echo $rfrgrg
-(print rien "")"
