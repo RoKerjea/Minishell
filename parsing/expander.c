@@ -1,6 +1,7 @@
 
 /*Parcourir les str de gauche a droite, suivant les cas de $x(et quotes), translate from env ou delete/ignore
 do i need to split the str to translate and then rejoin?, maybe...
+seems to be translated from left to right litterally...
 */
 
 //$VAR FILE.c -> make an expander ft to be called from everywhere?
@@ -26,8 +27,6 @@ if $", $ is a char,
 if $', $ is deleted,
 if $WRONG, all of it mean ""
 
-
-
 echo $"rfrgrg"
 $rfrgrg
 
@@ -40,3 +39,6 @@ et diff de
 
 echo $rfrgrg
 (print rien "")"*/
+/*
+is $$ an env variable? NON, donc pas a gerer, et a tansformer en ""!
+*/

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/22 14:29:39 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/24 15:19:54 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,7 @@ char			*get_env_var(char *name, t_env *env_list);
 //DIR.C
 void			printpath(void);
 int				change_dir(char *str, t_env *env_list);
+
+//TOKENIZER.C
 
 #endif
