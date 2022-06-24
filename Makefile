@@ -14,21 +14,12 @@ _PURPLE=$'\033[35m
 _CYAN=$'\033[36m
 _WHITE=$'\033[37m
 
-# Inverted, i.e. colored backgrounds
-_IGREY=$'\033[40m
-_IRED=$'\033[41m
-_IGREEN=$'\033[42m
-_IYELLOW=$'\033[43m
-_IBLUE=$'\033[44m
-_IPURPLE=$'\033[45m
-_ICYAN=$'\033[46m
-_IWHITE=$'\033[47m
-
 SRCS		=	${addprefix parsing/, \
 				env_make.c \
 				directories.c \
+				tokenizer.c \
 				env_use.c \
-				Start.c} \
+				start.c} \
 				${addprefix libft/, \
 				ft_strlen.c \
 				ft_split.c \

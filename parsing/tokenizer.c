@@ -6,13 +6,13 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/24 15:57:39 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/24 17:54:06 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../include/macro.h"
-
+/*
 typedef struct s_tok_link
 {
 	int					*meta;
@@ -27,6 +27,7 @@ typedef struct s_tok_list
 	struct s_tok_link	*first;
 	struct s_tok_link	*last;
 }		t_tok_list;
+*/
 
 /*
 parse_token(char *str), un token par str ou metachar, separated stupidly
@@ -48,9 +49,11 @@ void	print_token(t_tok_list *list)
 
 	i = 1;
 	link = list->first;
+	printf("Token list len = %d\n", list->len);
+	printf("Token list after separator in one char* by token :\n");
 	while (link != NULL)
 	{
-		printf("Token n%d == (%s)\n", link->str);
+		printf("Token n%d is of type %d, str == (%s) \n", i, link->meta, link->str);
 		link = link->next;
 		i++;
 	}
@@ -61,9 +64,11 @@ t_tok_list	*tokenizerstart(char *input)
 	t_tok_list	*list;
 	
 	list = make_list();
+	
+	printf ("len of input == %lu\n", strlen(input));
 	sep_token(input, list);
-	expand_var(list);
-	print_token(list);
+	//expand_var(list);
+	//print_token(list);
 	//check meta args, if lin->meta != 1 and 2, check strlen after spaces?
 	//then, "process : parse error near (symbol that's a problem(first char of nextlink, probably))"
 	return (list);
@@ -108,17 +113,23 @@ void	sep_token(char *str, t_tok_list *list)
 	int	i;
 	
 	i = 0;
-	while (str[i])
+	printf("strart of tokenzer\n");
+	printf ("//input== \"%s\"\n", str);
+	while (str[i] != '\0')
 	{
-		while (isspace(str[i]) == YES)
+		while (ft_isspace(str[i]) == YES && str[i] != '\0')
 			i++;
-		if (is_meta (str[i]) == NO)
+		if (is_meta (str[i]) == NO && str[i] != '\0')
 		{
+			printf("start of strsep for char %d\n", i);
 			i += strparser(list, str + i); //manage start and end of quotes as a single block of str
+			printf("end of strsep for char %d\n", i);
 		}
-		if (is_meta (str[i]) == YES)
+		else if (is_meta (str[i]) == YES && str[i] != '\0')
 		{
+			printf("start of metasep for char %d\n", i);
 			i += metaparser(list, str + i);
+			printf("end of metasep for char %d\n", i);
 		}
 	}
 }
@@ -131,6 +142,14 @@ int	is_meta(char c)
 		return (NO);
 }
 
+int	ft_isspace(char c)
+{
+	if (c == ' ')
+		return (YES);
+	else
+		return (NO);
+}
+
 int	strparser(t_tok_list *list, char *str)
 {
 	int	i;
@@ -138,15 +157,17 @@ int	strparser(t_tok_list *list, char *str)
 
 	i = 0;
 	link = make_add_link(list);
-	while (is_meta (str[i]) == NO && isspace(str[i]) == NO)
+	while (is_meta (str[i]) == NO && str[i] != '\0')
 	{
 		if (str[i] == '\'' || str[i] == '\"')
 			i += find_end_quote(str + i);
 		else
 			i++;
 	}
-	list->last->str = ft_strndup(str, i);
-	list->last->meta = CMD;
+	printf ("str in strparse == \"%s\", strlen = %d\n", str, i);
+	link->str = ft_strndup(str, i);
+	printf ("str made == \"%s\"\n", link->str);
+	link->meta = CMD;
 	return (i);
 }
 
@@ -158,12 +179,13 @@ int	metaparser(t_tok_list *list, char *str)
 	i = 0;
 	link = make_add_link(list);
 	i += metachar_parser(str);
-	list->last->str = ft_strndup(str, i);
+	printf ("str in metaparse == \"%s\", strlen = %d\n", str, i);
+	link->str = ft_strndup(str, i);
 	//is strlen(str) == 1 or 2 and meta == 0, problem!(possibly super simple way of finding input error??!)
 	if (str[0] == '|')
-		list->last->meta = PIPE;
-	else 
-		list->last->meta = 0;
+		link->meta = PIPE;
+	else
+		link->meta = 0;
 	return (i);
 }
 
@@ -182,15 +204,17 @@ int	find_end_quote(char *str)
 int	metachar_parser(char *str)
 {
 	if (strncmp(str, "<<", 2) == 0)
-		return (xx(str + 2) + 2);
+		return (meta_and_arg_size(str + 2) + 2);
 	if (strncmp(str, "<", 1) == 0)
-		return (xx(str + 1) + 1);
+		return (meta_and_arg_size(str + 1) + 1);
 	if (strncmp(str, ">>", 2) == 0)
-		return (xx(str + 2) + 2);
+		return (meta_and_arg_size(str + 2) + 2);
 	if (strncmp(str, ">", 1) == 0)
-		return (xx(str + 1) + 1);
+		return (meta_and_arg_size(str + 1) + 1);
 	if (strncmp(str, "|", 1) == 0)
 		return (1);
+	else
+		return (0);
 }
 
 int	meta_and_arg_size(char *str)//can be fused later with str parser
@@ -198,9 +222,9 @@ int	meta_and_arg_size(char *str)//can be fused later with str parser
 	int	i;
 
 	i = 0;
-	while (isspace(str[i]) == YES)
+	while (ft_isspace(str[i]) == YES && str[i] != '\0')
 		i++;
-	while (is_meta (str[i]) == NO && isspace(str[i]) == NO)
+	while (is_meta(str[i]) == NO && ft_isspace(str[i]) == NO && str[i] != '\0')
 	{
 		if (str[i] == '\'' || str[i] == '\"')
 			i += find_end_quote(str + i);

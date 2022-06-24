@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Start.c                                            :+:      :+:    :+:   */
+/*   start.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:47:11 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/21 20:17:23 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/24 17:38:17 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,15 @@ void	builtin_parser(char *input, t_env *local_env)
 int	input(t_env *local_env)
 {
 	char	*input;
+	t_tok_list	*list;
 
 	while (1)
 	{
 		input = readline ("cmd>");
 		printf ("//input== \"%s\"\n", input);//to del
 		builtin_parser(input, local_env);//ca il faudra le mettre ailleur, mais il marchera pareil
+		list = tokenizerstart(input);
+		print_token(list);
 	}
 	return (0);
 }
@@ -57,7 +60,7 @@ int	main(int argc, char **argv, char **env)
 	while (status != 0)
 	{
 		status = input(&local_env);
-	}
+	}	
 	//free and destroy everything before process end
 	return (status);
 }
