@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/25 17:41:26 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/25 18:09:23 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ int	meta_check_arg(t_tok_list	*list)
 		if ((link->meta == IN || link->meta == OUT) && ft_strlen(link->str) < 2)
 		{
 			//parse error near link->next->str[0] etc...
-			return (NO)
+			return (NO);
 		}
 		if ((link->meta == HEREDOC || link->meta == APPEND) && ft_strlen(link->str) < 3)
 		{
 			//parse error near link->next->str[0] etc...
-			return (NO)
+			return (NO);
 		}
 		link = link->next;
 	}
