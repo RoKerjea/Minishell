@@ -39,6 +39,8 @@ et diff de
 
 echo $rfrgrg
 (print rien "")"*/
+
 /*
-is $$ an env variable? NON, donc pas a gerer, et a tansformer en ""!
+is $$ an env variable? NON, donc pas a gerer, et a transformer en ""! (delete)
+expansion happen BEFORE wildcards patternization and substitution
 */
