@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/26 15:45:27 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/26 18:12:59 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ check_errors for metastr incoherences(during metaparse? after all tokens are cre
 
 //  |  < et << peuvent etres colles a des str et continuer a fonctionner, > >> problement aussi
 
-//mais si metachars are consequents in a wrong way, message "process : parse error near (symbol that's a problem)"
+//mais si metachars are sequentials in a wrong way, message "process : parse error near (symbol that's a problem)"
 // zsh: parse error near `>'
 
 //TEST FT only needed to check step result, to delete!
@@ -70,7 +70,7 @@ int	meta_check_arg(t_tok_list	*list)
 	{
 		if ((link->meta == IN || link->meta == OUT) && ft_strlen(link->str) < 2)
 		{
-			printf ("minishell: syntax error near unexpected token `%c'\n", link->next->str[0]);
+			printf ("minishell: syntax error near unexpected token `%c'\n", link->next->str[0]);//!oups, what if link-nextn'existe pas?
 			return (NO);
 		}
 		if ((link->meta == HEREDOC || link->meta == APPEND) && ft_strlen(link->str) < 3)
@@ -83,7 +83,7 @@ int	meta_check_arg(t_tok_list	*list)
 	return (YES);
 }
 
-//start of tokenozer, create list of token, launch token separator,
+//start of tokenizer, create list of token, launch token separator,
 //check result of this step (if redirection have their arguments)
 t_tok_list	*tokenizerstart(char *input)
 {
@@ -174,7 +174,7 @@ int	is_meta(char c)
 //space, tab, newline and possibly carriage return.
 int	ft_isspace(char c)
 {
-	if (c == ' ')
+	if (c == ' ' || c == '\t')
 		return (YES);
 	else
 		return (NO);

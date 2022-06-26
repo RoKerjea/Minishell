@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/26 15:50:28 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/26 18:11:01 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ t_parsed	*parser(t_tok_list	*list)
 	t_parsed	*parsed_list;
 
 	temp = token_sorter(list);
+	//expander(temp);//expander step here?
 	parsed_list = (temp);
 	return (parsed_list);
 }
