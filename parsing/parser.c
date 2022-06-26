@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/26 13:42:04 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/26 15:50:28 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 typedef struct s_parsed_link
 {
-	int						*type;//defini en MACRO avec un int pour CMD, PIPE, IN, OUT, HEREDOC, APPEND, (BUILTIN?)
+	int						*type;//defini en MACRO avec un int pour CMD, BUILTIN
 	char					**cmd_args;//pour les arguments et options(args[0] SHOULD be the cmd name, by convention)
 	int						*fdins;//list de fdin pour la cmd, avec seulement la derniere a utiliser(2, 3, 4 ou rien) but need to open and close all others...
 	char					**fdins_args;//cible des redirections correspondantes a leurs fdins...
@@ -69,13 +69,16 @@ typedef struct s_temp
 
 }	t_temp;
 
-//get token list and create another list with one link by cmd and every redirection in the same link, not expanded or splited yet
+//get token list and create another list with one link by cmd and every
+//redirection in the same link, not expanded or splited yet
 t_temp	*token_sorter(t_tok_list	*list)
 {
 	t_tok_link	*link;
 	t_temp		*temp;
+	t_temp		*tempfirst;
 	
 	temp = mktemplist();
+	tempfirst = temp;
 	link = list->first;
 	while (link != NULL)
 	{
@@ -93,7 +96,33 @@ t_temp	*token_sorter(t_tok_list	*list)
 		}
 		link = link->next;
 	}
-	return (temp);
+	return (tempfirst);
+}
+
+t_parsed	*parser(t_tok_list	*list)
+{
+	t_temp		*temp;
+	t_parsed	*parsed_list;
+
+	temp = token_sorter(list);
+	parsed_list = (temp);
+	return (parsed_list);
+}
+
+//make final parsed link from temp link, with all args expanded and separated,
+//exterior quotes removed, nothing more should be needed for this link/CMD
+t_parsed_link	*make_parsed_link(t_temp *temp)
+{
+	t_parsed_link	*link;
+
+	link = malloc(sizeof(t_parsed_link));
+	link->type = get_type(temp->cmd_list_first);
+	link->cmd_args = get_args(temp->cmd_list_first);
+	link->fdins_args = get_in_args(temp->in_list_first);
+	link->fdouts_args = get_out_args(temp->out_list_first);
+	link->next = NULL;
+	link->prev = NULL;
+	return (link);
 }
 
 /*

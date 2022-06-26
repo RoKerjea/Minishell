@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/26 14:58:23 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/26 15:45:27 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	print_token(t_tok_list *list)
 	}
 }
 
+//verif step for token, if a redirection doesn't have a target, problem
 int	meta_check_arg(t_tok_list	*list)
 {
 	t_tok_link	*link;
@@ -69,12 +70,12 @@ int	meta_check_arg(t_tok_list	*list)
 	{
 		if ((link->meta == IN || link->meta == OUT) && ft_strlen(link->str) < 2)
 		{
-			//parse error near link->next->str[0] etc...
+			printf ("minishell: syntax error near unexpected token `%c'\n", link->next->str[0]);
 			return (NO);
 		}
 		if ((link->meta == HEREDOC || link->meta == APPEND) && ft_strlen(link->str) < 3)
 		{
-			//parse error near link->next->str[0] etc...
+			printf ("minishell: syntax error near unexpected token `%c'\n", link->next->str[0]);
 			return (NO);
 		}
 		link = link->next;
@@ -95,8 +96,6 @@ t_tok_list	*tokenizerstart(char *input)
 	if (meta_check_arg(list) == NO)
 		printf("problem and should free list and stop current input\n");//TEST to delete
 	//print_token(list);
-	//check meta args, if lin->meta != 1 and 2, check strlen after spaces?
-	//then, "process : parse error near (symbol that's a problem(first char of nextlink, probably))"
 	return (list);
 }
 
@@ -172,6 +171,7 @@ int	is_meta(char c)
 }
 
 //check if char input is a space, to be treated differently (need to move it elsewere)
+//space, tab, newline and possibly carriage return.
 int	ft_isspace(char c)
 {
 	if (c == ' ')

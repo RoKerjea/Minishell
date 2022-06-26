@@ -42,7 +42,9 @@ et diff de
 
 echo $rfrgrg
 (print rien "")"
-
+"$foo" make a SINGLE str, even with spaces inside
+while
+$foo make AS MANY str as spaces separator +1 (foo="arg1 arg2" give two separate str)
 
 ! TO TEST: "$ "; "$"
 */
