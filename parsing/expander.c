@@ -2,6 +2,9 @@
 /*Parcourir les str de gauche a droite, suivant les cas de $x(et quotes), translate from env ou delete/ignore
 do i need to split the str to translate and then rejoin?, maybe...
 seems to be translated from left to right litterally...
+can go through str while str[i] != '\0'
+and just i+= endquote if str[i] == '\'' and not already inside '\"'?
+so, just one expand cycle before removing exterior quotes?
 */
 
 //$VAR FILE.c -> make an expander ft to be called from everywhere?
@@ -38,7 +41,13 @@ rfrgrg
 et diff de
 
 echo $rfrgrg
-(print rien "")"*/
+(print rien "")"
+
+
+! TO TEST: "$ "; "$"
+*/
+
+
 
 /*
 is $$ an env variable? NON, donc pas a gerer, et a transformer en ""! (delete)

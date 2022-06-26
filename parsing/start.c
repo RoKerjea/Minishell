@@ -6,13 +6,14 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:47:11 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/24 17:38:17 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/26 13:46:37 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 //rajouter une ft par builtin pour verifier input format et printerror
+//parse what builtin should be launched, then launch it and return exit status of builtin
 void	builtin_parser(char *input, t_env *local_env)
 {
 	if (ft_strncmp(input, "exit", 4) == 0)
@@ -29,6 +30,7 @@ void	builtin_parser(char *input, t_env *local_env)
 		remove_variable(input + 6, local_env);
 }
 
+//start of input loop, should add to history, tokenize->parse->expand->send to exec
 int	input(t_env *local_env)
 {
 	char	*input;
@@ -45,6 +47,7 @@ int	input(t_env *local_env)
 	return (0);
 }
 
+//start of process, get env and ignore args, make internal env and launch input loop
 int	main(int argc, char **argv, char **env)
 {
 	int		status;

@@ -6,12 +6,15 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/25 18:09:23 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/26 14:58:23 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../include/macro.h"
+
+//FILE: what's needed to make list of tokens from input, depending of their type
+
 /*
 typedef struct s_tok_link
 {
@@ -39,6 +42,7 @@ check_errors for metastr incoherences(during metaparse? after all tokens are cre
 //mais si metachars are consequents in a wrong way, message "process : parse error near (symbol that's a problem)"
 // zsh: parse error near `>'
 
+//TEST FT only needed to check step result, to delete!
 void	print_token(t_tok_list *list)
 {
 	t_tok_link	*link;
@@ -78,23 +82,25 @@ int	meta_check_arg(t_tok_list	*list)
 	return (YES);
 }
 
+//start of tokenozer, create list of token, launch token separator,
+//check result of this step (if redirection have their arguments)
 t_tok_list	*tokenizerstart(char *input)
 {
 	t_tok_list	*list;
 	
 	list = make_list();
 	
-	printf ("len of input == %lu\n", strlen(input));
+	printf ("len of input == %lu\n", strlen(input));//TEST to delete
 	sep_token(input, list);
 	if (meta_check_arg(list) == NO)
-		printf("problem and should free list and stop current input\n");
-	//expand_var(list);
+		printf("problem and should free list and stop current input\n");//TEST to delete
 	//print_token(list);
 	//check meta args, if lin->meta != 1 and 2, check strlen after spaces?
 	//then, "process : parse error near (symbol that's a problem(first char of nextlink, probably))"
 	return (list);
 }
 
+//create the list, no links in yet
 t_tok_list *make_list()
 {
 	t_tok_list	*list;
@@ -106,6 +112,7 @@ t_tok_list *make_list()
 	return (list);
 }
 
+//create a new empty link and add it at the last place in the list
 t_tok_link *make_add_link(t_tok_list *list)
 {
 	t_tok_link	*link;
@@ -134,27 +141,28 @@ void	sep_token(char *str, t_tok_list *list)
 	int	i;
 	
 	i = 0;
-	printf("strart of tokenzer\n");
-	printf ("//input== \"%s\"\n", str);
+	printf("strart of tokenzer\n");//TEST to delete
+	printf ("//input== \"%s\"\n", str);//TEST to delete
 	while (str[i] != '\0')
 	{
 		while (ft_isspace(str[i]) == YES && str[i] != '\0')
 			i++;
 		if (is_meta (str[i]) == NO && str[i] != '\0')
 		{
-			printf("start of strsep for char %d\n", i);
+			printf("start of strsep for char %d\n", i);//TEST to delete
 			i += strparser(list, str + i); //manage start and end of quotes as a single block of str
-			printf("end of strsep for char %d\n", i);
+			printf("end of strsep for char %d\n", i);//TEST to delete
 		}
 		else if (is_meta (str[i]) == YES && str[i] != '\0')
 		{
-			printf("start of metasep for char %d\n", i);
+			printf("start of metasep for char %d\n", i);//TEST to delete
 			i += metaparser(list, str + i);
-			printf("end of metasep for char %d\n", i);
+			printf("end of metasep for char %d\n", i);//TEST to delete
 		}
 	}
 }
 
+//check if char input is a metachar, to be treated differently (need to move it elsewere)
 int	is_meta(char c)
 {
 	if (c == '|' || c == '<' || c == '>')
@@ -163,6 +171,7 @@ int	is_meta(char c)
 		return (NO);
 }
 
+//check if char input is a space, to be treated differently (need to move it elsewere)
 int	ft_isspace(char c)
 {
 	if (c == ' ')
@@ -171,6 +180,7 @@ int	ft_isspace(char c)
 		return (NO);
 }
 
+//get str until EOL or metachar, presumably part of same cmd for exec
 int	strparser(t_tok_list *list, char *str)
 {
 	int	i;
@@ -185,13 +195,14 @@ int	strparser(t_tok_list *list, char *str)
 		else
 			i++;
 	}
-	printf ("str in strparse == \"%s\", strlen = %d\n", str, i);
+	printf ("str in strparse == \"%s\", strlen = %d\n", str, i);//TEST to delete
 	link->str = ft_strndup(str, i);
-	printf ("str made == \"%s\"\n", link->str);
+	printf ("str made == \"%s\"\n", link->str);//TEST to delete
 	link->meta = CMD;
 	return (i);
 }
 
+//get str starting from metachar->create a token with metachar and redirection target, if any,
 int	metaparser(t_tok_list *list, char *str)
 {
 	int	i;
@@ -200,17 +211,13 @@ int	metaparser(t_tok_list *list, char *str)
 	i = 0;
 	link = make_add_link(list);
 	i += metachar_parser(str);
-	printf ("str in metaparse == \"%s\", strlen = %d\n", str, i);
+	printf ("str in metaparse == \"%s\", strlen = %d\n", str, i);//TEST to delete
 	link->str = ft_strndup(str, i);
-	//is strlen(str) == 1 or 2 and meta == 0, problem!(possibly super simple way of finding input error??!)
-	/*if (str[0] == '|')
-		link->meta = PIPE;
-	else
-		link->meta = 0;*/
 	link->meta = meta_type(link->str);
 	return (i);
 }
 
+//identify the type of redirection the current token is
 int	meta_type(char *str)
 {
 	if (strncmp(str, "<<", 2) == 0)
@@ -227,17 +234,20 @@ int	meta_type(char *str)
 		return (0);
 }
 
+//find & return the length of the str between quotes c
 int	find_end_quote(char *str, char c)
 {
 	int		i;
 	
-	printf ("gate quote %s\n", str);
+	printf ("gate quote %s\n", str);//TEST to delete
 	i = 1;
 	while (str[i] != c && str[i] != '\0')
 		i++;
 	return (i + 1);
 }
 
+//fnd & return the length of meta token, from the metachar,
+//to the end of it's arg, if any
 int	metachar_parser(char *str)
 {
 	if (strncmp(str, "<<", 2) == 0 || strncmp(str, ">>", 2) == 0)
@@ -250,7 +260,8 @@ int	metachar_parser(char *str)
 		return (0);
 }
 
-int	meta_and_arg_size(char *str)//can be fused later with str parser
+//find & return the length of arg of redirection token
+int	meta_and_arg_size(char *str)//could be fused later with str parser?
 {
 	int	i;
 
@@ -271,8 +282,8 @@ int	meta_and_arg_size(char *str)//can be fused later with str parser
 BUT : fournir une liste chaine cree a partir de inputstr
 ->parcourir str, creer un maillon pour chaque mot complet, metachar avec leurs arguments et str entre quotes
 ignorer les espaces pas entre quotes,
-return liste avec un maillon par str, a reassembler par lexer ensuite en cmdstr et metachar important
-redirections et leurs cibles en un seul token? OUI, avec type defini
+return liste avec un maillon par str, a reassembler par parser ensuite en cmdstr et metachar important
+redirections et leurs cibles en un seul token? OUI, avec type defini meme
 meme chose pour heredoc start et son EOF? OUI
 */
 

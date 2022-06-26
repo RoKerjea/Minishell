@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/25 21:04:42 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/26 13:42:04 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@
 typedef struct s_parsed_link
 {
 	int						*type;//defini en MACRO avec un int pour CMD, PIPE, IN, OUT, HEREDOC, APPEND, (BUILTIN?)
-	char					*cmd;//to use to find path if needed, or for builtin select... 
-								//une liste de str* avec str[0] pour la cmd, donc facile a parser pour builtins, path absolu ou relatif etc
-	char					**args;//pour les arguments et options(args[0] SHOULD be the cmd name, by convention)
+	char					**cmd_args;//pour les arguments et options(args[0] SHOULD be the cmd name, by convention)
 	int						*fdins;//list de fdin pour la cmd, avec seulement la derniere a utiliser(2, 3, 4 ou rien) but need to open and close all others...
 	char					**fdins_args;//cible des redirections correspondantes a leurs fdins...
 	int						*fdouts;// (2, 5, 6 ou rien)
@@ -71,7 +69,7 @@ typedef struct s_temp
 
 }	t_temp;
 
-
+//get token list and create another list with one link by cmd and every redirection in the same link, not expanded or splited yet
 t_temp	*token_sorter(t_tok_list	*list)
 {
 	t_tok_link	*link;

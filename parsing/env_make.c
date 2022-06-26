@@ -6,16 +6,20 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 21:07:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/21 19:53:42 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/06/26 14:34:27 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+//FILE: everything needed to create and assign internal env of minishell
+
+//create list, use create_link to assign and create one link by line of env and
+//return a struct with variable count and a pointer to the first and last link
 t_env	env_list(char **env)
 {
 	int			i;
-	t_env		envlist;
+	t_env		envlist;//maybe need to malloc it actually, bit weird like that!
 	t_env_link	*now;
 	t_env_link	*prev;
 
@@ -36,6 +40,7 @@ t_env	env_list(char **env)
 	return (envlist);
 }
 
+//create single link of env_list, use split_env to assign variables
 t_env_link	*create_link(char *envstr)
 {
 	t_env_link	*reslink;
@@ -47,6 +52,7 @@ t_env_link	*create_link(char *envstr)
 	return (reslink);
 }
 
+//split and assign name and content of variables from env to current link
 void	split_env(char *str, t_env_link *link)
 {
 	char	*tmp;
@@ -61,8 +67,27 @@ void	split_env(char *str, t_env_link *link)
 	return ;
 }
 
+//link two links to each others
 void	forgelink(t_env_link *prev, t_env_link *now)
 {
 	prev->next = now;
 	now->prev = prev;
+}
+
+//destroy and free env_list
+int	env_destroyer(t_env *env)
+{
+	t_env_link	*link;
+	t_env_link	*nextlink;
+
+	link = env->first;
+	while (link != NULL)
+	{
+		nextlink = link->next;
+		free (link->name);
+		free (link->variable);
+		free (link);
+		link = nextlink;
+	}
+	return (1);
 }
