@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 22:10:02 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/26 14:31:15 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/03 19:04:44 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ char	*get_env_var(char *name, t_env *env_list)
 	t_env_link	*link;
 
 	link = find_link(name, env_list);
+	if (link == NULL)
+		return (NULL);
 	return (link->variable);
 }
 

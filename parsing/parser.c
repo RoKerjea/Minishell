@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/26 18:11:01 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/03 16:51:02 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,11 @@ t_temp	*token_sorter(t_tok_list	*list)
 	while (link != NULL)
 	{
 		if (link->meta == CMD)
-			add_cmd(temp, link);
+			add_token(temp, link, 1);
 		if (link->meta == IN || link->meta == HEREDOC)
-			add_in(temp, link);
+			add_token(temp, link, 2);
 		if (link->meta == OUT || link->meta == APPEND)
-			add_out(temp, link);
+			add_token(temp, link, 3);
 		if (link->meta == PIPE)
 		{
 			update_next_tokens(temp);
@@ -95,8 +95,36 @@ t_temp	*token_sorter(t_tok_list	*list)
 			temp = temp->next;
 		}
 		link = link->next;
+		link->prev->next = NULL;
 	}
 	return (tempfirst);
+}
+
+void	add_token(t_temp *temp, t_tok_link *link, int type)
+{
+	t_tok_link	*var_start;
+	t_tok_link	*var_last;
+	
+	if (type == 1)
+	{
+		var_start = temp->cmd_list_first;
+		var_last = temp->cmd_list_last;
+	}
+	if (type == 2)
+	{
+		var_start = temp->in_list_first;
+		var_last = temp->in_list_last;
+	}
+	if (type == 3)
+	{
+		var_start = temp->out_list_first;
+		var_last = temp->out_list_last;
+	}
+	if(var_start == NULL)
+		var_start = link;
+	var_last->next = link;
+	link->prev = var_last;
+	var_last = link;
 }
 
 t_parsed	*parser(t_tok_list	*list)
