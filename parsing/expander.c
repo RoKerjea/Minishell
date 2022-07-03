@@ -1,3 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
+/*   Updated: 2022/07/03 16:08:57 by rokerjea         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../include/minishell.h"
+
 
 /*Parcourir les str de gauche a droite, suivant les cas de $x(et quotes), translate from env ou delete/ignore
 do i need to split the str to translate and then rejoin?, maybe...
