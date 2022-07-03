@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/03 16:51:02 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/03 21:02:39 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,23 @@ typedef struct s_parsed_link
 	struct s_parsed_link	*next;//if NULL, first cmd, if not NULL, pipe fdin exist but maybe not used for this cmd
 	struct s_parsed_link	*prev;//if NULL, last cmd, if both NULL, only one cmd, so no pipe, and no fork for builtins
 }		t_parsed_link;
+
+/*Need to talk with nikita about format, because it might be simpler to use this structure\/ rather than ^
+typedef struct s_parsed_link
+{
+	int						*type;//defini en MACRO avec un int pour CMD, BUILTIN
+	char					**cmd_args;//pour les arguments et options(args[0] SHOULD be the cmd name, by convention)
+	struct s_redirection	*redir_in_list;//list de fdin pour la cmd, avec seulement la derniere a utiliser(2, 3, 4 ou rien) but need to open and close all others...
+	struct s_redirection	*redir_out_list;
+	struct s_parsed_link	*next;//if NULL, first cmd, if not NULL, pipe fdin exist but maybe not used for this cmd
+	struct s_parsed_link	*prev;//if NULL, last cmd, if both NULL, only one cmd, so no pipe, and no fork for builtins
+}		t_parsed_link;
+*/
+typedef struct s_redirection
+{
+	int						type; //2, 3, 4, 5, 6 ou rien (pour stdin/stdout) en MACRO
+	char					*target; //cible correspondante;
+}	t_redirection;
 
 typedef struct s_parsed
 {
@@ -127,13 +144,35 @@ void	add_token(t_temp *temp, t_tok_link *link, int type)
 	var_last = link;
 }
 
+t_parsed	*make_parsed_list(t_temp *temp)
+{
+	t_parsed		*list;
+	t_parsed_link	*link;
+
+	list = malloc (sizeof(t_parsed));
+	link = make_parsed_link(temp);
+	list->first = link;
+	temp = temp->next;
+	while (temp != NULL)
+	{
+		link->next = make_parsed_link(temp);
+		link->next->prev = link;
+		link = link->next;
+		temp = temp->next;
+	}
+	list->last = link;
+	return (list);
+}
+
 t_parsed	*parser(t_tok_list	*list)
 {
 	t_temp		*temp;
 	t_parsed	*parsed_list;
 
+	//expander replace in every str in every link of list
+	//bash: $TEST: ambiguous redirect if TEST="file1 file2"
+	//means parse step after expander bot before token are transformed
 	temp = token_sorter(list);
-	//expander(temp);//expander step here?
 	parsed_list = (temp);
 	return (parsed_list);
 }
@@ -147,19 +186,40 @@ t_parsed_link	*make_parsed_link(t_temp *temp)
 	link = malloc(sizeof(t_parsed_link));
 	link->type = get_type(temp->cmd_list_first);
 	link->cmd_args = get_args(temp->cmd_list_first);
-	link->fdins_args = get_in_args(temp->in_list_first);
-	link->fdouts_args = get_out_args(temp->out_list_first);
+	link->fdins_args = get_args(temp->in_list_first);
+	link->fdouts_args = get_args(temp->out_list_first);
 	link->next = NULL;
 	link->prev = NULL;
 	return (link);
 }
 
+//get str of list of token of similar types in a single char **str
+//maybe same function should get fd type list in final link?
+char	**get_args(t_tok_link *link)
+{
+	char	**res;
+	int		num;
+	int		i;
+	
+	i = 0;
+	num = count_token(link);
+	res = malloc (sizeof(char *) * (num + 1));
+	while (i < num)//can get rid of num
+	{
+		res[i] = ft_strdup(link->str);
+		i++;
+		link = link->next;
+	}
+	res [i] == NULL;
+	return (res);
+}
+
 /*
-make a char **str for cmds and args, or just char* for cmd AND char** for args?
+cmd is arg[0] in char **arg!
+how to deal with exterior quotes? "str" => str
+' ' are str separators
 
 /*
 ls <in -l <in2 -a
 est valide en tant que "ls -l -a" avec deux redir in!!
-
-expander step AFTER parser end(but last re-check needed?)
 */

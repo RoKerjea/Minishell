@@ -6,14 +6,15 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/03 19:15:21 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/03 19:35:33 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../include/macro.h"
 
-//expander function, to be used after tokenizer but before parser, exec and builtins receive expanded str
+//expander function, to be used after tokenizer but before parser
+//send input str back but with $VAR replaced by its content in env
 char	*expander(char *str, t_env *local_env)
 {
 	unsigned int	i;
@@ -104,15 +105,16 @@ can go through str while str[i] != '\0'
 and just i+= endquote if str[i] == '\'' and not already inside '\"'?
 so, just one expand cycle before removing exterior quotes?
 */
-//$VAR FILE.c -> make an expander ft to be called from everywhere?
-//need mini pasrser step after tokenizer?
+//$VAR FILE.c -> make an expander ft to be called from everywhere? no, just before parser, once
+//need mini parser step after tokenizer? why?? in case of errors? syntax error?
+//syntax check happen BEFORE var expansion!
 /*
 if $VAR$VAR$VAR, can i separate them in tokens?
 if "ste $VAR str " can i tokenized to then expand and still remake the str original between ""?
 can i just split in three, expand 2, and then rejoin?
 could i tokenize a full string and only then expand it?
 what if $VAR doesn't exist? $"$VAR", 
-!! if $VAR doesn't exist, $ is deleted, and VAR is just an str of char, can just parse from left to right then?
+!! if $VAR doesn't exist, $VAR is deleted, can just parse from left to right then?
 */
 /*4 cas de "$x" a parser donc
 x = EXIST -> content
@@ -139,7 +141,7 @@ echo $rfrgrg
 "$foo" make a SINGLE str, even with spaces inside
 while
 $foo make AS MANY str as spaces separator +1 (foo="arg1 arg2" give two separate str)
-
+(it's just the space as str sep in normal cases and quotes are single str rules!)
 ! TO TEST: "$ "; "$"
 
 is $$ an env variable? NON, donc pas a gerer, et a transformer en ""! (delete)

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/26 18:12:59 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/03 19:31:08 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	print_token(t_tok_list *list)
 }
 
 //verif step for token, if a redirection doesn't have a target, problem
+//syntax check happen BEFORE var expansion!
 int	meta_check_arg(t_tok_list	*list)
 {
 	t_tok_link	*link;

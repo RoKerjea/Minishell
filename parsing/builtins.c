@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:06:47 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/26 19:15:17 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/03 21:00:34 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	builtin_parser(char *input, t_env *local_env)
 
 //lookup table instead of this /\?
 /*
+Need to protect in case someone unset a Var before launching minishell or cmd in minishell
 exit//return either arg (exit (arg)) OR exit value of last action
 //should be unsigned char (0 -> 255) in any case
 
