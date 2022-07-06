@@ -164,11 +164,12 @@ t_parsed	*make_parsed_list(t_temp *temp)
 	return (list);
 }
 
-t_parsed	*parser(t_tok_list	*list)
+t_parsed	*parser(t_tok_list	*list, t_env *local_env)
 {
 	t_temp		*temp;
 	t_parsed	*parsed_list;
 
+	//print_token(list);
 	//expander replace in every str in every link of list
 	//bash: $TEST: ambiguous redirect if TEST="file1 file2"
 	//means parse step after expander bot before token are transformed

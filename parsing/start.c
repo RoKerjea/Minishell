@@ -43,6 +43,8 @@ int	input(t_env *local_env)
 		builtin_parser(input, local_env);//ca il faudra le mettre ailleur, mais il marchera pareil
 		list = tokenizerstart(input);
 		print_token(list);
+		//parser(list, local_env)
+		//print_parsed_list;
 	}
 	return (0);
 }
