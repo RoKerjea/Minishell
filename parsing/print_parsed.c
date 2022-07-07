@@ -59,3 +59,51 @@ void	print_char_tab(char **tab)
 		i++;
 	}
 }
+
+typedef struct s_temp
+{
+	t_tok_link	*cmd_list_first;
+	t_tok_link	*cmd_list_last;
+	t_tok_link	*in_list_first;
+	t_tok_link	*in_list_last;
+	t_tok_link	*out_list_first;
+	t_tok_link	*out_list_last;
+	t_temp		*next;
+
+}	t_temp;
+
+void	print_temp_list(t_temp *temp)
+{
+	int i;
+
+	i = 0;
+	while (temp != NULL)
+	{
+		printf("cmd n %d is composed from the following tokens:\n", i);
+		print_temp_link(temp);
+		i++;
+	}
+}
+
+void	print_temp_link(t_temp *temp)
+{
+	printf("str tokens : \n");
+	print_token_list(temp->cmd_list_first);
+	printf("in redirections tokens : \n");
+	print_token_list(temp->in_list_first);
+	printf("out redirections tokens : \n");
+	print_token_list(temp->out_list_first);
+}
+
+void	print_token_list(t_tok_link *token)
+{
+	int	i;
+
+	i = 0;
+	while (token != NULL)
+	{
+		printf("token %d, type= %d, arg= %s", i, token->meta, token->str);
+		token = token->next;
+		i++;
+	}
+}

@@ -6,18 +6,20 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 18:16:40 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/26 19:09:22 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/07 16:30:02 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MACRO_H
 # define MACRO_H
+# define END 0
 # define CMD 1
-# define PIPE 2
-# define IN 3
-# define HEREDOC 4
-# define OUT 5
-# define APPEND 6
+# define BUILT 2
+# define PIPE 3
+# define IN 4
+# define HEREDOC 5
+# define OUT 6
+# define APPEND 7
 
 # define NO 0
 # define YES 1

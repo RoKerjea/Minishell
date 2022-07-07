@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/03 21:02:39 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/07 17:50:26 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_tok_link	*link;
 t_tok_list	*list;
 
 /*
-BUT : Fournir une liste chainee avec des inputs fixes pour les commandes et un type en int defini en macro pour builtin or exec
+BUT : Fournir une liste chainee avec des cmds fixes pour les commandes et un type en int defini en macro pour builtin or exec
 list of tokens with type and *str separe, les espaces ignores si ils sont a l'exterieur de quotes,
 les metachars dans leurs str* a part(si pas inside quotes)
 
@@ -172,9 +172,29 @@ t_parsed	*parser(t_tok_list	*list, t_env *local_env)
 	//print_token(list);
 	//expander replace in every str in every link of list
 	//bash: $TEST: ambiguous redirect if TEST="file1 file2"
-	//means parse step after expander bot before token are transformed
+	//means parse step after expander wich is after tokenizer
+	token_expander(list, local_env);
 	temp = token_sorter(list);
-	parsed_list = (temp);
+	parsed_list = list_parser(temp);
+	return (parsed_list);
+}
+
+t_parsed	*list_parser(t_temp *temp)
+{
+	t_parsed *parsed_list;
+
+	parsed_list = malloc(sizeof(t_parsed));
+	parsed_list->len = 1;
+	parsed_list->first = make_parsed_link(temp);
+	parsed_list->last = parsed_list->first;
+	temp = temp->next;
+	while (temp != NULL)
+	{
+		parsed_list->last->next = make_parsed_link(temp);
+		parsed_list->last->next->prev = parsed_list->last;
+		parsed_list->last = parsed_list->last->next;
+		parsed_list->len++;
+	}
 	return (parsed_list);
 }
 
@@ -185,36 +205,97 @@ t_parsed_link	*make_parsed_link(t_temp *temp)
 	t_parsed_link	*link;
 
 	link = malloc(sizeof(t_parsed_link));
-	link->type = get_type(temp->cmd_list_first);
+	//prot
 	link->cmd_args = get_args(temp->cmd_list_first);
+	link->type = get_type(temp->cmd_list_first);
 	link->fdins_args = get_args(temp->in_list_first);
+	link->fdins = redir_types(temp->in_list_first);
 	link->fdouts_args = get_args(temp->out_list_first);
+	link->fdouts = redir_types(temp->out_list_first);
 	link->next = NULL;
 	link->prev = NULL;
 	return (link);
 }
 
+int	*redir_types(t_tok_link *token)
+{
+	int	*res;
+	int	i;
+
+	i = 0;
+	res = malloc(sizeof(int) * (token_count(token) + 1));
+	while (token != NULL)
+	{
+		res[i] = token->meta;
+		i++;
+	}
+}
+
+int	get_type(char **cmd_args)
+{
+	int	res;
+
+	res = CMD;
+	if (is_builtins(cmd_args[0]) == YES)
+		res = BUILT;
+	return (res);
+}
+
+
+//can transform cmd[x + 1] == sep with ft_isspace(cmd[x+1])??
+int	is_builtins(char *cmd)
+{
+	if (ft_strncmp(cmd, "echo", 4) == 0 && (cmd[4] == ' ' || cmd[4] == '\0'))
+		return (YES);
+	if (ft_strncmp(cmd, "exit", 4) == 0 && (cmd[4] == ' ' || cmd[4] == '\0'))
+		return (YES);
+	if (ft_strncmp(cmd, "env", 3) == 0 && (cmd[3] == ' ' || cmd[3] == '\0'))
+		return (YES);
+	if (ft_strncmp(cmd, "pwd", 3) == 0 && (cmd[3] == ' ' || cmd[3] == '\0'))
+		return (YES);
+	if (ft_strncmp(cmd, "cd", 2) == 0 && (cmd[2] == ' ' || cmd[2] == '\0'))
+		return (YES);
+	if (ft_strncmp(cmd, "export", 6) == 0 && (cmd[7] != ' ' || cmd[7] != '\0'))
+		return (YES);
+	if (ft_strncmp(cmd, "unset", 5) == 0 && (cmd[6] != ' ' || cmd[6] != '\0'))
+		return (YES);
+	return (NO);
+}
+
 //get str of list of token of similar types in a single char **str
 //maybe same function should get fd type list in final link?
-char	**get_args(t_tok_link *link)
+char	**get_args(t_tok_link *token)
 {
 	char	**res;
 	int		num;
 	int		i;
 	
 	i = 0;
-	num = count_token(link);
+	num = token_count(token);
 	res = malloc (sizeof(char *) * (num + 1));
+	//prot
 	while (i < num)//can get rid of num
 	{
-		res[i] = ft_strdup(link->str);
+		res[i] = ft_strdup(token->str);
 		i++;
-		link = link->next;
+		token = token->next;
 	}
 	res [i] == NULL;
 	return (res);
 }
 
+int	token_count(t_tok_link *token)
+{
+	int	i;
+
+	i = 0;
+	while(link != NULL)
+	{
+		token = token->next;
+		i++;
+	}
+	return(i);
+}
 /*
 cmd is arg[0] in char **arg!
 how to deal with exterior quotes? "str" => str

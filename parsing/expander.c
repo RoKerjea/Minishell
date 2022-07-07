@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/03 19:35:33 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/07 16:01:15 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,34 @@
 
 //expander function, to be used after tokenizer but before parser
 //send input str back but with $VAR replaced by its content in env
+
+/* void	expander_loop(char **char_tab, t_env *local_env)
+{
+	int	i;
+
+	i = 0;
+	while(char_tab[i] != NULL)
+	{
+		expander(char_tab[i], local_env);
+		i++;
+	}
+} */
+
+void	token_expander(t_tok_list *list, t_env *local_env)
+{
+	t_tok_link	*token;
+	char		*expanded;
+
+	token = list->first;
+	while (token != NULL)
+	{
+		expanded = expander(token->str, local_env);
+		free (token->str);
+		token->str = expanded;
+		token = token->next;
+	}
+}
+
 char	*expander(char *str, t_env *local_env)
 {
 	unsigned int	i;
