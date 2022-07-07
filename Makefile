@@ -16,9 +16,11 @@ _WHITE=$'\033[37m
 
 SRCS		=	${addprefix parsing/, \
 				env_make.c \
+				bool_str.c \
 				directories.c \
 				tokenizer.c \
 				env_use.c \
+				print_token.c \
 				start.c} \
 				${addprefix libft/, \
 				ft_strlen.c \

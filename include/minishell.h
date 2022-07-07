@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/03 16:06:43 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/07 19:26:13 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,21 @@ void	print_token(t_tok_list *list);
 t_tok_list *make_list();
 t_tok_link *make_add_link(t_tok_list *list);
 void	sep_token(char *str, t_tok_list *list);
-int	is_meta(char c);
+
 int	strparser(t_tok_list *list, char *str);
 int	metaparser(t_tok_list *list, char *str);
 int	find_end_quote(char *str, char c);
 int	metachar_parser(char *str);
 int	meta_and_arg_size(char *str);
-int	ft_isspace(char c);
+
 int	meta_type(char *str);
 
+
+//BOOL_STR.C
+int	ft_isspace(char c);
+int	is_meta(char c);
+
+
+//TESTS.C
+void	print_token(t_tok_list *list);
 #endif

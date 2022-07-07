@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/07 18:14:28 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/07 19:20:45 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,25 +143,6 @@ void sep_token(char *str, t_tok_list *list)
 			printf("end of metasep for char %d\n", i); // TEST to delete
 		}
 	}
-}
-
-// check if char input is a metachar, to be treated differently (need to move it elsewere)
-int is_meta(char c)
-{
-	if (c == '|' || c == '<' || c == '>')
-		return (YES);
-	else
-		return (NO);
-}
-
-// check if char input is a space, to be treated differently (need to move it elsewere)
-// space, tab, newline and possibly carriage return.
-int ft_isspace(char c)
-{
-	if (c == ' ' || c == '\t')
-		return (YES);
-	else
-		return (NO);
 }
 
 // get str until EOL or metachar, presumably part of same cmd for exec

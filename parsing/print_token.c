@@ -1,3 +1,7 @@
+
+#include "../include/minishell.h"
+#include "../include/macro.h"
+
 //TEST FT only needed to check step result, to delete!
 void	print_token(t_tok_list *list)
 {
