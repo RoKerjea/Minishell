@@ -45,10 +45,18 @@ and it gives number et format of args it received?
 need to parse >> before >
 and << before <
 
+strace -ff -e open,close,unlink,read,write,execve,dup2,clone sh heredoc_bash.sh
+
+are there fd that stay opens even after they stop being useful
 
 strace -ff -e open,close,unlink,read,write,execve,dup2,clone sh heredoc_bash.sh
 
+<test_cases.c cat > temp1 | < temp1 cat
+si temp1 n'existe pas encore, il ya un message d'erreur mais "<test_cases.c cat > temp1" est effectue
+(confirme, si cible de redirection n'existe pas, la cmd n'est pas effectuee, mais la cmd suivante apre '|' sera effectuee apres le message d'erreur)
+(pareil si plusieurs cibles, si une seule ne marche pas, la cmd n'est pas effectuee, meme si la redirection necessaire marcherais)
 
-are there fd that stay opens even after they stop being useful
+<heredoc_bash.sh cat > temp1 | < temp1 cat
+si temp1 existe deja, pas de message d'erreur, ET cat recois le contenu de temp1, AU MOMENT ou l'input est recu
 
 */

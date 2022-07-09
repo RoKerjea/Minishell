@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 21:07:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/26 18:53:55 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/09 23:03:31 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,3 +91,7 @@ int	env_destroyer(t_env *env)
 	}
 	return (1);
 }
+
+//gerer SHLVL: +1si il existe, = 1 sinon
+//utiliser getcwd pour etre sur du pwd actuel
+// C'est quoi $_ ???

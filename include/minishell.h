@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/09 18:03:49 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/09 23:39:50 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ typedef struct s_env
 	struct s_env_link	*first;
 	struct s_env_link	*last;
 }		t_env;
-
 
 //token struct will not be needed by files outside parsing
 typedef struct s_tok_link

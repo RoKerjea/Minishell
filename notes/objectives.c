@@ -84,6 +84,14 @@ The  shell  shall give the export attribute to the
 ◦ exit sans aucune option
 	exit(0)?
 
+every redirection dup is done in child process
+but verification that they exist happen before
+!heredoc a la con: supposed to be done by child process concerned, but only the last one is kept long enough to be used as input
+
+
+
+
+
 //BONUSES
 1 - Les wildcards * doivent fonctionner pour le répertoire courant.
 (donc QUE pour les fichiers et dossiers presents a ce niveau de ce dossier
