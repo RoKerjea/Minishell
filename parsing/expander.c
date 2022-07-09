@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/07 16:01:15 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/09 15:13:11 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ could i tokenize a full string and only then expand it?
 what if $VAR doesn't exist? $"$VAR", 
 !! if $VAR doesn't exist, $VAR is deleted, can just parse from left to right then?
 */
-/*4 cas de "$x" a parser donc
+/*4 cas de "$x" a parser:
 x = EXIST -> content
 x = WRONG -> "" (empty)
 x = ' -> $ is deleted
@@ -173,5 +173,5 @@ $foo make AS MANY str as spaces separator +1 (foo="arg1 arg2" give two separate 
 ! TO TEST: "$ "; "$"
 
 is $$ an env variable? NON, donc pas a gerer, et a transformer en ""! (delete)
-expansion happen BEFORE wildcards patternization and substitution
+expansion happen BEFORE wildcards patternization and substitution(for '*' bonus)
 */

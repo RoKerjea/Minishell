@@ -6,11 +6,12 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/07 19:20:45 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/09 17:52:07 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include "../include/parsing.h"
 #include "../include/macro.h"
 
 // FILE: what's needed to make list of tokens from input, depending of their type

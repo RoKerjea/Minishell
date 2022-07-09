@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/07 19:26:13 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/09 18:03:49 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <readline/history.h>
 # include <linux/limits.h>
 
+//only builtins and env maker need those structures
 typedef struct s_env_link
 {
 	char				*name;
@@ -34,6 +35,8 @@ typedef struct s_env
 	struct s_env_link	*last;
 }		t_env;
 
+
+//token struct will not be needed by files outside parsing
 typedef struct s_tok_link
 {
 	int					meta;
@@ -77,25 +80,11 @@ int				change_dir(char *str, t_env *env_list);
 
 //TOKENIZER.C
 t_tok_list	*tokenizerstart(char *input);
-void	print_token(t_tok_list *list);
-t_tok_list *make_list();
-t_tok_link *make_add_link(t_tok_list *list);
-void	sep_token(char *str, t_tok_list *list);
 
-int	strparser(t_tok_list *list, char *str);
-int	metaparser(t_tok_list *list, char *str);
-int	find_end_quote(char *str, char c);
-int	metachar_parser(char *str);
-int	meta_and_arg_size(char *str);
-
-int	meta_type(char *str);
-
-
-//BOOL_STR.C
-int	ft_isspace(char c);
-int	is_meta(char c);
-
+//BUILTINS.C
+void	builtin_parser(char *input, t_env *local_env);
 
 //TESTS.C
 void	print_token(t_tok_list *list);
+
 #endif

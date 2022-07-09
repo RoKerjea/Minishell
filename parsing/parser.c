@@ -6,12 +6,23 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/07 17:50:26 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/09 18:09:37 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../include/macro.h"
+
+typedef struct s_parsed_cmd
+{
+	int					exec_type;
+	char				**cmd_args;//for execve
+	int					*redir_in;
+	char				**redir_in_target;
+	int					*redir_out;
+	char				**redir_out_target;
+	struct s_parsed_cmd	*next;
+}	t_parsed_list;
 
 typedef struct s_parsed_link
 {

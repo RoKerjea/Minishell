@@ -15,13 +15,9 @@ _CYAN=$'\033[36m
 _WHITE=$'\033[37m
 
 SRCS		=	${addprefix parsing/, \
-				env_make.c \
 				bool_str.c \
-				directories.c \
 				tokenizer.c \
-				env_use.c \
-				print_token.c \
-				start.c} \
+				print_token.c} \
 				${addprefix libft/, \
 				ft_strlen.c \
 				ft_split.c \
@@ -29,7 +25,13 @@ SRCS		=	${addprefix parsing/, \
 				ft_freetab.c \
 				ft_strdup.c \
 				ft_strchr.c \
-				ft_strncmp.c}
+				ft_strncmp.c} \
+				${addprefix builtin/, \
+				builtins.c \
+				directories.c \
+				env_make.c \
+				env_use.c} \
+				minishell.c
 
 HEADER		= include/shell_parsing.h
 RM			= rm -rf
@@ -69,6 +71,8 @@ clean:
 	@${RM} parsing/build
 	@echo "${_BOLD}${_YELLOW}"${RM} libft/build"${_END}"
 	@${RM} libft/build
+	@echo "${_BOLD}${_YELLOW}"${RM} builtin/build"${_END}"
+	@${RM} builtin/build
 
 fclean: clean
 	@echo "${_UNDER}${_RED}Deleting Executable${_END}"
