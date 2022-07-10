@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/10 17:11:35 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/10 20:13:25 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 //start of input loop, should add to history, tokenize->parse->expand->send to exec
 int	input(t_env *local_env)
 {
-	char			*input;
-	t_parsed_cmd	*list;
+	char		*input;
+	t_parsed	*list;
 
 	while (1)//need ttysomething function i think
 	{

@@ -1,8 +1,9 @@
 
 #include "../include/minishell.h"
 #include "../include/macro.h"
+#include "../include/parsing.h"
 
-typedef struct s_parsed_link
+/* typedef struct s_parsed_link
 {
 	int						*type;//defini en MACRO avec un int pour CMD, BUILTIN
 	char					**cmd_args;//pour les arguments et options(args[0] SHOULD be the cmd name, by convention)
@@ -12,8 +13,9 @@ typedef struct s_parsed_link
 	char					**fdouts_args;//cibles si il y a
 	struct s_parsed_link	*next;//if NULL, first cmd, if not NULL, pipe fdin exist but maybe not used for this cmd
 	struct s_parsed_link	*prev;//if NULL, last cmd, if both NULL, only one cmd, so no pipe, and no fork for builtins
-}		t_parsed_link;
+}		t_parsed_link; */
 
+//TODO, redo for tests
 void	print_parsed_list(struct s_parsed_link *final_link)
 {
 	int i;
@@ -60,7 +62,7 @@ void	print_char_tab(char **tab)
 	}
 }
 
-typedef struct s_temp
+/* typedef struct s_temp
 {
 	t_tok_link	*cmd_list_first;
 	t_tok_link	*cmd_list_last;
@@ -70,7 +72,7 @@ typedef struct s_temp
 	t_tok_link	*out_list_last;
 	t_temp		*next;
 
-}	t_temp;
+}	t_temp; */
 
 void	print_temp_list(t_temp *temp)
 {

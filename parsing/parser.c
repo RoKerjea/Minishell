@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/10 17:17:31 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/10 20:43:39 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,11 @@
 #include "../include/macro.h"
 #include "../include/parsing.h"
 
-typedef struct s_parsed_cmd//new version
-{
-	int					exec_type;
-	char				**cmd_args;//for execve, arg[0] sera la cmd dont trouver le path, ou dont le path sera donne
-	int					*redir_in;
-	char				*hereddoc;
-	char				*redir_out;
-	int					*redir_append;
-	struct s_parsed_cmd	*next;
-}	t_parsed_cmd;
-
-typedef struct s_parsed
-{
-	unsigned int		len;
-	t_parsed_cmd	*first;
-	t_parsed_cmd	*last;
-}		t_parsed;
-
-t_tok_link	*link;
-t_tok_list	*list;
-
 /*
 BUT : Fournir une liste chainee avec des cmds fixes pour les commandes et un type en int defini en macro pour builtin or exec
 list of tokens with type and *str separe, les espaces ignores si ils sont a l'exterieur de quotes,
 les metachars dans leurs str* a part(si pas inside quotes)
 
-HOW: Make a link by command, adding in and out as params, until find pipe | or end of list?
-can be used to get args after redir all in one link
-only need to get redirections in order from left to right and use the last one
 maybe split spaces for args of cmd(optional for now)
 temp struct to store various variable?
 until | or NULL
@@ -57,106 +33,21 @@ expander cycle on every str, then split for cmd args?
 what if cmd is in $VAR? then expand first and then char *cmd and char **args(but what if VAR should be splitted in redir? ignore, multi redir?)
 */
 
-typedef struct s_temp
-{
-	t_tok_link	*cmd_list_first;
-	t_tok_link	*cmd_list_last;
-	t_tok_link	*in_list_first;
-	t_tok_link	*in_list_last;
-	t_tok_link	*out_list_first;
-	t_tok_link	*out_list_last;
-	t_temp		*next;
-
-}	t_temp;
-
-//get token list and create another list with one link by cmd and every
-//redirection in the same link, not expanded or splited yet
-t_temp	*token_sorter(t_tok_list	*list)
-{
-	t_tok_link	*link;
-	t_temp		*temp;
-	t_temp		*tempfirst;
-	
-	temp = mktemplist();
-	tempfirst = temp;
-	link = list->first;
-	while (link != NULL)
-	{
-		if (link->meta == CMD)
-			add_token(temp, link, 1);
-		if (link->meta == IN || link->meta == HEREDOC)
-			add_token(temp, link, 2);
-		if (link->meta == OUT || link->meta == APPEND)
-			add_token(temp, link, 3);
-		if (link->meta == PIPE)
-		{
-			update_next_tokens(temp);
-			temp->next = mktemplist();
-			temp = temp->next;
-		}
-		link = link->next;
-		link->prev->next = NULL;
-	}
-	return (tempfirst);
-}
-
-void	add_token(t_temp *temp, t_tok_link *link, int type)
-{
-	t_tok_link	*var_start;
-	t_tok_link	*var_last;
-	
-	if (type == 1)
-	{
-		var_start = temp->cmd_list_first;
-		var_last = temp->cmd_list_last;
-	}
-	if (type == 2)
-	{
-		var_start = temp->in_list_first;
-		var_last = temp->in_list_last;
-	}
-	if (type == 3)
-	{
-		var_start = temp->out_list_first;
-		var_last = temp->out_list_last;
-	}
-	if(var_start == NULL)
-		var_start = link;
-	var_last->next = link;
-	link->prev = var_last;
-	var_last = link;
-}
-
-t_parsed	*make_parsed_list(t_temp *temp)
-{
-	t_parsed		*list;
-	t_parsed_cmd	*link;
-
-	list = malloc (sizeof(t_parsed));
-	link = make_parsed_link(temp);
-	list->first = link;
-	temp = temp->next;
-	while (temp != NULL)
-	{
-		link->next = make_parsed_link(temp);
-		link = link->next;
-		temp = temp->next;
-	}
-	list->last = link;
-	return (list);
-}
-
-t_parsed	*parser(t_tok_list	*list, t_env *local_env)
+//after parser is finished, only ennv, parsed list, parsedlinks and
+t_parsed	*parser(char *input, t_env *local_env)
 {
 	t_temp		*temp;
 	t_parsed	*parsed_list;
-
+	t_tok_list	*list;
+	
+	list = tokenizerstart(input);
 	//print_token(list);
 	//expander replace in every str in every link of list
 	//bash: $TEST: ambiguous redirect if TEST="file1 file2"
 	//means parse step after expander wich is after tokenizer
 	token_expander(list, local_env);
 	temp = token_sorter(list);
+	//test redirections somewhere here??
 	parsed_list = list_parser(temp);
 	return (parsed_list);
 }
@@ -223,7 +114,6 @@ int	get_type(char **cmd_args)
 	return (res);
 }
 
-
 //can transform cmd[x + 1] == sep with ft_isspace(cmd[x+1])??
 int	is_builtins(char *cmd)
 {
@@ -279,11 +169,6 @@ int	token_count(t_tok_link *token)
 	return(i);
 }
 /*
-cmd is arg[0] in char **arg!
 how to deal with exterior quotes? "str" => str
 ' ' are str separators
-
-/*
-ls <in -l <in2 -a
-est valide en tant que "ls -l -a" avec deux redir in!!
 */

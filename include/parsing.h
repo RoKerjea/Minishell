@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:41:23 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/10 17:17:15 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/10 19:44:21 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,20 @@ typedef struct s_tok_list
 	struct s_tok_link	*last;
 }		t_tok_list;
 
+typedef struct s_temp
+{
+	t_tok_link	*cmd_list_first;
+	t_tok_link	*cmd_list_last;
+	t_tok_link	*in_list_first;
+	t_tok_link	*in_list_last;
+	t_tok_link	*out_list_first;
+	t_tok_link	*out_list_last;
+	t_temp		*next;
+
+}	t_temp;
+
 //TOKENIZER.C
-//t_tok_list	*tokenizerstart(char *input);
+t_tok_list	*tokenizerstart(char *input);
 void	print_token(t_tok_list *list);
 t_tok_list *make_list();
 t_tok_link *make_add_link(t_tok_list *list);
@@ -49,4 +61,7 @@ int	meta_type(char *str);
 int	ft_isspace(char c);
 int	is_meta(char c);
 
+
+//TESTS.C
+void	print_token(t_tok_list *list);
 #endif

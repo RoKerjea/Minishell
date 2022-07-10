@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/10 17:16:54 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/10 20:14:09 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_env
 
 typedef struct s_parsed_cmd//new version
 {
-	int					exec_type;
+	int					exec_type;//defined in macro
 	char				**cmd_args;//for execve, arg[0] sera la cmd dont trouver le path, ou dont le path sera donne
 	int					*redir_in;
 	char				*hereddoc;
@@ -48,7 +48,7 @@ typedef struct s_parsed_cmd//new version
 
 typedef struct s_parsed
 {
-	unsigned int		len;
+	unsigned int	len;
 	t_parsed_cmd	*first;
 	t_parsed_cmd	*last;
 }		t_parsed;
@@ -79,16 +79,10 @@ char			*get_env_var(char *name, t_env *env_list);
 void			printpath(void);
 int				change_dir(char *str, t_env *env_list);
 
-//TOKENIZER.C
-t_tok_list	*tokenizerstart(char *input);
-
 //PARSEC.C
-t_parsed	*parser(t_tok_list	*list, t_env *local_env);
+t_parsed	*parser(char *input, t_env *local_env);
 
 //BUILTINS.C
 void	builtin_parser(char *input, t_env *local_env);
-
-//TESTS.C
-void	print_token(t_tok_list *list);
 
 #endif
