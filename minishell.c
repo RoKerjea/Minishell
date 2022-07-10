@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/09 17:39:09 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/10 17:11:35 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,17 @@
 //start of input loop, should add to history, tokenize->parse->expand->send to exec
 int	input(t_env *local_env)
 {
-	char		*input;
-	t_tok_list	*list;
+	char			*input;
+	t_parsed_cmd	*list;
 
 	while (1)//need ttysomething function i think
 	{
 		input = readline ("cmd>");//history should use this
 		printf ("//input== \"%s\"\n", input);//to del
 		builtin_parser(input, local_env);//ca il faudra le mettre ailleur, mais il marchera pareil
-		list = tokenizerstart(input);
-		print_token(list);
-		//parser(list, local_env)
+		list = parser(list, local_env);
 		//print_parsed_list;
+		//exec(list, *local_env);
 	}
 	return (0);// return $? i think
 }

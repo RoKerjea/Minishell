@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/09 17:52:07 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/10 17:18:14 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,6 @@
 // INPUT: the full line from readline (xx)
 // OUTPUT: liste chainee de token contenant seulement les '|', str pour cmd,
 // et redirections avec leurs cibles
-
-/*
-typedef struct s_tok_link
-{
-	int					*meta;
-	char				*str;
-	struct s_tok_link	*next;
-	struct s_tok_link	*prev;
-}		t_tok_link;
-
-typedef struct s_tok_list
-{
-	unsigned int		len;
-	struct s_tok_link	*first;
-	struct s_tok_link	*last;
-}		t_tok_list;
-*/
-
 /*
 parse_token(char *str), un token par str ou metachar, separated stupidly
 check_errors for metastr incoherences(during metaparse? after all tokens are created?)

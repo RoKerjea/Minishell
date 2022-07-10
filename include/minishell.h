@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/09 23:39:50 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/10 17:16:54 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,23 @@ typedef struct s_env
 	struct s_env_link	*last;
 }		t_env;
 
-//token struct will not be needed by files outside parsing
-typedef struct s_tok_link
+typedef struct s_parsed_cmd//new version
 {
-	int					meta;
-	char				*str;
-	struct s_tok_link	*next;
-	struct s_tok_link	*prev;
-}		t_tok_link;
+	int					exec_type;
+	char				**cmd_args;//for execve, arg[0] sera la cmd dont trouver le path, ou dont le path sera donne
+	int					*redir_in;
+	char				*hereddoc;
+	char				*redir_out;
+	int					*redir_append;
+	struct s_parsed_cmd	*next;
+}	t_parsed_cmd;
 
-typedef struct s_tok_list
+typedef struct s_parsed
 {
 	unsigned int		len;
-	struct s_tok_link	*first;
-	struct s_tok_link	*last;
-}		t_tok_list;
+	t_parsed_cmd	*first;
+	t_parsed_cmd	*last;
+}		t_parsed;
 
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 unsigned long	ft_strlen(const char *s);
@@ -79,6 +81,9 @@ int				change_dir(char *str, t_env *env_list);
 
 //TOKENIZER.C
 t_tok_list	*tokenizerstart(char *input);
+
+//PARSEC.C
+t_parsed	*parser(t_tok_list	*list, t_env *local_env);
 
 //BUILTINS.C
 void	builtin_parser(char *input, t_env *local_env);

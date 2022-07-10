@@ -6,58 +6,30 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/09 18:27:39 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/10 17:17:31 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../include/macro.h"
+#include "../include/parsing.h"
 
 typedef struct s_parsed_cmd//new version
 {
 	int					exec_type;
-	char				**cmd_args;//for execve
-	int					*redir_in;//tableau de redir?
-	char				**redir_in_target;
-	int					*redir_out;
-	char				**redir_out_target;
+	char				**cmd_args;//for execve, arg[0] sera la cmd dont trouver le path, ou dont le path sera donne
+	int					*redir_in;
+	char				*hereddoc;
+	char				*redir_out;
+	int					*redir_append;
 	struct s_parsed_cmd	*next;
-}	t_parsed_list;
-
-typedef struct s_parsed_link
-{
-	int						*type;//defini en MACRO avec un int pour CMD, BUILTIN
-	char					**cmd_args;//pour les arguments et options(args[0] SHOULD be the cmd name, by convention)
-	int						*fdins;//list de fdin pour la cmd, avec seulement la derniere a utiliser(2, 3, 4 ou rien) but need to open and close all others...
-	char					**fdins_args;//cible des redirections correspondantes a leurs fdins...
-	int						*fdouts;// (2, 5, 6 ou rien)
-	char					**fdouts_args;//cibles si il y a
-	struct s_parsed_link	*next;//if NULL, first cmd, if not NULL, pipe fdin exist but maybe not used for this cmd
-	struct s_parsed_link	*prev;//if NULL, last cmd, if both NULL, only one cmd, so no pipe, and no fork for builtins
-}		t_parsed_link;
-
-/*Need to talk with nikita about format, because it might be simpler to use this structure\/ rather than ^
-typedef struct s_parsed_link
-{
-	int						*type;//defini en MACRO avec un int pour CMD, BUILTIN
-	char					**cmd_args;//pour les arguments et options(args[0] SHOULD be the cmd name, by convention)
-	struct s_redirection	*redir_in_list;//list de fdin pour la cmd, avec seulement la derniere a utiliser(2, 3, 4 ou rien) but need to open and close all others...
-	struct s_redirection	*redir_out_list;
-	struct s_parsed_link	*next;//if NULL, first cmd, if not NULL, pipe fdin exist but maybe not used for this cmd
-	struct s_parsed_link	*prev;//if NULL, last cmd, if both NULL, only one cmd, so no pipe, and no fork for builtins
-}		t_parsed_link;
-*/
-typedef struct s_redirection
-{
-	int						type; //2, 3, 4, 5, 6 ou rien (pour stdin/stdout) en MACRO
-	char					*target; //cible correspondante;
-}	t_redirection;
+}	t_parsed_cmd;
 
 typedef struct s_parsed
 {
-	unsigned int			len;
-	struct s_parsed_link	*first;
-	struct s_parsed_link	*last;
+	unsigned int		len;
+	t_parsed_cmd	*first;
+	t_parsed_cmd	*last;
 }		t_parsed;
 
 t_tok_link	*link;
@@ -158,7 +130,7 @@ void	add_token(t_temp *temp, t_tok_link *link, int type)
 t_parsed	*make_parsed_list(t_temp *temp)
 {
 	t_parsed		*list;
-	t_parsed_link	*link;
+	t_parsed_cmd	*link;
 
 	list = malloc (sizeof(t_parsed));
 	link = make_parsed_link(temp);
@@ -167,7 +139,6 @@ t_parsed	*make_parsed_list(t_temp *temp)
 	while (temp != NULL)
 	{
 		link->next = make_parsed_link(temp);
-		link->next->prev = link;
 		link = link->next;
 		temp = temp->next;
 	}
@@ -202,7 +173,6 @@ t_parsed	*list_parser(t_temp *temp)
 	while (temp != NULL)
 	{
 		parsed_list->last->next = make_parsed_link(temp);
-		parsed_list->last->next->prev = parsed_list->last;
 		parsed_list->last = parsed_list->last->next;
 		parsed_list->len++;
 	}
@@ -211,20 +181,21 @@ t_parsed	*list_parser(t_temp *temp)
 
 //make final parsed link from temp link, with all args expanded and separated,
 //exterior quotes removed, nothing more should be needed for this link/CMD
-t_parsed_link	*make_parsed_link(t_temp *temp)
-{
-	t_parsed_link	*link;
 
-	link = malloc(sizeof(t_parsed_link));
+//!neeed a complete step of redirection parsing and only returning one for in and out at maximum
+t_parsed_cmd	*make_parsed_link(t_temp *temp)
+{
+	t_parsed_cmd	*link;
+
+	link = malloc(sizeof(t_parsed_cmd));
 	//prot
 	link->cmd_args = get_args(temp->cmd_list_first);
-	link->type = get_type(temp->cmd_list_first);
-	link->fdins_args = get_args(temp->in_list_first);
+	link->exec_type = get_type(temp->cmd_list_first);
+/* 	link->fdins_args = get_args(temp->in_list_first);
 	link->fdins = redir_types(temp->in_list_first);
 	link->fdouts_args = get_args(temp->out_list_first);
-	link->fdouts = redir_types(temp->out_list_first);
+	link->fdouts = redir_types(temp->out_list_first); */
 	link->next = NULL;
-	link->prev = NULL;
 	return (link);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:41:23 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/09 17:53:28 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/10 17:17:15 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PARSING_H
 # include "../include/minishell.h"
 
-/* typedef struct s_tok_link
+typedef struct s_tok_link
 {
 	int					meta;
 	char				*str;
@@ -27,7 +27,7 @@ typedef struct s_tok_list
 	unsigned int		len;
 	struct s_tok_link	*first;
 	struct s_tok_link	*last;
-}		t_tok_list; */
+}		t_tok_list;
 
 //TOKENIZER.C
 //t_tok_list	*tokenizerstart(char *input);
