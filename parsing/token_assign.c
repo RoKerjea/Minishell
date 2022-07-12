@@ -57,7 +57,7 @@ t_temp	*token_sorter(t_tok_list	*list)
 	return (tempfirst);
 }
 
-//TODO
+//TODO needed ft
 t_temp	*mktemplist(void);
 
 void	update_next_token(t_temp *temp);
