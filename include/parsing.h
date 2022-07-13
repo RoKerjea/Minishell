@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:41:23 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/10 19:44:21 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/13 12:26:02 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,13 @@ typedef struct s_tok_list
 
 typedef struct s_temp
 {
-	t_tok_link	*cmd_list_first;
-	t_tok_link	*cmd_list_last;
-	t_tok_link	*in_list_first;
-	t_tok_link	*in_list_last;
-	t_tok_link	*out_list_first;
-	t_tok_link	*out_list_last;
-	t_temp		*next;
-
+	t_tok_link		*cmd_list_first;
+	t_tok_link		*cmd_list_last;
+	t_tok_link		*in_list_first;
+	t_tok_link		*in_list_last;
+	t_tok_link		*out_list_first;
+	t_tok_link		*out_list_last;
+	struct s_temp	*next;
 }	t_temp;
 
 //TOKENIZER.C
@@ -63,5 +62,6 @@ int	is_meta(char c);
 
 
 //TESTS.C
-void	print_token(t_tok_list *list);
+void	print_temp_list(t_temp *temp);
+
 #endif

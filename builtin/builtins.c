@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:06:47 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/09 17:21:32 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/13 12:22:12 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	builtin_parser(char *cmd, t_env *local_env)
 }
 
 //lookup table instead of this /\?
+//function pointer could be used because all builtins return an int and use a char* as an input1
+//(what about env?? it IS used or useful in nearly all cases, possibly to be fused with $? for exit too)
 /*
 Need to protect in case someone unset a Var before launching minishell or input in minishell
 exit//return either arg (exit (arg)) OR exit value of last action

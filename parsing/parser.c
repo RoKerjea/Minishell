@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/10 20:43:39 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/13 12:26:50 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,13 @@ t_parsed	*parser(char *input, t_env *local_env)
 	//expander replace in every str in every link of list
 	//bash: $TEST: ambiguous redirect if TEST="file1 file2"
 	//means parse step after expander wich is after tokenizer
-	token_expander(list, local_env);
+	//token_expander(list, local_env);
 	temp = token_sorter(list);
+	print_temp_list(temp);
 	//test redirections somewhere here??
-	parsed_list = list_parser(temp);
-	return (parsed_list);
+	//parsed_list = list_parser(temp);
+	//return (parsed_list);
+	return (NULL);
 }
 
 t_parsed	*list_parser(t_temp *temp)

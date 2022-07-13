@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 19:41:55 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/10 20:15:15 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/13 12:11:11 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@
 	t_tok_link	*out_list_first;
 	t_tok_link	*out_list_last;
 	t_temp		*next;
-
 }	t_temp; */
+
+//I don't really need to keep all the redirections tokens if i can just test
+//them immediatly and replace the previous one with the last one done??
+//PB, heredoc need to be done by at that step and kept as a temp file to give to exec??
 
 //get token list and create another list with one link by cmd and every
 //redirection in the same link, not expanded or splited yet
@@ -47,7 +50,7 @@ t_temp	*token_sorter(t_tok_list	*list)
 			add_token(temp, link, 3);
 		if (link->meta == PIPE)
 		{
-			update_next_token(temp);
+			//update_next_token(temp);
 			temp->next = mktemplist();
 			temp = temp->next;
 		}
@@ -58,9 +61,20 @@ t_temp	*token_sorter(t_tok_list	*list)
 }
 
 //TODO needed ft
-t_temp	*mktemplist(void);
+t_temp	*mktemplist(void)
+{
+	t_temp	*temp_link;	
 
-void	update_next_token(t_temp *temp);
+	temp_link = malloc(sizeof(t_temp));
+	temp_link->cmd_list_first = NULL;
+	temp_link->cmd_list_last = NULL;
+	temp_link->in_list_first = NULL;
+	temp_link->in_list_last = NULL;
+	temp_link->out_list_first = NULL;
+	temp_link->out_list_last = NULL;
+	temp_link->next = NULL;
+	return(temp_link);
+}
 
 void	add_token(t_temp *temp, t_tok_link *link, int type)
 {

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/10 20:14:09 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/13 12:22:54 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_env_link
 	struct s_env_link	*prev;
 }		t_env_link;
 
-typedef struct s_env
+typedef struct s_env//maybe one more int for $?, the exit status of last command done?
 {
 	unsigned int		len;
 	struct s_env_link	*first;

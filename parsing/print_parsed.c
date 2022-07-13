@@ -16,7 +16,7 @@
 }		t_parsed_link; */
 
 //TODO, redo for tests
-void	print_parsed_list(struct s_parsed_link *final_link)
+/* void	print_parsed_list(struct s_parsed_link *final_link)
 {
 	int i;
 	i = 0;
@@ -60,7 +60,7 @@ void	print_char_tab(char **tab)
 		printf("arg n%d = %s", i, tab[i]);
 		i++;
 	}
-}
+} */
 
 /* typedef struct s_temp
 {
