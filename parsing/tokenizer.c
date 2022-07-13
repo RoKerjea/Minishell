@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/10 17:18:14 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/13 14:50:29 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ int metaparser(t_tok_list *list, char *str)
 }
 
 // identify the type of redirection the current token is
-int meta_type(char *str)
+enum e_type	meta_type(char *str)
 {
 	if (strncmp(str, "<<", 2) == 0)
 		return (HEREDOC);
@@ -179,7 +179,7 @@ int meta_type(char *str)
 	if (strncmp(str, "|", 1) == 0)
 		return (PIPE);
 	else
-		return (0);
+		return (FAIL);
 }
 
 // find & return the length of the str between quotes c

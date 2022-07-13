@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/13 12:22:54 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/13 14:44:57 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <linux/limits.h>
+# include <errno.h>
 
 //only builtins and env maker need those structures
 typedef struct s_env_link
@@ -79,7 +80,7 @@ char			*get_env_var(char *name, t_env *env_list);
 void			printpath(void);
 int				change_dir(char *str, t_env *env_list);
 
-//PARSEC.C
+//PARSER.C
 t_parsed	*parser(char *input, t_env *local_env);
 
 //BUILTINS.C

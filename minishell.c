@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/10 20:13:25 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/13 13:23:51 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,15 @@
 int	input(t_env *local_env)
 {
 	char		*input;
-	t_parsed	*list;
+	//t_parsed	*list;
 
 	while (1)//need ttysomething function i think
 	{
 		input = readline ("cmd>");//history should use this
 		printf ("//input== \"%s\"\n", input);//to del
 		builtin_parser(input, local_env);//ca il faudra le mettre ailleur, mais il marchera pareil
-		list = parser(list, local_env);
+		//list = parser(input, local_env);
+		parser(input, local_env);
 		//print_parsed_list;
 		//exec(list, *local_env);
 	}

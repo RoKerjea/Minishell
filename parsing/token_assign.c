@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 19:41:55 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/13 12:11:11 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/13 14:50:56 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,10 @@
 
 //get token list and create another list with one link by cmd and every
 //redirection in the same link, not expanded or splited yet
-t_temp	*token_sorter(t_tok_list	*list)
+t_temp	*token_sorter(t_tok_list *list)
 {
 	t_tok_link	*link;
+	t_tok_link	*nextlink;
 	t_temp		*temp;
 	t_temp		*tempfirst;
 	
@@ -42,64 +43,94 @@ t_temp	*token_sorter(t_tok_list	*list)
 	link = list->first;
 	while (link != NULL)
 	{
+		nextlink = link->next;
+		printf ("gate1 \n");
+		printf ("str in token :%s\n", link->str);
 		if (link->meta == CMD)
-			add_token(temp, link, 1);
-		if (link->meta == IN || link->meta == HEREDOC)
-			add_token(temp, link, 2);
-		if (link->meta == OUT || link->meta == APPEND)
-			add_token(temp, link, 3);
-		if (link->meta == PIPE)
+			add_token_arg(temp, link);
+		else if (link->meta == IN || link->meta == HEREDOC)
+			temp->type = add_token_in(temp, link);
+		else if (link->meta == OUT || link->meta == APPEND)
+			temp->type = add_token_out(temp, link);
+		else if (link->meta == PIPE)
 		{
-			//update_next_token(temp);
 			temp->next = mktemplist();
 			temp = temp->next;
+			printf ("gate new temp\n");
 		}
-		link = link->next;
-		link->prev->next = NULL;
+		else
+			printf ("error, meta = %d\n", link->meta);//to delete
+		link = nextlink;
 	}
 	return (tempfirst);
 }
 
-//TODO needed ft
 t_temp	*mktemplist(void)
 {
 	t_temp	*temp_link;	
 
+	printf ("gate2\n");
 	temp_link = malloc(sizeof(t_temp));
+	//protect
+	temp_link->type = 1;
 	temp_link->cmd_list_first = NULL;
 	temp_link->cmd_list_last = NULL;
 	temp_link->in_list_first = NULL;
-	temp_link->in_list_last = NULL;
+	//temp_link->in_list_last = NULL;
 	temp_link->out_list_first = NULL;
-	temp_link->out_list_last = NULL;
+	//temp_link->out_list_last = NULL;
 	temp_link->next = NULL;
 	return(temp_link);
 }
 
-void	add_token(t_temp *temp, t_tok_link *link, int type)
+void	add_token_arg(t_temp *temp, t_tok_link *link)
 {
-	t_tok_link	*var_start;
-	t_tok_link	*var_last;
-	
-	if (type == 1)
-	{
-		var_start = temp->cmd_list_first;
-		var_last = temp->cmd_list_last;
-	}
-	if (type == 2)
-	{
-		var_start = temp->in_list_first;
-		var_last = temp->in_list_last;
-	}
-	if (type == 3)
-	{
-		var_start = temp->out_list_first;
-		var_last = temp->out_list_last;
-	}
-	if(var_start == NULL)
-		var_start = link;
-	var_last->next = link;
-	link->prev = var_last;
-	var_last = link;
+	if(temp->cmd_list_first == NULL)
+		temp->cmd_list_first = link;
+	if(temp->cmd_list_last != NULL)
+		temp->cmd_list_last->next = link;
+	temp->cmd_list_last = link;
+	temp->cmd_list_last->next = NULL;
 }
 
+void	printerror(char *prob)
+{
+	write(2, "minishell: ", 11);
+	write(2, strerror(errno), ft_strlen(strerror(errno)));
+	if (prob)
+	{
+		write(2, prob, ft_strlen(prob));
+		write(2, ": ", 2);
+	}
+	write(2, "\n", 1);
+}
+
+//Maybe do the redirections tests here?(then expander must be done just before it!!)
+//need to do the open tests here, and replace previous redir with new one
+//print "minishell: (target): No such file or directory" on error fd
+int	add_token_in(t_temp *temp, t_tok_link *link)
+{
+	if (temp->in_list_first != NULL)
+		destroy_token(temp->in_list_first);
+	temp->in_list_first = link;
+	if (access(link->str, F_OK))
+	{
+		printerror(link->str);
+		return (FAIL);
+	}
+	if (access(link->str, R_OK))
+	{
+		printerror(link->str);
+		return (FAIL);
+	}
+	//deal with heredoc
+	return (1);
+}
+
+int	add_token_out(t_temp *temp, t_tok_link *link)
+{
+	if (temp->out_list_first != NULL)
+		destroy_token(temp->in_list_first);
+	temp->out_list_first = link;
+	return (1);
+}

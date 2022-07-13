@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/13 12:26:50 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/13 13:34:39 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,17 @@ what if cmd is in $VAR? then expand first and then char *cmd and char **args(but
 t_parsed	*parser(char *input, t_env *local_env)
 {
 	t_temp		*temp;
-	t_parsed	*parsed_list;
+	//t_parsed	*parsed_list;
 	t_tok_list	*list;
+	(void)local_env;
 	
 	list = tokenizerstart(input);
-	//print_token(list);
+	print_token(list);
 	//expander replace in every str in every link of list
 	//bash: $TEST: ambiguous redirect if TEST="file1 file2"
 	//means parse step after expander wich is after tokenizer
 	//token_expander(list, local_env);
+	printf ("gate0\n");
 	temp = token_sorter(list);
 	print_temp_list(temp);
 	//test redirections somewhere here??
@@ -53,7 +55,7 @@ t_parsed	*parser(char *input, t_env *local_env)
 	//return (parsed_list);
 	return (NULL);
 }
-
+/* 
 t_parsed	*list_parser(t_temp *temp)
 {
 	t_parsed *parsed_list;
@@ -70,13 +72,13 @@ t_parsed	*list_parser(t_temp *temp)
 		parsed_list->len++;
 	}
 	return (parsed_list);
-}
+} */
 
 //make final parsed link from temp link, with all args expanded and separated,
 //exterior quotes removed, nothing more should be needed for this link/CMD
 
 //!neeed a complete step of redirection parsing and only returning one for in and out at maximum
-t_parsed_cmd	*make_parsed_link(t_temp *temp)
+/* t_parsed_cmd	*make_parsed_link(t_temp *temp)
 {
 	t_parsed_cmd	*link;
 
@@ -84,15 +86,15 @@ t_parsed_cmd	*make_parsed_link(t_temp *temp)
 	//prot
 	link->cmd_args = get_args(temp->cmd_list_first);
 	link->exec_type = get_type(temp->cmd_list_first);
-/* 	link->fdins_args = get_args(temp->in_list_first);
+ 	link->fdins_args = get_args(temp->in_list_first);
 	link->fdins = redir_types(temp->in_list_first);
 	link->fdouts_args = get_args(temp->out_list_first);
-	link->fdouts = redir_types(temp->out_list_first); */
+	link->fdouts = redir_types(temp->out_list_first);
 	link->next = NULL;
 	return (link);
-}
+} */
 
-int	*redir_types(t_tok_link *token)
+/* int	*redir_types(t_tok_link *token)
 {
 	int	*res;
 	int	i;
@@ -104,8 +106,8 @@ int	*redir_types(t_tok_link *token)
 		res[i] = token->meta;
 		i++;
 	}
-}
-
+} */
+/* 
 int	get_type(char **cmd_args)
 {
 	int	res;
@@ -114,10 +116,10 @@ int	get_type(char **cmd_args)
 	if (is_builtins(cmd_args[0]) == YES)
 		res = BUILT;
 	return (res);
-}
+} */
 
 //can transform cmd[x + 1] == sep with ft_isspace(cmd[x+1])??
-int	is_builtins(char *cmd)
+/* int	is_builtins(char *cmd)
 {
 	if (ft_strncmp(cmd, "echo", 4) == 0 && (cmd[4] == ' ' || cmd[4] == '\0'))
 		return (YES);
@@ -134,11 +136,11 @@ int	is_builtins(char *cmd)
 	if (ft_strncmp(cmd, "unset", 5) == 0 && (cmd[6] != ' ' || cmd[6] != '\0'))
 		return (YES);
 	return (NO);
-}
+} */
 
 //get str of list of token of similar types in a single char **str
 //maybe same function should get fd type list in final link?
-char	**get_args(t_tok_link *token)
+/* char	**get_args(t_tok_link *token)
 {
 	char	**res;
 	int		num;
@@ -156,9 +158,9 @@ char	**get_args(t_tok_link *token)
 	}
 	res [i] == NULL;
 	return (res);
-}
+} */
 
-int	token_count(t_tok_link *token)
+/* int	token_count(t_tok_link *token)
 {
 	int	i;
 
@@ -169,7 +171,7 @@ int	token_count(t_tok_link *token)
 		i++;
 	}
 	return(i);
-}
+} */
 /*
 how to deal with exterior quotes? "str" => str
 ' ' are str separators

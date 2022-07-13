@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 18:16:40 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/10 00:23:47 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/13 13:36:53 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,11 @@ enum e_bool
 	YES
 };
 
-enum e_exec
+enum e_type
 {
 	FAIL,
 	CMD,
-	BUILT
-};
-
-enum e_redir
-{
+	BUILT,
 	PIPE,
 	IN,
 	HEREDOC,

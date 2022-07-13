@@ -84,6 +84,7 @@ void	print_temp_list(t_temp *temp)
 		printf("cmd n %d is composed from the following tokens:\n", i);
 		print_temp_link(temp);
 		i++;
+		temp = temp->next;
 	}
 }
 
@@ -104,7 +105,7 @@ void	print_token_list(t_tok_link *token)
 	i = 0;
 	while (token != NULL)
 	{
-		printf("token %d, type= %d, arg= %s", i, token->meta, token->str);
+		printf("token %d, type= %d, arg= %s\n", i, token->meta, token->str);
 		token = token->next;
 		i++;
 	}
