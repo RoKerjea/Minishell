@@ -19,6 +19,7 @@ SRCS		=	${addprefix parsing/, \
 				tokenizer.c \
 				token_assign.c \
 				parser.c \
+				parsing_struct.c \
 				print_parsed.c \
 				print_token.c} \
 				${addprefix libft/, \

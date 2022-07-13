@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:41:23 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/13 17:02:36 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/13 18:29:12 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,12 @@ typedef struct s_temp
 	t_tok_link		*cmd_list_first;
 	t_tok_link		*cmd_list_last;
 	t_tok_link		*in_list_first;
-	//t_tok_link		*in_list_last;
 	t_tok_link		*out_list_first;
-	//t_tok_link		*out_list_last;
 	struct s_temp	*next;
 }	t_temp;
 
 //TOKENIZER.C
 t_tok_list	*tokenizerstart(char *input);
-void	print_token(t_tok_list *list);
-t_tok_list *make_list();
-t_tok_link *make_add_link(t_tok_list *list);
 void	sep_token(char *str, t_tok_list *list);
 
 int	strparser(t_tok_list *list, char *str);
@@ -70,6 +65,12 @@ void	add_token_arg(t_temp *temp, t_tok_link *link);
 int		add_token_in(t_temp *temp, t_tok_link *link);
 int		add_token_out(t_temp *temp, t_tok_link *link);
 
+//TOKEN_STRUCT.C
+t_tok_list	*make_list();
+t_tok_link	*make_add_link(t_tok_list *list);
+void		destroy_token(t_tok_link *link);
+void		destroy_token_list(t_tok_list *list);
+
 //BOOL_STR.C
 int	ft_isspace(char c);
 int	is_meta(char c);
@@ -79,5 +80,6 @@ void	print_temp_list(t_temp *temp);
 void	print_temp_link(t_temp *temp);
 void	print_token_list(t_tok_link *token);
 void	print_parsed_list(t_parsed_cmd *final_link);
+void	print_token(t_tok_list *list);
 
 #endif

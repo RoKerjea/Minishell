@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/13 15:56:39 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/13 18:31:39 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,11 @@
 #include "../include/parsing.h"
 #include "../include/macro.h"
 
-// FILE: what's needed to make list of tokens from input, depending of their type
-// INPUT: the full line from readline (xx)
+// FILE: what's needed to make list of tokens from input
+// INPUT: the full line from readline
 // OUTPUT: liste chainee de token contenant seulement les '|', str pour cmd,
 // et redirections avec leurs cibles
-/*
-parse_token(char *str), un token par str ou metachar, separated stupidly
-check_errors for metastr incoherences(during metaparse? after all tokens are created?)
-*/
-
-//  |  < et << peuvent etres colles a des str et continuer a fonctionner, > >> problement aussi
-
-// mais si metachars are sequentials in a wrong way, message "process : parse error near (symbol that's a problem)"
+//  |  < et << peuvent etres colles a des str et continuer a fonctionner, > >> probablement aussi
 //  zsh: parse error near `>'
 
 // verif step for token, if a redirection doesn't have a target, problem
@@ -62,42 +55,11 @@ t_tok_list *tokenizerstart(char *input)
 	printf("len of input == %lu\n", strlen(input)); //TEST to delete
 	sep_token(input, token_list);
 	if (syntax_checker(token_list) == NO)
-		printf("problem and should free list and stop current input\n"); //TEST to delete, but replace with a prob manager
+	{
+		destroy_token_list(token_list);
+		return (NULL);
+	}
 	return (token_list);
-}
-
-// create the list, no links in yet
-t_tok_list *make_list()
-{
-	t_tok_list *list;
-
-	list = malloc(sizeof(t_tok_list));
-	list->len = 0;
-	list->first = NULL;
-	list->last = NULL;
-	return (list);
-}
-
-// create a new empty link and add it at the last place in the list
-t_tok_link *make_add_link(t_tok_list *list)
-{
-	t_tok_link *link;
-
-	link = malloc(sizeof(t_tok_link));
-	if (list->len == 0)
-	{
-		list->first = link;
-		link->prev = NULL;
-	}
-	else
-	{
-		list->last->next = link;
-		link->prev = list->last;
-	}
-	link->next = NULL;
-	list->last = link;
-	list->len++;
-	return (link);
 }
 
 // strparser et metaparser cree le maillon, et malloc la bonne taille pour la str
@@ -227,15 +189,6 @@ int meta_and_arg_size(char *str) // could be fused later with str parser?
 }
 
 /*
-BUT : fournir une liste chaine cree a partir de inputstr
-->parcourir str, creer un maillon pour chaque mot complet, metachar avec leurs arguments et str entre quotes
-ignorer les espaces pas entre quotes,
-return liste avec un maillon par str, a reassembler par parser ensuite en cmdstr et metachar important
-redirections et leurs cibles en un seul token? OUI, avec type defini meme
-meme chose pour heredoc start et son EOF? OUI
-*/
-
-/*
 nested quotes:
 if char[i] == '\'' ou '\"'
 
@@ -251,10 +204,6 @@ can be a recursive cycle of same function who only return last position and add 
 but functions for quotes could give beginning and end position too...
 lots of parameter for a single string...could keep coordinates of '' "zones" for this string?
 maybe in struct of link?
-
-need to parse >> before >
-and << before <
-not separate automatically every metachar from char immediatly next? NEED TESTS!!
 */
 
 /*

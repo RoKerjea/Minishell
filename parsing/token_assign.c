@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 19:41:55 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/13 16:45:39 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/13 18:18:26 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,6 @@ void	printerror(char *prob)
 		write(2, ": ", 2);
 	}
 	write(2, "\n", 1);
-}
-
-void	destroy_token(t_tok_link *link)
-{
-	free(link->str);
-	free(link);
 }
 
 //Maybe do the redirections tests here?(then expander must be done just before it!!)

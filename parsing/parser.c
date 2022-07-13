@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/13 17:01:47 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/13 17:53:42 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ int	get_type(char **cmd_args)
 }
 
 //can transform cmd[x + 1] == sep with ft_isspace(cmd[x+1])??
+//can probably use a lookup table here too
 int	is_builtins(char *cmd)
 {
 	if (ft_strncmp(cmd, "echo", 4) == 0 && (cmd[4] == ' ' || cmd[4] == '\0'))
