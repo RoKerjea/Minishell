@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/13 14:50:29 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/13 15:56:39 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ t_tok_list *tokenizerstart(char *input)
 	t_tok_list *token_list;
 
 	token_list = make_list();
-	printf("len of input == %lu\n", strlen(input)); // TEST to delete
+	printf("len of input == %lu\n", strlen(input)); //TEST to delete
 	sep_token(input, token_list);
 	if (syntax_checker(token_list) == NO)
-		printf("problem and should free list and stop current input\n"); // TEST to delete, but replace with a prob manager
+		printf("problem and should free list and stop current input\n"); //TEST to delete, but replace with a prob manager
 	return (token_list);
 }
 

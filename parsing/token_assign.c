@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 19:41:55 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/13 14:50:56 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/13 16:45:39 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 
 //get token list and create another list with one link by cmd and every
 //redirection in the same link, not expanded or splited yet
+//need to react to redirection error, stop and free everything for current command, et find next pipe before continuing
 t_temp	*token_sorter(t_tok_list *list)
 {
 	t_tok_link	*link;
@@ -44,7 +45,6 @@ t_temp	*token_sorter(t_tok_list *list)
 	while (link != NULL)
 	{
 		nextlink = link->next;
-		printf ("gate1 \n");
 		printf ("str in token :%s\n", link->str);
 		if (link->meta == CMD)
 			add_token_arg(temp, link);
@@ -69,16 +69,13 @@ t_temp	*mktemplist(void)
 {
 	t_temp	*temp_link;	
 
-	printf ("gate2\n");
 	temp_link = malloc(sizeof(t_temp));
 	//protect
 	temp_link->type = 1;
 	temp_link->cmd_list_first = NULL;
 	temp_link->cmd_list_last = NULL;
 	temp_link->in_list_first = NULL;
-	//temp_link->in_list_last = NULL;
 	temp_link->out_list_first = NULL;
-	//temp_link->out_list_last = NULL;
 	temp_link->next = NULL;
 	return(temp_link);
 }
@@ -103,6 +100,12 @@ void	printerror(char *prob)
 		write(2, ": ", 2);
 	}
 	write(2, "\n", 1);
+}
+
+void	destroy_token(t_tok_link *link)
+{
+	free(link->str);
+	free(link);
 }
 
 //Maybe do the redirections tests here?(then expander must be done just before it!!)

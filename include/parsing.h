@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:41:23 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/13 14:32:42 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/13 17:02:36 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,12 @@ int	meta_and_arg_size(char *str);
 
 enum e_type	meta_type(char *str);
 
+t_parsed	*list_parser(t_temp *temp);
+t_parsed_cmd	*make_parsed_link(t_temp *temp);
+int	get_type(char **cmd_args);
+int	is_builtins(char *cmd);
+char	**get_args(t_tok_link *token);
+int	token_count(t_tok_link *token);
 
 t_temp	*mktemplist(void);
 t_temp	*token_sorter(t_tok_list	*list);
@@ -68,10 +74,10 @@ int		add_token_out(t_temp *temp, t_tok_link *link);
 int	ft_isspace(char c);
 int	is_meta(char c);
 
-
 //TESTS.C
 void	print_temp_list(t_temp *temp);
 void	print_temp_link(t_temp *temp);
 void	print_token_list(t_tok_link *token);
+void	print_parsed_list(t_parsed_cmd *final_link);
 
 #endif

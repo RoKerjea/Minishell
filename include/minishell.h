@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/13 14:44:57 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/13 16:58:15 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ typedef struct s_parsed_cmd//new version
 {
 	int					exec_type;//defined in macro
 	char				**cmd_args;//for execve, arg[0] sera la cmd dont trouver le path, ou dont le path sera donne
-	int					*redir_in;
-	char				*hereddoc;
+	char				*redir_in;
+	char				*heredoc;
 	char				*redir_out;
-	int					*redir_append;
+	char				*redir_append;
 	struct s_parsed_cmd	*next;
 }	t_parsed_cmd;
 

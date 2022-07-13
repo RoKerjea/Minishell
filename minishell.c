@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/13 13:23:51 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/13 16:59:29 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	input(t_env *local_env)
 		builtin_parser(input, local_env);//ca il faudra le mettre ailleur, mais il marchera pareil
 		//list = parser(input, local_env);
 		parser(input, local_env);
-		//print_parsed_list;
 		//exec(list, *local_env);
 	}
 	return (0);// return $? i think
