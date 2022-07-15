@@ -1,55 +1,88 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/07/16 00:51:39 by nvasilev          #+#    #+#              #
+#    Updated: 2022/07/16 01:06:16 by nvasilev         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+################################################################################
+#                                      VARS                                    #
+################################################################################
+
 # This is a minimal set of ANSI/VT100 color codes
-_END=$'\033[0m
-_BOLD=$'\033[1m
-_UNDER=$'\033[4m
-_REV=$'\033[7m
+_END =		$'\033[0m
+_BOLD =		$'\033[1m
+_UNDER =	$'\033[4m
+_REV =		$'\033[7m
 
 # Colors
-_GREY=$'\033[30m
-_RED=$'\033[31m
-_GREEN=$'\033[32m
-_YELLOW=$'\033[33m
-_BLUE=$'\033[34m
-_PURPLE=$'\033[35m
-_CYAN=$'\033[36m
-_WHITE=$'\033[37m
+_GREY =		$'\033[30m
+_RED =		$'\033[31m
+_GREEN =	$'\033[32m
+_YELLOW =	$'\033[33m
+_BLUE =		$'\033[34m
+_PURPLE =	$'\033[35m
+_CYAN =		$'\033[36m
+_WHITE =	$'\033[37m
 
-SRCS		=	${addprefix parsing/, \
-				bool_str.c \
-				tokenizer.c \
-				token_assign.c \
-				parser.c \
-				parsing_struct.c \
-				print_parsed.c \
-				print_token.c} \
-				${addprefix libft/, \
-				ft_strlen.c \
-				ft_split.c \
-				ft_strjoin.c \
-				ft_freetab.c \
-				ft_strdup.c \
-				ft_strchr.c \
-				ft_strncmp.c} \
-				${addprefix builtin/, \
-				builtins.c \
-				directories.c \
-				env_make.c \
-				env_use.c} \
-				minishell.c
+################################################################################
+#                                     CONFIG                                   #
+################################################################################
 
-HEADER		= include/shell_parsing.h
-RM			= rm -rf
-NAME		= minishell
-CC			= gcc $(CFLAGS)
 
-OBJECTS = $(subst /,/build/,${SRCS:.c=.o})
-DEPEND	= ${OBJECTS:.o=.d}
-
+NAME =		minishell
+CC =		cc $(CFLAGS)
 CFLAGS		= -Wall -Werror -Wextra
 
-all:	$(NAME)
+INCLUDES =	-I ./includes/
+RM =		rm -rf
 
-${NAME}:	${OBJECTS}
+################################################################################
+#                                 PROGRAM'S SRCS                               #
+################################################################################
+
+SRCS =		${addprefix parsing/, \
+			bool_str.c \
+			tokenizer.c \
+			token_assign.c \
+			parser.c \
+			parsing_struct.c \
+			print_parsed.c \
+			print_token.c} \
+			${addprefix libft/, \
+			ft_strlen.c \
+			ft_split.c \
+			ft_strjoin.c \
+			ft_freetab.c \
+			ft_strdup.c \
+			ft_strchr.c \
+			ft_strncmp.c} \
+			${addprefix builtin/, \
+			builtins.c \
+			directories.c \
+			env_make.c \
+			env_use.c} \
+			minishell.c
+
+################################################################################
+#                                     OBJECTS                                  #
+################################################################################
+
+OBJECTS = 	$(subst /,/build/,${SRCS:.c=.o})
+DEPEND =	${OBJECTS:.o=.d}
+
+################################################################################
+#                                     RULES                                    #
+################################################################################
+
+all: $(NAME)
+
+${NAME}: ${OBJECTS}
 	@echo "${_UNDER}${_RED}Creating Executable${_END}"
 	@echo "${_BOLD}${_GREEN}${CC} -o ${NAME} ${OBJECTS} -lreadline ${_END}"
 	@${CC} -o ${NAME} ${OBJECTS} -lreadline
@@ -83,24 +116,6 @@ fclean: clean
 	@echo "${_BOLD}${_RED}"${RM} ${NAME}"${_END}"
 	@${RM} ${NAME}
 
-gitm: fclean
-	git add .
-	git commit
-	git push
+re: fclean all
 
-VER_H = include/Version_minishell.h
-USER := $(shell env | grep USER | tail --bytes=+6)
-TIME=$(shell date +"%d %m %Y %Hh%M %Z")
-
-git: fclean
-	$(eval MIN=$(shell expr $$(awk '/# define MINOR_VERSION/' $(VER_H) | tr -cd "[0-9]") + 1))
-	$(eval MAJ=$(shell awk '/# define MAJOR_VERSION/' $(VER_H) | tr -cd "[0-9]"))
-	sed -i 's/# define MINOR_VERSION .*/# define MINOR_VERSION \"$(MIN)\"/' $(VER_H)
-	sed -i 's/# define BUILD_DATE .*/# define BUILD_DATE \"$(TIME)\"/' $(VER_H)
-	git add .
-	git commit -m "V$(MAJ).$(MIN) by $(USER) at $(TIME)"
-	git push
-
-re:			fclean all
-
-.PHONY:		all clean fclean re gitm git printstart
+.PHONY: all clean fclean re
