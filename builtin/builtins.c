@@ -6,13 +6,13 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:06:47 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/13 12:22:12 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/16 15:31:10 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-//rajouter une ft par builtin pour verifier input format, return to keep in struct, et printerror
+//rajouter une ft par builtin pour verifier input format, return to keep in struct $?, et printerror
 void	builtin_parser(char *cmd, t_env *local_env)
 {
 	//if (ft_strncmp(cmd, "echo", 4) == 0 && (cmd[4] == ' ' || cmd[4] == '\0'))

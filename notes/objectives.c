@@ -86,11 +86,19 @@ The  shell  shall give the export attribute to the
 
 every redirection dup is done in child process
 but verification that they exist happen before
-!heredoc a la con: supposed to be done by child process concerned, but only the last one is kept long enough to be used as input
 
+//PRIORITIES
+data for env empty and what's to update
+input quotes checker, need nothing else
+builtins do'nt need anything, and can be unified in style
+parse option -n and every combination(-nnnnnnn ------nn -n -n -n -n -n -n) for echo
+history doesn't need anything
 
-
-
+expander need to know how heredoc work
+$? is special expander and get return of exec and builtins
+redirections need heredocs to complete
+signals need exec first
+error messages, last to complete because need every possibilities, but can be added one by one
 
 //BONUSES
 1 - Les wildcards * doivent fonctionner pour le répertoire courant.
