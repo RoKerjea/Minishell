@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/13 16:59:29 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/16 14:59:39 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	input(t_env *local_env)
 	{
 		input = readline ("cmd>");//history should use this
 		printf ("//input== \"%s\"\n", input);//to del
+		//check valid input?(quotes?, empty? newline?)
 		builtin_parser(input, local_env);//ca il faudra le mettre ailleur, mais il marchera pareil
 		//list = parser(input, local_env);
 		parser(input, local_env);
@@ -40,6 +41,7 @@ int	main(int argc, char **argv, char **env)
 		return (0);
 	status = 1;
 	local_env = env_list(env);
+	//get pwd, shlvl, etc if env = NULL
 	//if end, destroy env list,
 	printf("Starting Shell\n");// to del
 	while (status != 0)

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/13 18:31:39 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/16 14:56:00 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,32 +21,8 @@
 //  |  < et << peuvent etres colles a des str et continuer a fonctionner, > >> probablement aussi
 //  zsh: parse error near `>'
 
-// verif step for token, if a redirection doesn't have a target, problem
-// syntax check happen BEFORE var expansion! so, last step of tokenizer
-int syntax_checker(t_tok_list *list)
-{
-	t_tok_link *link;
-
-	link = list->first;
-	while (link != NULL)
-	{
-		if ((link->meta == IN || link->meta == OUT) && ft_strlen(link->str) < 2)
-		{
-			printf("minishell: syntax error near unexpected token `%c'\n", link->next->str[0]); //! oups, what if link-nextn'existe pas?
-			return (NO);
-		}
-		if ((link->meta == HEREDOC || link->meta == APPEND) && ft_strlen(link->str) < 3)
-		{
-			printf("minishell: syntax error near unexpected token `%c'\n", link->next->str[0]);
-			return (NO);
-		}
-		link = link->next;
-	}
-	return (YES);
-}
-
-// start of tokenizer, create list of token, launch token separator,
-// check result of this step (if redirection have their arguments)
+//start of tokenizer, create list of token, launch token separator,
+//syntax check result of this step (if redirection have their arguments)
 t_tok_list *tokenizerstart(char *input)
 {
 	t_tok_list *token_list;
@@ -54,6 +30,7 @@ t_tok_list *tokenizerstart(char *input)
 	token_list = make_list();
 	printf("len of input == %lu\n", strlen(input)); //TEST to delete
 	sep_token(input, token_list);
+	//protect
 	if (syntax_checker(token_list) == NO)
 	{
 		destroy_token_list(token_list);
@@ -79,12 +56,14 @@ void sep_token(char *str, t_tok_list *list)
 		{
 			printf("start of strsep for char %d\n", i); // TEST to delete
 			i += strparser(list, str + i);				// manage start and end of quotes as a single block of str
+			//protect
 			printf("end of strsep for char %d\n", i);	// TEST to delete
 		}
 		else if (is_meta(str[i]) == YES && str[i] != '\0')
 		{
 			printf("start of metasep for char %d\n", i); // TEST to delete
 			i += metaparser(list, str + i);
+			//protect
 			printf("end of metasep for char %d\n", i); // TEST to delete
 		}
 	}
@@ -102,11 +81,13 @@ int strparser(t_tok_list *list, char *str)
 	{
 		if (str[i] == '\'' || str[i] == '\"')
 			i += find_end_quote(str + i, str[i]);
+			//protect unclosed quotes?? or check earlier for quotes?
 		else
 			i++;
 	}
 	printf("str in strparse == \"%s\", strlen = %d\n", str, i); // TEST to delete
 	link->str = ft_strndup(str, i);
+	//protect
 	printf("str made == \"%s\"\n", link->str); // TEST to delete
 	link->meta = CMD;
 	return (i);
@@ -123,6 +104,7 @@ int metaparser(t_tok_list *list, char *str)
 	i += metachar_parser(str);
 	printf("str in metaparse == \"%s\", strlen = %d\n", str, i); // TEST to delete
 	link->str = ft_strndup(str, i);
+	//protect
 	link->meta = meta_type(link->str);
 	return (i);
 }
@@ -153,6 +135,7 @@ int find_end_quote(char *str, char c)
 	i = 1;
 	while (str[i] != c && str[i] != '\0')
 		i++;
+	//what if str[i] == '\0'?? then big error for all inputstr!
 	return (i + 1);
 }
 

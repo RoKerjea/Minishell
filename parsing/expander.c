@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/13 12:12:27 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/16 15:27:06 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	token_expander(t_tok_list *list, t_env *local_env)
 	while (token != NULL)
 	{
 		expanded = expander(token->str, local_env);
+		//protect
 		free (token->str);
 		token->str = expanded;
 		token = token->next;
@@ -125,7 +126,6 @@ int	wordlen(char *str)
 /*
 from left to right, until $, stdup(str, i), when $, find variable, stdup var, join str1 and str2,
 same from end of $var in original string, repeat, until '\0'...
-
 */
 
 

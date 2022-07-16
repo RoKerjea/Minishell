@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 19:41:55 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/13 18:18:26 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/16 15:25:47 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,10 +120,11 @@ int	add_token_in(t_temp *temp, t_tok_link *link)
 		printerror(link->str);
 		return (FAIL);
 	}
-	//deal with heredoc
+	//deal with heredoc here?
 	return (1);
 }
 
+//need to do access tests for targets(F_OK, W_OK if F_OK, maybe R_OK??)
 int	add_token_out(t_temp *temp, t_tok_link *link)
 {
 	if (temp->out_list_first != NULL)

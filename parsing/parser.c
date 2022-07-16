@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/13 17:53:42 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/16 15:07:47 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ t_parsed	*list_parser(t_temp *temp)
 	printf ("gate3\n");
 	parsed_list->first = make_parsed_link(temp);
 	parsed_list->last = parsed_list->first;
+	//destroy temp struct
 	temp = temp->next;
 	while (temp != NULL)
 	{
@@ -151,8 +152,6 @@ int	is_builtins(char *cmd)
 //maybe same function should get fd type list in final link?
 char	**get_args(t_tok_link *token)
 {
-
-	printf ("gateargs fucked\n");
 	char	**res;
 	int		num;
 	int		i;
@@ -164,11 +163,11 @@ char	**get_args(t_tok_link *token)
 	while (token != NULL)//can get rid of num?
 	{
 		res[i] = ft_strdup(token->str);
+		//protect
 		i++;
 		token = token->next;
 	}
-	res [i] = NULL;
-	printf ("gateargs fucked confirmed\n");
+	res[i] = NULL;
 	return (res);
 }
 

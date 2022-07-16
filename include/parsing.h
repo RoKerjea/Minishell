@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:41:23 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/13 18:29:12 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/16 14:46:10 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,14 @@ typedef struct s_temp
 //TOKENIZER.C
 t_tok_list	*tokenizerstart(char *input);
 void	sep_token(char *str, t_tok_list *list);
-
 int	strparser(t_tok_list *list, char *str);
 int	metaparser(t_tok_list *list, char *str);
 int	find_end_quote(char *str, char c);
 int	metachar_parser(char *str);
 int	meta_and_arg_size(char *str);
-
 enum e_type	meta_type(char *str);
 
+//PARSER
 t_parsed	*list_parser(t_temp *temp);
 t_parsed_cmd	*make_parsed_link(t_temp *temp);
 int	get_type(char **cmd_args);
@@ -74,6 +73,7 @@ void		destroy_token_list(t_tok_list *list);
 //BOOL_STR.C
 int	ft_isspace(char c);
 int	is_meta(char c);
+int syntax_checker(t_tok_list *list);
 
 //TESTS.C
 void	print_temp_list(t_temp *temp);
