@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 14:22:26 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/21 19:57:52 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/16 17:32:38 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,12 @@ int	change_dir(char *str, t_env *env_list)
 		path_cmd = get_env_var("HOME", env_list);
 	else
 		path_cmd = str + 3;
+	//need to manage spaces
 	if (chdir(path_cmd) != 0)
 	{
 		//error message mais en vrai
 		printf("error, str = \"%s\"\n", str + 3);
+		return (2);//probably not correct return value
 	}
 	else//update env
 	{

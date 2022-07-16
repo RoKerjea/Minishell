@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/16 14:59:39 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/16 17:03:45 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,19 @@ int	main(int argc, char **argv, char **env)
 	int		status;
 	t_env	local_env;
 
-	if (!argc || !argv || !env)
+	if (!argc || !argv)
 		return (0);
 	status = 1;
-	local_env = env_list(env);
+/* 	if (!env)
+	{
+		update_variable("_=/usr/bin/env", local_env);
+		update_variable("SHLVL=1", local_env);
+		char	cur_path[PATH_MAX];
+		getcwd(cur_path, PATH_MAX);
+		update_variable("PWD="cur_path, local_env);
+	}
+	else */
+		local_env = env_list(env);
 	//get pwd, shlvl, etc if env = NULL
 	//if end, destroy env list,
 	printf("Starting Shell\n");// to del
