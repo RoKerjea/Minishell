@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/16 14:56:00 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/17 19:03:41 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,18 +126,7 @@ enum e_type	meta_type(char *str)
 		return (FAIL);
 }
 
-// find & return the length of the str between quotes c
-int find_end_quote(char *str, char c)
-{
-	int i;
 
-	printf("gate quote %s\n", str); // TEST to delete
-	i = 1;
-	while (str[i] != c && str[i] != '\0')
-		i++;
-	//what if str[i] == '\0'?? then big error for all inputstr!
-	return (i + 1);
-}
 
 // fnd & return the length of meta token, from the metachar,
 // to the end of it's arg, if any

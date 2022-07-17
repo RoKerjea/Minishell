@@ -6,27 +6,47 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 21:07:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/09 23:03:31 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/17 19:32:28 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 //FILE: everything needed to create and assign internal env of minishell
+//really need to think about protection from malloc in links!!
+
+
+t_env	minimal_env(void)
+{
+	t_env	env_list;
+	char	cur_path[PATH_MAX];
+	char	*path;
+
+	getcwd(cur_path, PATH_MAX);
+	env_list.first = create_link("_=/usr/bin/env");
+	forgelink(env_list.first, create_link("SHLVL=1"));
+	path = ft_strjoin("PWD=", cur_path);
+	env_list.last = create_link(path);
+	forgelink(env_list.first->next, env_list.last);
+	free (path);
+	env_list.lst_exit = 0;
+	env_list.len = 3;
+	return (env_list);
+}
 
 //create list, use create_link to assign and create one link by line of env and
 //return a struct with variable count and a pointer to the first and last link
 t_env	env_list(char **env)
 {
 	int			i;
-	t_env		envlist;//maybe need to malloc it actually, bit weird like that!
+	t_env		env_list;//maybe need to malloc it actually, bit weird like that!
 	t_env_link	*now;
 	t_env_link	*prev;
 
 	i = 0;
-	envlist.first = create_link(env[i]);
+	env_list.first = create_link(env[i]);
 	i++;
-	prev = envlist.first;
+	prev = env_list.first;
 	while (env[i])
 	{
 		now = create_link(env[i]);
@@ -35,9 +55,10 @@ t_env	env_list(char **env)
 		i++;
 		prev = prev->next;
 	}
-	envlist.len = i;
-	envlist.last = now;
-	return (envlist);
+	env_list.len = i;
+	env_list.last = now;
+	env_list.lst_exit = 0;
+	return (env_list);
 }
 
 //create single link of env_list, use split_env to assign variables

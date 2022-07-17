@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:06:47 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/16 17:40:07 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/17 19:33:11 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	builtin_parser(char *cmd, t_env *local_env)
 	if (ft_strncmp(cmd, "unset", 5) == 0 && (cmd[6] != ' ' || cmd[6] != '\0'))
 		remove_variable(cmd + 5, local_env);
 }
-
+/*
 int	final_exit(char *cmd, t_env *local_env)
 {
 	//if too many words, "bash: exit: too many arguments" and return to prompt
@@ -38,7 +38,7 @@ int	final_exit(char *cmd, t_env *local_env)
 	//free all local_env
 	//if cmd contain num after exit:
 	//exit(atoi(cmd + 4));
-	else
+	//else
 		exit (local_env->last_exit);
 }
 
@@ -74,14 +74,14 @@ int	export(char *cmd, t_env *local_env)
 
 int	unset(char *cmd, t_env *local_env)
 {}
-
+ */
 /*
 need to return int for exit status, to be used for "$?"
 all of them should use(char *cmd, t_env *local_env)
 //lookup table instead of this /\?
 //function pointer could be used because all builtins return an int and use a char* as an input1
 //(what about env?? it IS used or useful in nearly all cases, possibly to be fused with $? for exit too)
-/*
+
 Need to protect CD and PWD in case someone unset a Var before launching minishell or input in minishell
 exit//return either arg (exit (arg)) OR exit value of last action
 //should be unsigned char (0 -> 255) in any case

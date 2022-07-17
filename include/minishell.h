@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/13 16:58:15 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/17 19:22:40 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_env_link
 typedef struct s_env//maybe one more int for $?, the exit status of last command done?
 {
 	unsigned int		len;
+	unsigned int		lst_exit;
 	struct s_env_link	*first;
 	struct s_env_link	*last;
 }		t_env;
@@ -64,6 +65,7 @@ char			*ft_strdup(const char *s1);
 char			*ft_strndup(const char *s1, int j);
 
 //ENV_MAKE.C
+t_env			minimal_env(void);
 t_env			env_list(char **env);
 t_env_link		*create_link(char *envstr);
 void			split_env(char *str, t_env_link *link);
@@ -85,5 +87,8 @@ t_parsed	*parser(char *input, t_env *local_env);
 
 //BUILTINS.C
 void	builtin_parser(char *input, t_env *local_env);
+
+
+int	find_end_quote(char *str, char c);
 
 #endif

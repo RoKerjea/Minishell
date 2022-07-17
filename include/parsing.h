@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:41:23 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/16 14:46:10 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/17 19:04:00 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 typedef struct s_tok_link
 {
 	enum e_type			meta;
-	char				*str;
+	char				*str;//need to be char ** for exec, builtins and expander
 	struct s_tok_link	*next;
 	struct s_tok_link	*prev;
 }		t_tok_link;
@@ -45,7 +45,6 @@ t_tok_list	*tokenizerstart(char *input);
 void	sep_token(char *str, t_tok_list *list);
 int	strparser(t_tok_list *list, char *str);
 int	metaparser(t_tok_list *list, char *str);
-int	find_end_quote(char *str, char c);
 int	metachar_parser(char *str);
 int	meta_and_arg_size(char *str);
 enum e_type	meta_type(char *str);

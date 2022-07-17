@@ -88,8 +88,6 @@ every redirection dup is done in child process
 but verification that they exist happen before
 
 //PRIORITIES
-data for env empty and what's to update
-input quotes checker, need nothing else
 builtins do'nt need anything, and can be unified in style
 parse option -n and every combination(-nnnnnnn ------nn -n -n -n -n -n -n) for echo
 history doesn't need anything

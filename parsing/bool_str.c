@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 19:21:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/16 14:45:16 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/17 19:07:11 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,3 +56,15 @@ int syntax_checker(t_tok_list *list)
 	return (YES);
 }
 
+// find & return the length of the str between quotes c
+int find_end_quote(char *str, char c)
+{
+	int i;
+
+	printf("gate quote %s\n", str); // TEST to delete
+	i = 1;
+	while (str[i] != c && str[i] != '\0')
+		i++;
+	//what if str[i] == '\0'?? then big error for all inputstr!
+	return (i + 1);
+}
