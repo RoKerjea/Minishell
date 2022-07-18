@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:06:47 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/18 17:57:06 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/18 19:09:15 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ int	str_table_counter(char **str_table)
 	return (res);
 }
 
-int	isflag_parser(char *str)
+int	isflag_parser(char *str)//doit etre teste avant chaque str (cmd[x])
 {
 	if (str[0] == '-')
 		return (1);
 	return (0);
 }
 
-int	isflag_newline(char *str)
+int	isflag_newline(char *str)//doit uniquement etre utilise pour echo, mais avant chaque str(multiples flags possibles)
 {
 	int	i;
 

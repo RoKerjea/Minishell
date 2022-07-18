@@ -96,7 +96,8 @@ how about char** for token, field splitting?, splitting happen AFTER expand,
 	splitting in temp var to then count easily and just put in right place after?
 	if expander need to be split anyway, why not split everything at the same time?
 	so need a way to split inside char* and return char**, and then fuse all char** in one char**
-	what about join everything and then split spaces?(pb for quotes)
+	what if char **str pour token, but only str[0] is used at first?
+	then, split(str[0], ' ') ->temp, free previous char ** and replace with temp???
 quote removal(trim start and end of char* i ?)
 
 expander need to know how heredoc work
