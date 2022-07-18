@@ -101,8 +101,14 @@ how about char** for token, field splitting?, splitting happen AFTER expand,
 quote removal(trim start and end of char* i ?)
 
 expander need to know how heredoc work
+(line by line, 
+temp = expander(line, env)
+write(fd, temp, strlen(temp)))
+free(line, tmp)
+->nextline)
 $? is special expander and get return of exec and builtins(pretty much done)
 redirections need heredocs to complete
+
 signals need exec first
 error messages, last to complete because need every possibilities, but can be added one by one
 
