@@ -89,11 +89,18 @@ but verification that they exist happen before
 
 //PRIORITIES
 builtins do'nt need anything, and can be unified in style
-parse option -n and every combination(-nnnnnnn ------nn -n -n -n -n -n -n) for echo
+	parse option -n and every combination(-nnnnnnn ------nn -n -n -n -n -n -n) for echo
 history doesn't need anything
+how about char** for token, field splitting?, splitting happen AFTER expand,
+	pre word count to malloc char**precisely at first, or
+	splitting in temp var to then count easily and just put in right place after?
+	if expander need to be split anyway, why not split everything at the same time?
+	so need a way to split inside char* and return char**, and then fuse all char** in one char**
+	what about join everything and then split spaces?(pb for quotes)
+quote removal(trim start and end of char* i ?)
 
 expander need to know how heredoc work
-$? is special expander and get return of exec and builtins
+$? is special expander and get return of exec and builtins(pretty much done)
 redirections need heredocs to complete
 signals need exec first
 error messages, last to complete because need every possibilities, but can be added one by one

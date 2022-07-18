@@ -6,11 +6,42 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:06:47 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/17 19:33:11 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/18 17:57:06 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+/* 
+int	str_table_counter(char **str_table)
+{
+	int	res;
+	
+	res = 0;
+	while (str_table[res] != NULL)
+		res++;
+	return (res);
+}
+
+int	isflag_parser(char *str)
+{
+	if (str[0] == '-')
+		return (1);
+	return (0);
+}
+
+int	isflag_newline(char *str)
+{
+	int	i;
+
+	i = 0;
+	while(str[i] == '-')
+		i++;
+	while(str[i] == 'n')
+		i++;
+	if (str[i] != '\0')
+		return (0);
+	return (1);
+} */
 
 //need to present input in compatible way with parsed cmd -> char** with char[0] name of builtin
 //rajouter une ft par builtin pour verifier input format, return to keep in struct $?, et printerror
@@ -30,50 +61,105 @@ void	builtin_parser(char *cmd, t_env *local_env)
 	if (ft_strncmp(cmd, "unset", 5) == 0 && (cmd[6] != ' ' || cmd[6] != '\0'))
 		remove_variable(cmd + 5, local_env);
 }
-/*
-int	final_exit(char *cmd, t_env *local_env)
+/* 
+int	final_exit(char **cmd, t_env *local_env)
 {
-	//if too many words, "bash: exit: too many arguments" and return to prompt
-	//if not a num : "bash: exit: (cmd): numeric argument required" and exit(0) ou ($_)
+	int	status;
+
+	status = local_env->lst_exit;
+	if (str_table_counter(cmd) > 1)
+	{
+		status = ft_atoi(cmd[1]);
+		if (status == -1)
+		{
+			printf("minishell: exit: %s: numeric argument required\n", cmd[1]);
+			exit (2);
+		}
+	}
+	if (str_table_counter(cmd) > 2)
+	{
+		printf("minishell: exit: too many arguments\n");
+		return(1);
+	}
 	//free all local_env
-	//if cmd contain num after exit:
-	//exit(atoi(cmd + 4));
-	//else
-		exit (local_env->last_exit);
+	exit (status);
 }
 
-int	env(char *cmd, t_env *local_env)
+int	env(char **cmd, t_env *local_env)
 {
-	//if env cmd : "env: ‘cmd’: No such file or directory" and return(X)
-	//else printenv(local_env); and return(0)
+	if (str_table_counter(cmd) > 1) 
+	{
+		printf("env: \'%s\': No such file or directory\n", cmd[1]);
+		return(127);
+	}
+	else
+		printenv(local_env);
+	return(0);
 }
 
-int	echo(char *cmd, t_env *local_env)
+int	echo(char **cmd, t_env *local_env)
 {
-	//parse -n
-	//printf("%s", cmd + 5);
-	//printf("/n") if no -n
-	//return(0)
+	int	i;
+	int	newline;
+
+	i = 0;
+	//parse -n, i++ if
+	while (cmd[i] != NULL)
+	{
+		printf("%s", cmd[i]);
+		i++;
+	}
+	if (newline == 1)
+		printf("/n");
+	return(0);//protect write?
 }
 
-int	pwd(char *cmd, t_env *local_env)
+int	pwd(char **cmd, t_env *local_env)
 {
 	printpath();
 	return(0);
 }
 
-int	cd(char *cmd, t_env *local_env)
+int	cd(char **cmd, t_env *local_env)
 {
-	if (change_dir(cmd, local_env))
-		//probleme, return (2);
+	if (str_table_counter(cmd) > 2)
+	{
+		printf("minishell: cd: too many arguments\n");
+		return(1);
+	}
+	if (change_dir(cmd, local_env) && str_table_counter(cmd) > 1)
+	{
+		printf("minishell: cd: %s: No such file or directory\n", cmd[1]);
+		return (2);
+	}	
 	return(0);
 }
 
-int	export(char *cmd, t_env *local_env)
-{}
+int	export(char **cmd, t_env *local_env)
+{
+	int	i;
 
-int	unset(char *cmd, t_env *local_env)
-{}
+	i = 1;
+	while (cmd[i] != NULL)
+	{
+		update_variable(cmd[i], local_env);
+		i++;
+	}
+	return (0);
+}
+
+int	unset(char **cmd, t_env *local_env)
+{
+	int	i;
+
+	i = 1;
+	while (cmd[i] != NULL)
+	{
+		remove_variable(cmd[i], local_env);
+		i++;
+	}
+	return (0);
+}
  */
 /*
 need to return int for exit status, to be used for "$?"
