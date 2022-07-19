@@ -101,7 +101,7 @@ how about char** for token, field splitting?, splitting happen AFTER expand,
 quote removal(trim start and end of char* i ?)
 
 expander need to know how heredoc work
-(line by line, 
+(line by line,
 temp = expander(line, env)
 write(fd, temp, ft_strlen(temp)))
 free(line, tmp)

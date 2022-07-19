@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/17 19:27:08 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/19 11:56:35 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	input(t_env *local_env)
 		input = readline ("cmd>");//history should use this
 		printf ("//input== \"%s\"\n", input);//to del
 		//check valid input?(quotes?, empty? newline?)
+		if (*input == 0)//J'aime pas :/
+			continue;
 		if (check_input(input) == NO)//can put next steps inside actions of that if?
 		{
 			//printerror
