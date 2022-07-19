@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/17 19:03:41 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/19 15:32:00 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_tok_list *tokenizerstart(char *input)
 		destroy_token_list(token_list);
 		return (NULL);
 	}
+	//expand step here?, puis split function, unquotes and then in token assign, check redirections?
 	return (token_list);
 }
 
@@ -81,7 +82,6 @@ int strparser(t_tok_list *list, char *str)
 	{
 		if (str[i] == '\'' || str[i] == '\"')
 			i += find_end_quote(str + i, str[i]);
-			//protect unclosed quotes?? or check earlier for quotes?
 		else
 			i++;
 	}
@@ -125,8 +125,6 @@ enum e_type	meta_type(char *str)
 	else
 		return (FAIL);
 }
-
-
 
 // fnd & return the length of meta token, from the metachar,
 // to the end of it's arg, if any

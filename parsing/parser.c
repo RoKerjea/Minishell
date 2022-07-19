@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/16 15:07:47 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/19 15:33:07 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ t_parsed_cmd	*make_parsed_link(t_temp *temp)
 
 	link = malloc(sizeof(t_parsed_cmd));
 	//prot
-	link->cmd_args = get_args(temp->cmd_list_first);
+	link->cmd_args = get_args(temp->cmd_list_first); 
 	link->exec_type = get_type(link->cmd_args);
 	link->redir_in = NULL;
 	link->heredoc = NULL;
@@ -100,7 +100,7 @@ t_parsed_cmd	*make_parsed_link(t_temp *temp)
 	if (temp->in_list_first != NULL)
 	{
 		if (temp->in_list_first->meta == IN)
-			link->redir_in = temp->in_list_first->str;
+			link->redir_in = temp->in_list_first->str;//need to do the access and open tests here! for each ones, and delete the other too
 		if (temp->in_list_first->meta == HEREDOC)
 			link->heredoc = temp->in_list_first->str;
 	}
@@ -150,6 +150,7 @@ int	is_builtins(char *cmd)
 
 //get str of list of token of similar types in a single char **str
 //maybe same function should get fd type list in final link?
+//expand, split,unquotes here?
 char	**get_args(t_tok_link *token)
 {
 	char	**res;
