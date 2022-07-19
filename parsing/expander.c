@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/16 15:27:06 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/19 11:20:56 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,25 +145,24 @@ could i tokenize a full string and only then expand it?
 what if $VAR doesn't exist? $"$VAR", 
 !! if $VAR doesn't exist, $VAR is deleted, can just parse from left to right then?
 */
-/*4 cas de "$x" a parser:
+/*3 cas de "$x" a parser:
 x = EXIST -> content
 x = WRONG -> "" (empty)
-x = ' -> $ is deleted
-x = " -> $ is a char forever in THIS minishell
+x = '  || x == " -> $ is deleted (and then, quotes will be deleted)
 
 if $", $ is a char,
 if $', $ is deleted,
 if $WRONG, all of it mean ""
 
 echo $"rfrgrg"
-$rfrgrg
+rfrgrg
 
-diff de :
+same as :
 
 echo $'rfrgrg'
 rfrgrg
 
-et diff de
+but diff from
 
 echo $rfrgrg
 (print rien "")"
