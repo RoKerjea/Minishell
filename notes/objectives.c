@@ -90,7 +90,6 @@ but verification that they exist happen before
 //PRIORITIES
 builtins do'nt need anything, and can be unified in style
 	parse option -n and every combination(-nnnnnnn ------nn -n -n -n -n -n -n) for echo
-history doesn't need anything
 how about char** for token, field splitting?, splitting happen AFTER expand,
 	pre word count to malloc char**precisely at first, or
 	splitting in temp var to then count easily and just put in right place after?
@@ -106,7 +105,7 @@ temp = expander(line, env)
 write(fd, temp, ft_strlen(temp)))
 free(line, tmp)
 ->nextline)
-update 
+update
 expand first str change cmd that will be executed(bash> $VAR, exec what's VAR after expansion)
 $? is special expander and get return of exec and builtins(pretty much done)
 redirections need heredocs to complete
@@ -138,4 +137,6 @@ but maybe parsing need to determine beginning and end of AND-OR list ?
 (struct of str command with an option and a number to say
 "this cmd is linked to this command by operator xx"?)
 Your shell considers a return value of 0 for true, other positive numbers for false
+
+Need binary tree!
 */

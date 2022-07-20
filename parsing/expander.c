@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/19 11:20:56 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/20 19:19:16 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,6 @@
 
 //expander function, to be used after tokenizer but before parser
 //send input str back but with $VAR replaced by its content in env
-
-/* void	expander_loop(char **char_tab, t_env *local_env)
-{
-	int	i;
-
-	i = 0;
-	while(char_tab[i] != NULL)
-	{
-		expander(char_tab[i], local_env);
-		i++;
-	}
-} */
-
 void	token_expander(t_tok_list *list, t_env *local_env)
 {
 	t_tok_link	*token;
@@ -61,7 +48,7 @@ char	*expander(char *str, t_env *local_env)
 		if (str[i] == '\"')
 			quote *= -1;//pas tres beau, mais ca signale si on est a l'interieur de "" ou non (-1 exterieur, 1 interieur)
 		if (str[i] == '\'' && quote == -1)
-			i += find_end_quote(str + i, '\'');//FUCK, si les ' sont entre des "" actifs, ils ne comptent pas!
+			i += find_end_quote(str + i, '\'');//si les ' sont entre des "" actifs, ils ne comptent pas!
 		else if (str[i] == '$')
 		{
 			i += expand_res(str, i, local_env, res);
@@ -99,6 +86,7 @@ char *get_var_content(char *str, t_env *local_env)
 	
 	name = extract_name(str);
 	//parsename for particular cases ($" and $') and their return
+	//what if name start by $ or other metachar?(error)
 	res = ft_strdup(get_env_var(name, local_env));
 	free (name);
 	return (res);
@@ -148,11 +136,7 @@ what if $VAR doesn't exist? $"$VAR",
 /*3 cas de "$x" a parser:
 x = EXIST -> content
 x = WRONG -> "" (empty)
-x = '  || x == " -> $ is deleted (and then, quotes will be deleted)
-
-if $", $ is a char,
-if $', $ is deleted,
-if $WRONG, all of it mean ""
+x = ' || x == " -> $ is deleted (and then, quotes will be deleted)
 
 echo $"rfrgrg"
 rfrgrg
@@ -166,10 +150,13 @@ but diff from
 
 echo $rfrgrg
 (print rien "")"
-"$foo" make a SINGLE str, even with spaces inside
-while
-$foo make AS MANY str as spaces separator +1 (foo="arg1 arg2" give two separate str)
-(it's just the space as str sep in normal cases and quotes are single str rules!)
+
+is managed in field splitting + quote remover
+	"$foo" make a SINGLE str, even with spaces inside
+	while
+	$foo make AS MANY str as spaces separator +1 (foo="arg1 arg2" give two separate str)
+	(it's just the space as str sep in normal cases and quotes are single str rules!)
+
 ! TO TEST: "$ "; "$"
 
 is $$ an env variable? NON, donc pas a gerer, et a transformer en ""! (delete)

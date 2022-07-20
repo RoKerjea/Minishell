@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/19 15:32:00 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/20 19:02:48 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,14 @@ int metaparser(t_tok_list *list, char *str)
 }
 
 // identify the type of redirection the current token is
-enum e_type	meta_type(char *str)
+enum e_type	meta_type(char *str)//maybe add a type for heredoc with '' present? and identify it in strncmp
 {
 	if (strncmp(str, "<<", 2) == 0)
+	{/* 
+		if (is_not_expand(str) == 0)
+			return (HEREDOC_SGL_QUOTE); */
 		return (HEREDOC);
+	}
 	if (strncmp(str, "<", 1) == 0)
 		return (IN);
 	if (strncmp(str, ">>", 2) == 0)
