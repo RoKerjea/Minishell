@@ -99,13 +99,14 @@ how about char** for token, field splitting?, splitting happen AFTER expand,
 	what if char **str pour token, but only str[0] is used at first?
 	then, split(str[0], ' ') ->temp, free previous char ** and replace with temp???
 quote removal(trim start and end of char* i ?)
-redirections(after expansion, field split, unquotes) 
+redirections(after expansion, field split, unquotes)
 expander need to know how heredoc work
 (line by line,
 temp = expander(line, env)
 write(fd, temp, ft_strlen(temp)))
 free(line, tmp)
 ->nextline)
+update 
 expand first str change cmd that will be executed(bash> $VAR, exec what's VAR after expansion)
 $? is special expander and get return of exec and builtins(pretty much done)
 redirections need heredocs to complete
