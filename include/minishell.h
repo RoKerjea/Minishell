@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/17 19:22:40 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/20 20:14:21 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ char			*ft_strdup(const char *s1);
 char			*ft_strndup(const char *s1, int j);
 
 //ENV_MAKE.C
-t_env			minimal_env(void);
-t_env			env_list(char **env);
+t_env			*minimal_env(void);
+t_env			*env_list(char **env);
 t_env_link		*create_link(char *envstr);
 void			split_env(char *str, t_env_link *link);
 void			forgelink(t_env_link *prev, t_env_link *now);

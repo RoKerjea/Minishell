@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/19 14:54:00 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/20 20:20:24 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	input(t_env *local_env)
 int	main(int argc, char **argv, char **env)
 {
 	int		status;
-	t_env	local_env;
+	t_env	*local_env;
 
 	if (!argc || !argv)
 		return (0);
@@ -83,7 +83,7 @@ int	main(int argc, char **argv, char **env)
 	printf("Starting Shell\n");// to del
 	while (status != 0)
 	{
-		status = input(&local_env);
+		status = input(local_env);
 	}	
 	//free and destroy everything before process end
 	return (status);

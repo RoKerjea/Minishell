@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 22:10:02 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/03 19:04:44 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/20 20:26:40 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	update_variable(char *str, t_env *env_list)
 //for expand functionality during parsing
 char	*get_env_var(char *name, t_env *env_list)
 {
+	printf ("getenvvar\n");
 	t_env_link	*link;
 
 	link = find_link(name, env_list);
@@ -103,6 +104,7 @@ char	*get_env_var(char *name, t_env *env_list)
 //for env_update, export, expand, cd, pwd, etc
 t_env_link	*find_link(char *var_name, t_env *env_list)
 {
+	printf ("getlinkr\n");
 	t_env_link		*link;
 
 	link = env_list->first;

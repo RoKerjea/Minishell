@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:06:47 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/19 14:59:41 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/20 20:25:18 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	isflag_newline(char *str)//doit uniquement etre utilise pour echo, mais avan
 //rajouter une ft par builtin pour verifier input format, return to keep in struct $?, et printerror
 void	builtin_parser(char *cmd, t_env *local_env)
 {
+	printf ("builtin\n");
 	//if (ft_strncmp(cmd, "echo", 4) == 0 && (cmd[4] == ' ' || cmd[4] == '\0'))
 	if (ft_strncmp(cmd, "exit", 4) == 0 && (cmd[4] == ' ' || cmd[4] == '\0'))//need function for exit arg or last exit status
 		exit (0);
@@ -57,7 +58,7 @@ void	builtin_parser(char *cmd, t_env *local_env)
 	if (ft_strncmp(cmd, "cd", 2) == 0 && (cmd[2] == ' ' || cmd[2] == '\0'))
 		change_dir(cmd, local_env);
 	if (ft_strncmp(cmd, "export", 6) == 0 && (cmd[7] != ' ' || cmd[7] != '\0'))
-		update_variable(cmd + 6, local_env);//need to trim spaces if there are any, at the beginning
+		update_variable(cmd + 7, local_env);//need to trim spaces if there are any, at the beginning
 	if (ft_strncmp(cmd, "unset", 5) == 0 && (cmd[6] != ' ' || cmd[6] != '\0'))
 		remove_variable(cmd + 5, local_env);
 }

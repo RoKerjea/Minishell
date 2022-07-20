@@ -18,6 +18,7 @@ SRCS		=	${addprefix parsing/, \
 				bool_str.c \
 				tokenizer.c \
 				token_assign.c \
+				expander.c \
 				parser.c \
 				parsing_struct.c \
 				print_parsed.c \

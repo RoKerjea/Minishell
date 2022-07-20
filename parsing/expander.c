@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/20 19:19:16 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/20 20:39:17 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,13 @@ void	token_expander(t_tok_list *list, t_env *local_env)
 	token = list->first;
 	while (token != NULL)
 	{
-		expanded = expander(token->str, local_env);
-		//protect
-		free (token->str);
+		printf ("gateexpandtok\n");
+		if (strchr(token->str, '$') != 0)
+		{
+			expanded = expander(token->str, local_env);
+			//protect
+			free (token->str);
+		}
 		token->str = expanded;
 		token = token->next;
 	}
@@ -34,15 +38,17 @@ void	token_expander(t_tok_list *list, t_env *local_env)
 
 char	*expander(char *str, t_env *local_env)
 {
+	printf ("gateexpander\n");
 	unsigned int	i;
 	unsigned int	last_var;
-	unsigned int	quote;
+	int				quote;
 	char			*res;
 	char			*temp;
 	
 	quote = -1;
 	i = 0;
-	res = "";
+	res = malloc(1);
+	res[0] = '\0';
 	while (str[i] != '\0')
 	{
 		if (str[i] == '\"')
@@ -51,59 +57,74 @@ char	*expander(char *str, t_env *local_env)
 			i += find_end_quote(str + i, '\'');//si les ' sont entre des "" actifs, ils ne comptent pas!
 		else if (str[i] == '$')
 		{
-			i += expand_res(str, i, local_env, res);
+			
+			res = expand_res(str, i, local_env);
+			i += wordlen(str + i);
 			last_var = i;
 		}
 		else
 			i++;
 	}
+	printf ("gateexpandedres res = %s\n", res);
 	temp = ft_strjoin(res, ft_strdup(str + last_var));
 	free (res);
 	res = temp;
 	//make an strdup of whats AFTER last variable, and join(res, laststr);
+	printf ("expanded str = %s\n", res);
 	return (res);
 }
 
-int	expand_res(char *str, int i, t_env *local_env, char *res)
+int	expand_res(char *str, int i, t_env *local_env)
 {
+	printf ("gateexpandres\n");
 	char	*str1;
 	char	*str2;
+	char	*res;
 
 	str1 = ft_strndup(str, i - 1);
 	str2 = get_var_content(str + i, local_env);
-	if (ft_strlen(res) > 0)
-		free (res);
+	printf ("gateexpandres2, str1 = %s, str2 = %s\n", str1, str2);
 	res = ft_strjoin(str1, str2);
 	free (str1);
 	free (str2);
-	return (wordlen(str + i));
+	printf ("gateexpandres res = %s\n", res);
+	return (res);
 }
 
-char *get_var_content(char *str, t_env *local_env)
+char	*get_var_content(char *str, t_env *local_env)
 {
+	printf ("gategetvar\n");
 	char	*res;
 	char	*name;
 	
 	name = extract_name(str);
+	printf ("gategetvar2, name = %s\n", name);
 	//parsename for particular cases ($" and $') and their return
 	//what if name start by $ or other metachar?(error)
-	res = ft_strdup(get_env_var(name, local_env));
+	t_env_link		*link;
+	link = find_link(name, local_env);
+	if (link == NULL)
+		return (NULL);
+	printf ("gategetvar4, content of var = %s\n", link->variable);
+	res = ft_strdup(link->variable);
 	free (name);
 	return (res);
 }
 
 char	*extract_name(char *str)
 {
+	printf ("gateextract\n");
 	char	*name;
 	int	i;
 	
 	i = wordlen(str);
-	name = ft_strndup(str, i);
+	name = ft_strndup(str + 1, i);
 	return (name);
 }
 
 int	wordlen(char *str)
 {
+	printf ("gatelen\n");
 	int	i;
 	
 	i = 0;
