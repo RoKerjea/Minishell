@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/19 15:33:07 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/20 17:32:34 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ t_parsed	*parser(char *input, t_env *local_env)
 	
 	list = tokenizerstart(input);
 	print_token(list);
-	//expander replace in every str in every link of list
-	//bash: $TEST: ambiguous redirect if TEST="file1 file2"
-	//means parse step after expander wich is after tokenizer
-	//token_expander(list, local_env);
+	//expander loop here? replace in every str in every link of list
+	//bash: $TEST: ambiguous redirect if TEST="file1 file2", in, redirection step in parser probably
+	//means parse step after expander wich is after tokenizer, yup
+	//token_expander(list, local_env); //HERE
 	printf ("gate0\n");
 	temp = token_sorter(list);
 	print_temp_list(temp);
@@ -91,7 +91,7 @@ t_parsed_cmd	*make_parsed_link(t_temp *temp)
 
 	link = malloc(sizeof(t_parsed_cmd));
 	//prot
-	link->cmd_args = get_args(temp->cmd_list_first); 
+	link->cmd_args = get_args(temp->cmd_list_first);
 	link->exec_type = get_type(link->cmd_args);
 	link->redir_in = NULL;
 	link->heredoc = NULL;
@@ -150,7 +150,7 @@ int	is_builtins(char *cmd)
 
 //get str of list of token of similar types in a single char **str
 //maybe same function should get fd type list in final link?
-//expand, split,unquotes here?
+//expand, split,unquotes here?NO, only fusion of multiple char** TODO
 char	**get_args(t_tok_link *token)
 {
 	char	**res;
@@ -160,13 +160,16 @@ char	**get_args(t_tok_link *token)
 	i = 0;
 	num = token_count(token);
 	res = malloc (sizeof(char *) * (num + 1));
+	//res = token->str;
 	//prot
 	while (token != NULL)//can get rid of num?
 	{
 		res[i] = ft_strdup(token->str);
 		//protect
+		//res = char_tab_fuser(res, token->str);
 		i++;
 		token = token->next;
+		//del previous token here ?
 	}
 	res[i] = NULL;
 	return (res);

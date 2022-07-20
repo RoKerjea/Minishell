@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:35:17 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/20 16:04:25 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/20 17:12:58 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	**field_splitter(char const *s, char c)
 	return (res);
 }
 
-char **char_tab_connector(char **str1, char **str2)
+char **char_tab_fuser(char **str1, char **str2)
 {
 	char **res;
 	int i;
