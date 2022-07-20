@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/20 20:39:17 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/20 23:07:05 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	token_expander(t_tok_list *list, t_env *local_env)
 	token = list->first;
 	while (token != NULL)
 	{
-		printf ("gateexpandtok\n");
 		if (strchr(token->str, '$') != 0)
 		{
 			expanded = expander(token->str, local_env);
@@ -36,9 +35,72 @@ void	token_expander(t_tok_list *list, t_env *local_env)
 	}
 }
 
+/*si split(str, '$')
+then, expand first word after *str[0]
+replace,
+rejoin all??
+*/
+char	*prototype(char *str, t_env *local_env)
+{
+	char *res;
+	int	i;
+	t_word	*wordlink;
+	t_word	*firstword;
+
+	i = 0;
+	j = 0
+	wordlink = make_word_link(str, ft_strlen(str));
+	firstword = wordlink;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '\"')
+			quote *= -1;//pas tres beau, mais ca signale si on est a l'interieur de "" ou non (-1 exterieur, 1 interieur)
+		if (str[i] == '\'' && quote == -1)
+			i += find_end_quote(str + i, '\'');//si les ' sont entre des "" actifs, ils ne comptent pas!
+		else if (str[i] == '$')
+		{
+			wordlink = make_add_wordlink(str, i - j, wordlink);
+			wordlink = make_add_wordlink(str + i, wordlen(str + i), wordlink);
+			i += wordlen(str + i);
+			j = i;
+		}
+		else
+			i++;
+	}
+	if (j != i)
+		wordlink = make_add_wordlink(str, i - j, wordlink);
+	res = fuse_and_clean(firstword);
+	return (res);
+}
+
+char	*fuse_and_clean(t_word *wordlink)
+{
+	//loop of expander
+	//res = loop of fuse, starting from second;
+	//loop of destroy, starting from first;
+	return (res);
+}
+
+t_word	*make_word_link(char *str, int len)
+{
+	t_word	*wordlink;
+
+	wordlink = malloc(sizeof(t_word));
+	wordlink->word = strndup(str, len);
+	wordlink->next = NULL;
+}
+
+t_word	*make_add_wordlink(char *str, int len, t_word *prevword)
+{
+	t_word	*now_word;
+
+	now_word = make_word_link(str, len);
+	prevword->next = now_word;
+	return (now_word);
+}
+/* 
 char	*expander(char *str, t_env *local_env)
 {
-	printf ("gateexpander\n");
 	unsigned int	i;
 	unsigned int	last_var;
 	int				quote;
@@ -57,31 +119,33 @@ char	*expander(char *str, t_env *local_env)
 			i += find_end_quote(str + i, '\'');//si les ' sont entre des "" actifs, ils ne comptent pas!
 		else if (str[i] == '$')
 		{
-			
-			res = expand_res(str, i, local_env);
+			printf ("gateexpandres %d\n", i);
+			res = expand_res(str, i, local_env, res);
 			i += wordlen(str + i);
 			last_var = i;
+			temp = ft_strjoin(res, ft_strdup(str + last_var));
+			free (res);
+			res = temp;
 		}
 		else
 			i++;
 	}
 	printf ("gateexpandedres res = %s\n", res);
-	temp = ft_strjoin(res, ft_strdup(str + last_var));
+ 	temp = ft_strjoin(res, ft_strdup(str + last_var));
 	free (res);
-	res = temp;
+	res = temp; 
 	//make an strdup of whats AFTER last variable, and join(res, laststr);
 	printf ("expanded str = %s\n", res);
 	return (res);
 }
 
-int	expand_res(char *str, int i, t_env *local_env)
+char	*expand_res(char *str, int i, t_env *local_env, char *res)
 {
-	printf ("gateexpandres\n");
 	char	*str1;
 	char	*str2;
-	char	*res;
+	//char	*res;
 
-	str1 = ft_strndup(str, i - 1);
+	str1 = res;
 	str2 = get_var_content(str + i, local_env);
 	printf ("gateexpandres2, str1 = %s, str2 = %s\n", str1, str2);
 	res = ft_strjoin(str1, str2);
@@ -90,10 +154,9 @@ int	expand_res(char *str, int i, t_env *local_env)
 	printf ("gateexpandres res = %s\n", res);
 	return (res);
 }
-
+ */
 char	*get_var_content(char *str, t_env *local_env)
 {
-	printf ("gategetvar\n");
 	char	*res;
 	char	*name;
 	
@@ -113,18 +176,16 @@ char	*get_var_content(char *str, t_env *local_env)
 
 char	*extract_name(char *str)
 {
-	printf ("gateextract\n");
 	char	*name;
 	int	i;
 	
 	i = wordlen(str);
-	name = ft_strndup(str + 1, i);
+	name = ft_strndup(str + 1, i - 1);
 	return (name);
 }
 
 int	wordlen(char *str)
 {
-	printf ("gatelen\n");
 	int	i;
 	
 	i = 0;

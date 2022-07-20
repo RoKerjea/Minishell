@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:41:23 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/20 19:50:03 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/20 22:55:06 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,12 @@ typedef struct s_temp
 	struct s_temp	*next;
 }	t_temp;
 
+typedef	struct	s_word
+{
+	char	*word;
+	t_words	*next;
+}				t_word;
+
 //TOKENIZER.C
 t_tok_list	*tokenizerstart(char *input);
 void	sep_token(char *str, t_tok_list *list);
@@ -72,7 +78,7 @@ void		destroy_token_list(t_tok_list *list);
 //EXPANDER.C
 void	token_expander(t_tok_list *list, t_env *local_env);
 char	*expander(char *str, t_env *local_env);
-int	expand_res(char *str, int i, t_env *local_env, char *res);
+char	*expand_res(char *str, int i, t_env *local_env, char *res);
 char	*get_var_content(char *str, t_env *local_env);
 char	*extract_name(char *str);
 int	wordlen(char *str);

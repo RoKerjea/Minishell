@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/20 20:11:25 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/20 22:24:22 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,17 @@ t_parsed	*parser(char *input, t_env *local_env)
 	//expander loop here? replace in every str in every link of list
 	//bash: $TEST: ambiguous redirect if TEST="file1 file2", in, redirection step in parser probably
 	//means parse step after expander wich is after tokenizer, yup
-	printf ("gate01\n");
+	//printf ("gate01\n");
 	token_expander(list, local_env); //HERE
-	printf ("gate02\n");
+	//printf ("gate02\n");
 	//field splitter step
 	//quote remover step
-	printf ("gate0\n");
+	//printf ("gate0\n");
 	temp = token_sorter(list);
 	print_temp_list(temp);
-	printf ("gate1\n");
+	//printf ("gate1\n");
 	parsed_list = list_parser(temp);
-	printf ("gate2\n");
+	//printf ("gate2\n");
 	print_parsed_list(parsed_list->first);
 	//return (parsed_list);
 	return (NULL);
@@ -69,7 +69,7 @@ t_parsed	*list_parser(t_temp *temp)
 
 	parsed_list = malloc(sizeof(t_parsed));
 	parsed_list->len = 1;
-	printf ("gate3\n");
+	//printf ("gate3\n");
 	parsed_list->first = make_parsed_link(temp);
 	parsed_list->last = parsed_list->first;
 	//destroy temp struct
@@ -91,7 +91,7 @@ t_parsed	*list_parser(t_temp *temp)
 //!neeed a complete step of redirection parsing and only returning one for in and out at maximum
 t_parsed_cmd	*make_parsed_link(t_temp *temp)
 {
-	printf ("gate4\n");
+	//printf ("gate4\n");
 	t_parsed_cmd	*link;
 
 	link = malloc(sizeof(t_parsed_cmd));
