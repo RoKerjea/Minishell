@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:41:23 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/20 22:55:06 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/21 16:54:49 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_temp
 typedef	struct	s_word
 {
 	char	*word;
-	t_words	*next;
+	struct s_word	*next;
 }				t_word;
 
 //TOKENIZER.C
@@ -82,6 +82,10 @@ char	*expand_res(char *str, int i, t_env *local_env, char *res);
 char	*get_var_content(char *str, t_env *local_env);
 char	*extract_name(char *str);
 int	wordlen(char *str);
+struct	s_word	*make_add_wordlink(char *str, int len, struct	s_word *prevword);
+struct	s_word	*make_word_link(char *str, int len);
+char	*fuse_and_clean(struct	s_word *wordlink, t_env *local_env);
+char	*prototype(char *str, t_env *local_env);
 
 //BOOL_STR.C
 int	ft_isspace(char c);

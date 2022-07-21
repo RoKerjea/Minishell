@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/20 23:07:05 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/21 17:28:05 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void	token_expander(t_tok_list *list, t_env *local_env)
 	{
 		if (strchr(token->str, '$') != 0)
 		{
-			expanded = expander(token->str, local_env);
+			expanded = prototype(token->str, local_env);
 			//protect
-			free (token->str);
+			//free (token->str);
 		}
 		token->str = expanded;
 		token = token->next;
@@ -42,13 +42,17 @@ rejoin all??
 */
 char	*prototype(char *str, t_env *local_env)
 {
+	printf ("gateprototype01 \n");
 	char *res;
 	int	i;
+	int	j;
 	t_word	*wordlink;
 	t_word	*firstword;
+	int				quote;
 
+	quote = -1;
 	i = 0;
-	j = 0
+	j = 0;
 	wordlink = make_word_link(str, ft_strlen(str));
 	firstword = wordlink;
 	while (str[i] != '\0')
@@ -59,40 +63,93 @@ char	*prototype(char *str, t_env *local_env)
 			i += find_end_quote(str + i, '\'');//si les ' sont entre des "" actifs, ils ne comptent pas!
 		else if (str[i] == '$')
 		{
-			wordlink = make_add_wordlink(str, i - j, wordlink);
+			if (i > j)
+				wordlink = make_add_wordlink(str, i - j, wordlink);
 			wordlink = make_add_wordlink(str + i, wordlen(str + i), wordlink);
 			i += wordlen(str + i);
 			j = i;
+			printf ("gateprototype02 \n");
 		}
 		else
 			i++;
 	}
 	if (j != i)
 		wordlink = make_add_wordlink(str, i - j, wordlink);
-	res = fuse_and_clean(firstword);
+	res = fuse_and_clean(firstword, local_env);
 	return (res);
 }
 
-char	*fuse_and_clean(t_word *wordlink)
+char	*fuse_and_clean(struct	s_word *wordlink, t_env *local_env)
 {
-	//loop of expander
-	//res = loop of fuse, starting from second;
-	//loop of destroy, starting from first;
+	printf ("gatefuseclean01 \n");
+	struct	s_word	*firstword;
+	char	*temp;
+	char	*res;
+
+	res = malloc(1);
+	res[0] = '\0';
+	firstword = wordlink;
+	while (wordlink != NULL)
+	{
+		printf ("word in curr link = %s \n", wordlink->word);
+		wordlink = wordlink->next;
+	}
+	wordlink = firstword->next;
+	while (wordlink != NULL)	//loop of expander
+	{
+		if (wordlink->word[0] == '$')
+		{
+			temp = get_var_content(wordlink->word, local_env);
+			free (wordlink->word);
+			wordlink->word = temp;
+			if (wordlink->word == NULL)
+			{
+				wordlink->word = malloc(1);
+				wordlink->word[0] = '\0';
+			}
+		}
+		wordlink = wordlink->next;
+	}
+	printf ("gatefuseclean02 \n");
+	wordlink = firstword;
+	while (wordlink != NULL)
+	{
+		printf ("word in curr link after exp = %s \n", wordlink->word);
+		wordlink = wordlink->next;
+	}
+	wordlink = firstword->next;
+	while (wordlink != NULL)//res = loop of fuse, starting from second;
+	{
+		temp = ft_strjoin(res, wordlink->word);
+		free (res);
+		res = temp;
+		wordlink = wordlink->next;
+	}
+/* 	wordlink = firstword->next;
+	struct	s_word	*tempword;
+ 	while (wordlink != NULL)//loop of destroy, starting from first;
+	{
+		tempword = wordlink;
+		free (wordlink->word);
+		free (wordlink);
+		wordlink = tempword->next;
+	} */
 	return (res);
 }
 
-t_word	*make_word_link(char *str, int len)
+struct	s_word	*make_word_link(char *str, int len)
 {
-	t_word	*wordlink;
+	struct	s_word	*wordlink;
 
-	wordlink = malloc(sizeof(t_word));
+	wordlink = malloc(sizeof(struct	s_word));
 	wordlink->word = strndup(str, len);
 	wordlink->next = NULL;
+	return (wordlink);
 }
 
-t_word	*make_add_wordlink(char *str, int len, t_word *prevword)
+struct	s_word	*make_add_wordlink(char *str, int len, struct	s_word *prevword)
 {
-	t_word	*now_word;
+	struct	s_word	*now_word;
 
 	now_word = make_word_link(str, len);
 	prevword->next = now_word;

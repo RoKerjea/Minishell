@@ -46,7 +46,7 @@ CC			= gcc $(CFLAGS)
 OBJECTS = $(subst /,/build/,${SRCS:.c=.o})
 DEPEND	= ${OBJECTS:.o=.d}
 
-CFLAGS		= -Wall -Werror -Wextra
+CFLAGS		= -Wall -Werror -Wextra -g3 #-fsanitize=address
 
 all:	$(NAME)
 
