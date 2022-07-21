@@ -1,18 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Version_minishell.h                                :+:      :+:    :+:   */
+/*   unquoter.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/18 18:58:11 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/18 18:58:12 by rokerjea         ###   ########.fr       */
+/*   Created: 2022/07/21 19:37:22 by rokerjea          #+#    #+#             */
+/*   Updated: 2022/07/21 19:37:54 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VERSION_MINISHELL_H
-# define VERSION_MINISHELL_H
-# define MAJOR_VERSION "0"
-# define MINOR_VERSION "56"
-# define BUILD_DATE "21 07 2022 20h01 CEST"
-#endif
+#include "../include/parsing.h"
+
+unquoter_loop()

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:41:23 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/21 16:54:49 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/21 19:27:08 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 typedef struct s_tok_link
 {
 	enum e_type			meta;
-	char				*str;//need to be char ** for exec, builtins and expander
+	char				**str;//need to be char ** for exec, builtins and expander
 	struct s_tok_link	*next;
 	struct s_tok_link	*prev;
 }		t_tok_link;

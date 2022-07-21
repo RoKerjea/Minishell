@@ -88,7 +88,7 @@ every redirection dup is done in child process
 but verification that they exist happen before
 
 //PRIORITIES
-builtins do'nt need anything, and can be unified in style
+builtins don't need anything, and can be unified in style
 	parse option -n and every combination(-nnnnnnn ------nn -n -n -n -n -n -n) for echo
 how about char** for token, field splitting?, splitting happen AFTER expand,
 	pre word count to malloc char**precisely at first, or

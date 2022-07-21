@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/20 19:02:48 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/21 19:35:59 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,9 @@ int strparser(t_tok_list *list, char *str)
 			i++;
 	}
 	printf("str in strparse == \"%s\", strlen = %d\n", str, i); // TEST to delete
-	link->str = ft_strndup(str, i);
+	link->str = malloc(sizeof(char *) * 2);
+	link->str[0] = ft_strndup(str, i);
+	link->str[1] = 0;
 	//protect
 	printf("str made == \"%s\"\n", link->str); // TEST to delete
 	link->meta = CMD;
@@ -103,7 +105,9 @@ int metaparser(t_tok_list *list, char *str)
 	link = make_add_link(list);
 	i += metachar_parser(str);
 	printf("str in metaparse == \"%s\", strlen = %d\n", str, i); // TEST to delete
-	link->str = ft_strndup(str, i);
+	link->str = malloc(sizeof(char *) * 2);
+	link->str[0] = ft_strndup(str, i);
+	link->str[1] = 0;
 	//protect
 	link->meta = meta_type(link->str);
 	return (i);

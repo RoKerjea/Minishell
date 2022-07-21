@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/20 22:24:22 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/21 19:29:07 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_parsed	*parser(char *input, t_env *local_env)
 	//printf ("gate01\n");
 	token_expander(list, local_env); //HERE
 	//printf ("gate02\n");
-	//field splitter step
+	token_splitter(*list);
 	//quote remover step
 	//printf ("gate0\n");
 	temp = token_sorter(list);
