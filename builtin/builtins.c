@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:06:47 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/20 20:25:18 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/21 22:29:05 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	isflag_newline(char *str)//doit uniquement etre utilise pour echo, mais avan
 
 //need to present input in compatible way with parsed cmd -> char** with char[0] name of builtin
 //rajouter une ft par builtin pour verifier input format, return to keep in struct $?, et printerror
-void	builtin_parser(char *cmd, t_env *local_env)
+int	builtin_parser(char **cmd, t_env *local_env)
 {
 	printf ("builtin\n");
 	//if (ft_strncmp(cmd, "echo", 4) == 0 && (cmd[4] == ' ' || cmd[4] == '\0'))
@@ -136,7 +136,7 @@ int	cd(char **cmd, t_env *local_env)
 	return(0);
 }
 
-int	export(char **cmd, t_env *local_env)
+int	env_export(char **cmd, t_env *local_env)
 {
 	int	i;
 
@@ -150,7 +150,7 @@ int	export(char **cmd, t_env *local_env)
 	return (0);
 }
 
-int	unset(char **cmd, t_env *local_env)
+int	env_unset(char **cmd, t_env *local_env)
 {
 	int	i;
 

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/20 20:14:21 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/21 22:29:04 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int				change_dir(char *str, t_env *env_list);
 t_parsed	*parser(char *input, t_env *local_env);
 
 //BUILTINS.C
-void	builtin_parser(char *input, t_env *local_env);
+int	builtin_parser(char **input, t_env *local_env);
 
 
 int	find_end_quote(char *str, char c);

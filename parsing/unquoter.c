@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 19:37:22 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/21 21:05:33 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/21 21:06:43 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,21 +75,6 @@ char	*unquoter(char *str)
 	return (str);
 }
 
-char	*ft_strdup(const char *s1)
-{
-	char	*s2;
-	int		i;
-
-	i = 0;
-	s2 = malloc(sizeof(char) * (strlen(s1) + 1));
-	while (s1[i])
-	{
-		s2[i] = s1[i];
-		i++;
-	}
-	s2[i] = '\0';
-	return (s2);
-}
 /* 
 int	main(void)
 {

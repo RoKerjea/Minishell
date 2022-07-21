@@ -1,18 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Version_minishell.h                                :+:      :+:    :+:   */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/18 18:58:11 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/18 18:58:12 by rokerjea         ###   ########.fr       */
+/*   Created: 2022/07/21 22:19:13 by rokerjea          #+#    #+#             */
+/*   Updated: 2022/07/21 22:27:50 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VERSION_MINISHELL_H
-# define VERSION_MINISHELL_H
-# define MAJOR_VERSION "0"
-# define MINOR_VERSION "59"
-# define BUILD_DATE "21 07 2022 22h29 CEST"
+#ifndef BUILTINS_H
+# define BUILTINS_H
+
+int	final_exit(char **cmd, t_env *local_env);
+int	env(char **cmd, t_env *local_env);
+int	echo(char **cmd, t_env *local_env);
+int	pwd(char **cmd, t_env *local_env);
+int	cd(char **cmd, t_env *local_env);
+int	env_export(char **cmd, t_env *local_env);
+int	env_unset(char **cmd, t_env *local_env);
+
+int (*built[7]) (char **cmd, t_env *local_env);
+
 #endif
