@@ -6,23 +6,12 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 19:37:22 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/21 20:21:21 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/21 21:05:33 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parsing.h"
 
-int find_end_quote(char *str, char c)
-{
-	int i;
-
-	printf("gate quote %s\n", str); // TEST to delete
-	i = 1;
-	while (str[i] != c && str[i] != '\0')
-		i++;
-	//what if str[i] == '\0'?? then big error for all inputstr!
-	return (i + 1);
-}
 
 int	unquoter_loop(t_tok_list *list)
 {
@@ -49,28 +38,65 @@ int	unquote_link(t_tok_link *link)
 	}
 }
 
+int	squash(char *str, int start)
+{
+	int	i;
+	
+	i = start + 1;
+	printf("gatesquash %d\n", start);
+	while (str[i] != '\0')
+	{
+		str[i - 1] = str[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (0);
+}
+
 char	*unquoter(char *str)
 {
 	int	i;
+	int	mem;
 
 	i = 0;
+	mem = 0;
 	while (str[i] != '\0')
 	{
 		if (str[i] == '\'' || str[i] == '\"')
 		{
-			i += find_end_quote(str, str[i]);
+			mem = find_end_quote(str + i, str[i]);
+			printf("mem =  %d\n", mem);
+			squash(str, i);
+ 			i += mem - 2;
+			squash(str, i);
 		}
 		i++;
 	}
 	return (str);
 }
 
+char	*ft_strdup(const char *s1)
+{
+	char	*s2;
+	int		i;
+
+	i = 0;
+	s2 = malloc(sizeof(char) * (strlen(s1) + 1));
+	while (s1[i])
+	{
+		s2[i] = s1[i];
+		i++;
+	}
+	s2[i] = '\0';
+	return (s2);
+}
+/* 
 int	main(void)
 {
 	char	*str;
-	str = malloc (sizeof(char) * 19);
-	str = "ceci est un test!\n";
-	str + 4 = str + 5;
+	str = ft_strdup("c\"eci \"e'st un' te\"\"st!\n");
+	str = unquoter(str);
+	printf("%s", str);
+	free (str);
 	return(0);
-}
-//ergerg'retwer'w
+} */
