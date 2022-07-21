@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/20 20:20:24 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/21 23:04:38 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,20 @@ int	check_input(char *input)//seems ok, to confirm
 //start of input loop, should add to history, tokenize->parse->expand->send to exec
 int	input(t_env *local_env)
 {
-	char		*input;
+	char		**input;
 	//t_parsed	*list;
 
+	input = malloc(sizeof(char *) * 2);
+	input[1] = 0;
 	while (1)//need ttysomething function i think
 	{
-		input = readline ("cmd>");//history should use this
+		input[0] = readline ("cmd>");//history should use this
 		printf ("//input== \"%s\"\n", input);//to del
 		//check valid input?(quotes?, empty? newline?)
 		if (*input == 0)//J'aime pas :/
 			continue;
-		add_history (input);
-		if (check_input(input) == NO)//can put next steps inside actions of that if?
+		add_history (input[0]);
+		if (check_input(input[0]) == NO)//can put next steps inside actions of that if?
 		{
 			//printerror
 			printf("unclosed quotes!\n");
@@ -55,7 +57,7 @@ int	input(t_env *local_env)
 		}
 		builtin_parser(input, local_env);//ca il faudra le mettre ailleur, mais il marchera pareil
 		//list = parser(input, local_env);
-		parser(input, local_env);
+		parser(input[0], local_env);
 		//local_env->lst_exit = exec(list, local_env);
 	}
 	return (0);// return $? i think, maybe not
