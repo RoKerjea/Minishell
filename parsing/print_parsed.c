@@ -93,7 +93,7 @@ void	print_token_list(t_tok_link *token)
 	i = 0;
 	while (token != NULL)
 	{
-		printf("token %d, type= %d, arg= %s\n", i, token->meta, token->str);
+		printf("token %d, type= %d, arg= %s\n", i, token->meta, token->str[0]);
 		token = token->next;
 		i++;
 	}

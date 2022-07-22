@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/21 19:29:07 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/22 13:17:19 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,12 @@ t_parsed	*parser(char *input, t_env *local_env)
 	//means parse step after expander wich is after tokenizer, yup
 	//printf ("gate01\n");
 	token_expander(list, local_env); //HERE
+	print_token(list);
 	//printf ("gate02\n");
-	token_splitter(*list);
+	token_splitter(list);
 	//quote remover step
 	//printf ("gate0\n");
+	print_token(list);
 	temp = token_sorter(list);
 	print_temp_list(temp);
 	//printf ("gate1\n");
@@ -105,16 +107,16 @@ t_parsed_cmd	*make_parsed_link(t_temp *temp)
 	if (temp->in_list_first != NULL)
 	{
 		if (temp->in_list_first->meta == IN)
-			link->redir_in = temp->in_list_first->str;//need to do the access and open tests here! for each ones, and delete the other too
+			link->redir_in = temp->in_list_first->str[0];//need to do the access and open tests here! for each ones, and delete the other too
 		if (temp->in_list_first->meta == HEREDOC)
-			link->heredoc = temp->in_list_first->str;
+			link->heredoc = temp->in_list_first->str[0];
 	}
 	if (temp->out_list_first != NULL)
 	{
 		if (temp->out_list_first->meta == OUT)
-			link->redir_out = temp->in_list_first->str;
+			link->redir_out = temp->in_list_first->str[0];
 		if (temp->out_list_first->meta == APPEND)
-			link->redir_append = temp->in_list_first->str;
+			link->redir_append = temp->in_list_first->str[0];
 	}
 	link->next = NULL;
 	if (temp->type == 0)
@@ -169,7 +171,7 @@ char	**get_args(t_tok_link *token)
 	//prot
 	while (token != NULL)//can get rid of num?
 	{
-		res[i] = ft_strdup(token->str);
+		res[i] = ft_strdup(token->str[0]);
 		//protect
 		//res = char_tab_fuser(res, token->str);
 		i++;

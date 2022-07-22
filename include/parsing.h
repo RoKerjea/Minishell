@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:41:23 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/21 19:27:08 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/22 12:59:40 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ struct	s_word	*make_add_wordlink(char *str, int len, struct	s_word *prevword);
 struct	s_word	*make_word_link(char *str, int len);
 char	*fuse_and_clean(struct	s_word *wordlink, t_env *local_env);
 char	*prototype(char *str, t_env *local_env);
+int	token_splitter(t_tok_list	*list);
 
 //BOOL_STR.C
 int	ft_isspace(char c);

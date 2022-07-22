@@ -15,7 +15,7 @@ void	print_token(t_tok_list *list)
 	printf("Token list after separator in one char* by token :\n");
 	while (link != NULL)
 	{
-		printf("Token n%d is of type %d, str == (%s) \n", i, link->meta, link->str);
+		printf("Token n%d is of type %d, str == (%s) \n", i, link->meta, link->str[0]);
 		link = link->next;
 		i++;
 	}

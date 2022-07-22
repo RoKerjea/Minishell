@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/21 23:04:38 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/22 13:04:04 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	input(t_env *local_env)
 	while (1)//need ttysomething function i think
 	{
 		input[0] = readline ("cmd>");//history should use this
-		printf ("//input== \"%s\"\n", input);//to del
+		printf ("//input== \"%s\"\n", input[0]);//to del
 		//check valid input?(quotes?, empty? newline?)
 		if (*input == 0)//J'aime pas :/
 			continue;

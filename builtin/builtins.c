@@ -6,12 +6,12 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:06:47 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/21 22:29:05 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/22 13:05:44 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-/* 
+
 int	str_table_counter(char **str_table)
 {
 	int	res;
@@ -41,28 +41,8 @@ int	isflag_newline(char *str)//doit uniquement etre utilise pour echo, mais avan
 	if (str[i] != '\0')
 		return (0);
 	return (1);
-} */
-
-//need to present input in compatible way with parsed cmd -> char** with char[0] name of builtin
-//rajouter une ft par builtin pour verifier input format, return to keep in struct $?, et printerror
-int	builtin_parser(char **cmd, t_env *local_env)
-{
-	printf ("builtin\n");
-	//if (ft_strncmp(cmd, "echo", 4) == 0 && (cmd[4] == ' ' || cmd[4] == '\0'))
-	if (ft_strncmp(cmd, "exit", 4) == 0 && (cmd[4] == ' ' || cmd[4] == '\0'))//need function for exit arg or last exit status
-		exit (0);
-	if (ft_strncmp(cmd, "env", 3) == 0 && (cmd[3] == ' ' || cmd[3] == '\0'))
-		printenv(local_env);
-	if (ft_strncmp(cmd, "pwd", 3) == 0 && (cmd[3] == ' ' || cmd[3] == '\0'))
-		printpath();
-	if (ft_strncmp(cmd, "cd", 2) == 0 && (cmd[2] == ' ' || cmd[2] == '\0'))
-		change_dir(cmd, local_env);
-	if (ft_strncmp(cmd, "export", 6) == 0 && (cmd[7] != ' ' || cmd[7] != '\0'))
-		update_variable(cmd + 7, local_env);//need to trim spaces if there are any, at the beginning
-	if (ft_strncmp(cmd, "unset", 5) == 0 && (cmd[6] != ' ' || cmd[6] != '\0'))
-		remove_variable(cmd + 5, local_env);
 }
-/* 
+
 int	final_exit(char **cmd, t_env *local_env)
 {
 	int	status;
@@ -83,9 +63,33 @@ int	final_exit(char **cmd, t_env *local_env)
 		return(1);
 	}
 	//free all local_env
+	printf ("exiting\n");
 	exit (status);
 }
 
+//need to present input in compatible way with parsed cmd -> char** with char[0] name of builtin
+//rajouter une ft par builtin pour verifier input format, return to keep in struct $?, et printerror
+int	builtin_parser(char **cmd, t_env *local_env)
+{
+	printf ("builtin\n");
+	//if (ft_strncmp(cmd, "echo", 4) == 0 && (cmd[4] == ' ' || cmd[4] == '\0'))
+	if (ft_strncmp(cmd[0], "exit", 4) == 0 && (cmd[0][4] == ' ' || cmd[0][4] == '\0'))//need function for exit arg or last exit status
+		return(final_exit(cmd, local_env));
+		//exit (0);
+	if (ft_strncmp(cmd[0], "env", 3) == 0 && (cmd[0][3] == ' ' || cmd[0][3] == '\0'))
+		printenv(local_env);
+	if (ft_strncmp(cmd[0], "pwd", 3) == 0 && (cmd[0][3] == ' ' || cmd[0][3] == '\0'))
+		printpath();
+	if (ft_strncmp(cmd[0], "cd", 2) == 0 && (cmd[0][2] == ' ' || cmd[0][2] == '\0'))
+		change_dir(cmd[0], local_env);
+	if (ft_strncmp(cmd[0], "export", 6) == 0 && (cmd[0][7] != ' ' || cmd[0][7] != '\0'))
+		update_variable(cmd[0] + 7, local_env);//need to trim spaces if there are any, at the beginning
+	if (ft_strncmp(cmd[0], "unset", 5) == 0 && (cmd[0][6] != ' ' || cmd[0][6] != '\0'))
+		remove_variable(cmd[0] + 5, local_env);
+	return(0);
+}
+
+/*
 int	env(char **cmd, t_env *local_env)
 {
 	if (str_table_counter(cmd) > 1) 

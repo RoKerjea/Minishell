@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/21 17:28:05 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/22 13:16:42 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ void	token_expander(t_tok_list *list, t_env *local_env)
 	token = list->first;
 	while (token != NULL)
 	{
-		if (strchr(token->str, '$') != 0)
+		if (strchr(token->str[0], '$') != 0)
 		{
-			expanded = prototype(token->str, local_env);
+			expanded = prototype(token->str[0], local_env);
 			//protect
 			//free (token->str);
+			token->str[0] = expanded;
 		}
-		token->str = expanded;
 		token = token->next;
 	}
 }

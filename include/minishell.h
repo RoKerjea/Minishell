@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/21 22:29:04 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/22 13:36:38 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ char			**ft_freetab(char **tab);
 char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strdup(const char *s1);
 char			*ft_strndup(const char *s1, int j);
+int				ft_atoi(const char *str);
+char			*ft_strtrim(char const *s1, char const *set);
 
 //ENV_MAKE.C
 t_env			*minimal_env(void);

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:35:17 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/21 19:34:42 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/22 13:20:53 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,9 +131,14 @@ int	token_splitter(t_tok_list	*list)
 	token = list->first;
 	while (token != NULL)
 	{
-		splitted = field_splitter(token->str[0], ' ');
-		ft_freetab(token->str);
-		token->str = splitted;
+		if (ft_strchr(token->str[0], ' ') != 0)
+		{
+			printf("inputpresplit = %s\n", token->str[0]);
+			splitted = field_splitter(token->str[0], ' ');
+			ft_freetab(token->str);
+			token->str = splitted;
+			printf("inputpost split = %s\n", token->str[0]);
+		}
 		token = token->next;
 	}
 	return (0); 
@@ -173,7 +178,7 @@ char **char_tab_fuser(char **str1, char **str2)
 	return(res);
 }
 
-int	main(int ac, char **av)
+/* int	main(int ac, char **av)
 {
 	char	**res;
 	int i;
@@ -187,4 +192,4 @@ int	main(int ac, char **av)
 	}
 	ft_freetab(res);
 	return (0);
-}
+} */

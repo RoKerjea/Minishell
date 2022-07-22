@@ -27,6 +27,8 @@ SRCS		=	${addprefix parsing/, \
 				${addprefix libft/, \
 				ft_strlen.c \
 				ft_split.c \
+				ft_atoi.c \
+				ft_strtrim.c \
 				ft_strjoin.c \
 				ft_freetab.c \
 				ft_strdup.c \

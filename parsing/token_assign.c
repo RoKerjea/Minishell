@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 19:41:55 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/16 15:25:47 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/22 12:57:53 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_temp	*token_sorter(t_tok_list *list)
 	while (link != NULL)
 	{
 		nextlink = link->next;
-		printf ("str in token :%s\n", link->str);
+		printf ("str in token :%s\n", link->str[0]);
 		if (link->meta == CMD)
 			add_token_arg(temp, link);
 		else if (link->meta == IN || link->meta == HEREDOC)
@@ -110,14 +110,14 @@ int	add_token_in(t_temp *temp, t_tok_link *link)
 	if (temp->in_list_first != NULL)
 		destroy_token(temp->in_list_first);
 	temp->in_list_first = link;
-	if (access(link->str, F_OK))
+	if (access(link->str[0], F_OK))
 	{
-		printerror(link->str);
+		printerror(link->str[0]);
 		return (FAIL);
 	}
-	if (access(link->str, R_OK))
+	if (access(link->str[0], R_OK))
 	{
-		printerror(link->str);
+		printerror(link->str[0]);
 		return (FAIL);
 	}
 	//deal with heredoc here?

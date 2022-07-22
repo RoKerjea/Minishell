@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/21 19:35:59 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/22 13:40:27 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int strparser(t_tok_list *list, char *str)
 	link->str[0] = ft_strndup(str, i);
 	link->str[1] = 0;
 	//protect
-	printf("str made == \"%s\"\n", link->str); // TEST to delete
+	printf("str made == \"%s\"\n", link->str[0]); // TEST to delete
 	link->meta = CMD;
 	return (i);
 }
@@ -100,6 +100,7 @@ int metaparser(t_tok_list *list, char *str)
 {
 	int i;
 	t_tok_link *link;
+	char	*temp;
 
 	i = 0;
 	link = make_add_link(list);
@@ -109,7 +110,25 @@ int metaparser(t_tok_list *list, char *str)
 	link->str[0] = ft_strndup(str, i);
 	link->str[1] = 0;
 	//protect
-	link->meta = meta_type(link->str);
+	link->meta = meta_type(link->str[0]);
+	if (link->meta == IN || link->meta == OUT)
+	{
+		temp = link->str[0];
+		link->str[0] = ft_strdup(link->str[0] + 1);
+		free (temp);
+		temp = ft_strtrim(link->str[0], " ");
+		free (link->str[0]);
+		link->str[0] = temp;
+	}
+	if (link->meta == APPEND || link->meta == HEREDOC)
+	{
+		temp = link->str[0];
+		link->str[0] = ft_strdup(link->str[0] + 2);
+		free (temp);
+		temp = ft_strtrim(link->str[0], " ");
+		free (link->str[0]);
+		link->str[0] = temp;
+	}
 	return (i);
 }
 
