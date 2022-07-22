@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/22 14:31:35 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/22 15:05:45 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 #include "../include/parsing.h"
 #include "../include/macro.h"
 
+//need to divide into creation and parsing?
 // FILE: what's needed to make list of tokens from input
 // INPUT: the full line from readline
 // OUTPUT: liste chainee de token contenant seulement les '|', str pour cmd,
 // et redirections avec leurs cibles
-//  zsh: parse error near `>'
+//zsh: parse error near `>'
 
 //start of tokenizer, create list of token, launch token separator,
 //syntax check result of this step (if redirection have their arguments)
@@ -44,25 +45,20 @@ void sep_token(char *str, t_tok_list *list)
 	int i;
 
 	i = 0;
-	printf("strart of tokenzer\n");	   // TEST to delete
-	printf("//input== \"%s\"\n", str); // TEST to delete
+	printf("//input at start of tokenizer== \"%s\"\n", str); // TEST to delete
 	while (str[i] != '\0')
 	{
 		while (ft_isspace(str[i]) == YES && str[i] != '\0')
 			i++;
 		if (is_meta(str[i]) == NO && str[i] != '\0')
 		{
-			printf("start of strsep for char %d\n", i); // TEST to delete
-			i += strparser(list, str + i);				// manage start and end of quotes as a single block of str
+			i += strparser(list, str + i);
 			//protect
-			printf("end of strsep for char %d\n", i);	// TEST to delete
 		}
 		else if (is_meta(str[i]) == YES && str[i] != '\0')
 		{
-			printf("start of metasep for char %d\n", i); // TEST to delete
 			i += metaparser(list, str + i);
 			//protect
-			printf("end of metasep for char %d\n", i); // TEST to delete
 		}
 	}
 }
@@ -89,6 +85,7 @@ int strparser(t_tok_list *list, char *str)
 	//protect
 	printf("str made == \"%s\"\n", link->str[0]); // TEST to delete
 	link->meta = CMD;
+	link->str[0] = ft_strtrim_replace(link->str[0], " ");
 	return (i);
 }
 
@@ -113,29 +110,33 @@ int metaparser(t_tok_list *list, char *str)
 		temp = link->str[0];
 		link->str[0] = ft_strdup(link->str[0] + 1);
 		free (temp);
-		temp = ft_strtrim(link->str[0], " ");
-		free (link->str[0]);
-		link->str[0] = temp;
 	}
 	if (link->meta == APPEND || link->meta == HEREDOC)
 	{
 		temp = link->str[0];
 		link->str[0] = ft_strdup(link->str[0] + 2);
 		free (temp);
-		temp = ft_strtrim(link->str[0], " ");
-		free (link->str[0]);
-		link->str[0] = temp;
 	}
+	link->str[0] = ft_strtrim_replace(link->str[0], " ");
 	return (i);
 }
 
+char	*ft_strtrim_replace(char *str, char *totrim)
+{
+	char	*temp;
+	
+	temp = ft_strtrim(str, " ");
+	free (str);
+	str = temp;
+}
+
 // identify the type of redirection the current token is
-enum e_type	meta_type(char *str)//maybe add a type for heredoc with '' present? and identify it in strncmp
+enum e_type	meta_type(char *str)
 {
 	if (strncmp(str, "<<", 2) == 0)
-	{/* 
+	{
 		if (strchr(str, '\'') != 0)
-			return (HEREDOC_NOEXP); */
+			return (HEREDOC_NOEXPAND);
 		return (HEREDOC);
 	}
 	if (strncmp(str, "<", 1) == 0)
@@ -181,27 +182,3 @@ int meta_and_arg_size(char *str) // could be fused later with str parser?
 	}
 	return (i);
 }
-
-/*
-nested quotes:
-if char[i] == '\'' ou '\"'
-
-i++ until quotes, if same as start, end of quoted str,
-else, new cycle with other quoteas start,
-repeat until EOF or end of every quotes
-if EOF, error
-else, full str is between first quote and end of last cycle closed;
-
-no need to remember except the last end quote, and start position is always to keep anyway
-can be a recursive cycle of same function who only return last position and add to i
-!!PB, $VAR must expand if only between "", could be slightly annoying to find if opened '' when $VAR
-but functions for quotes could give beginning and end position too...
-lots of parameter for a single string...could keep coordinates of '' "zones" for this string?
-maybe in struct of link?
-*/
-
-/*
-could use a program test exec by minishell
-cmd "binary arg1arg2 'arg3'arg4"
-and it gives number et format of args it received?
-*/
