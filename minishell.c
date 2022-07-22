@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/22 13:04:04 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/22 14:18:07 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,21 +72,17 @@ int	main(int argc, char **argv, char **env)
 	if (!argc || !argv)
 		return (0);
 	status = 1;
-	printf("gate0\n");// to del
  	if (!env[0])
 	{
-		printf("gate1\n");// to del
 		local_env = minimal_env();
 	}
 	else 
-		local_env = env_list(env);
-	//get pwd, shlvl, etc if env = NULL
-	//if end, destroy env list,
-	printf("Starting Shell\n");// to del
+		local_env = env_list(env);	
 	while (status != 0)
 	{
 		status = input(local_env);
-	}	
+	}
+	//if end, destroy env list,
 	//free and destroy everything before process end
 	return (status);
 }

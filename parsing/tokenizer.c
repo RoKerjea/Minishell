@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/22 13:40:27 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/22 14:31:35 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 // INPUT: the full line from readline
 // OUTPUT: liste chainee de token contenant seulement les '|', str pour cmd,
 // et redirections avec leurs cibles
-//  |  < et << peuvent etres colles a des str et continuer a fonctionner, > >> probablement aussi
 //  zsh: parse error near `>'
 
 //start of tokenizer, create list of token, launch token separator,
@@ -36,12 +35,10 @@ t_tok_list *tokenizerstart(char *input)
 		destroy_token_list(token_list);
 		return (NULL);
 	}
-	//expand step here?, puis split function, unquotes and then in token assign, check redirections?
 	return (token_list);
 }
 
 // strparser et metaparser cree le maillon, et malloc la bonne taille pour la str
-// strndup(str, len)
 void sep_token(char *str, t_tok_list *list)
 {
 	int i;
@@ -137,8 +134,8 @@ enum e_type	meta_type(char *str)//maybe add a type for heredoc with '' present? 
 {
 	if (strncmp(str, "<<", 2) == 0)
 	{/* 
-		if (is_not_expand(str) == 0)
-			return (HEREDOC_SGL_QUOTE); */
+		if (strchr(str, '\'') != 0)
+			return (HEREDOC_NOEXP); */
 		return (HEREDOC);
 	}
 	if (strncmp(str, "<", 1) == 0)

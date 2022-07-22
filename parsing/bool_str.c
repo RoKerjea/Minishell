@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 19:21:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/22 12:55:55 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/22 14:28:20 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int syntax_checker(t_tok_list *list)
 	{
 		if ((link->meta == IN || link->meta == OUT) && ft_strlen(link->str[0]) < 2)
 		{
-			printf("minishell: syntax error near unexpected token `%c'\n", link->next->str[0][0]); //! oups, what if link-nextn'existe pas?
+			printf("minishell: syntax error near unexpected token `%c'\n", link->next->str[0][0]); //! oups, what if link-next n'existe pas?
 			return (NO);
 		}
 		if ((link->meta == HEREDOC || link->meta == APPEND) && ft_strlen(link->str[0]) < 3)

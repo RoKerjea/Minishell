@@ -6,11 +6,11 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:06:47 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/22 13:05:44 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/22 14:14:11 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../include/builtins.h"
 
 int	str_table_counter(char **str_table)
 {
