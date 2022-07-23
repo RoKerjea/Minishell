@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:35:17 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/22 23:57:42 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/23 20:50:21 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,17 +115,22 @@ char	**char_tab_fuser(char **str1, char **str2)
 	res = malloc (sizeof(char *) * (i + j + 1));
 	if (!res)
 		return (NULL);
-	i = -1;
+	i = 0;
 	j = 0;
-	while (str1[++i] != NULL)
-		res[i] = str1[i];
+	while (str1[i] != NULL)
+	{
+		printf("error");
+		res[i] = ft_strdup(str1[i]);
+	}
+	printf("str in fuser final: \n");
+	print_char_tab(str2);
 	while (str2[j] != NULL)
 	{
-		res[i++] = str2[j++];
+		res[i++] = ft_strdup(str2[j++]);
 	}
-	res[i] = 0;
-	free(str1);
-	free(str2);
+	res[i] = NULL;
+	ft_freetab(str1);
+	ft_freetab(str2);
 	return (res);
 }
 

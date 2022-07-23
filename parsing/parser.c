@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/23 19:35:04 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/23 20:47:33 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,18 +156,24 @@ int	is_builtins(char *cmd)
 	return (NO);
 }
 
+char	**empty_tab(void)
+{
+	char	**res;
+	res = malloc(sizeof(char*) * 1);
+	res[0] = NULL;
+	return(res);
+}
+
 //get str of list of token of similar types in a single char **str
 //maybe same function should get fd type list in final link?
 //expand, split,unquotes here?NO, only fusion of multiple char** TODO
 char	**get_args(t_tok_link *token)
 {
 	char	**res;
-	int		num;
 	int		i;
 	
 	i = 0;
-	num = token_count(token);
-	res = malloc (sizeof(char *) * (num + 1));
+	res = empty_tab();
 	//res = token->str;
 	//prot
 	while (token != NULL && token->str[0] != NULL)//can get rid of num?
