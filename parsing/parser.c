@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/23 21:50:14 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/23 22:00:08 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,9 @@ t_parsed_cmd	*make_parsed_link(t_temp *temp)
 	if (temp->out_list_first != NULL)
 	{
 		if (temp->out_list_first->meta == OUT)
-			link->redir_out = temp->in_list_first->str[0];
+			link->redir_out = temp->out_list_first->str[0];
 		if (temp->out_list_first->meta == APPEND)
-			link->redir_append = temp->in_list_first->str[0];
+			link->redir_append = temp->out_list_first->str[0];
 	}
 	link->next = NULL;
 	if (temp->type == 0)
