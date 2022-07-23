@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/23 22:00:08 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/23 22:03:51 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ t_parsed_cmd	*make_parsed_link(t_temp *temp)
 	if (temp->in_list_first != NULL)
 	{
 		if (temp->in_list_first->meta == IN)
-			link->redir_in = temp->in_list_first->str[0];//need to do the access and open tests here! for each ones, and delete the other too
+			link->redir_in = temp->in_list_first->str[0];
 		if (temp->in_list_first->meta == HEREDOC)
 			link->heredoc = temp->in_list_first->str[0];
 	}
