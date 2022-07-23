@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:41:23 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/23 00:03:04 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/23 21:40:29 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ int	ft_isspace(char c);
 int	is_meta(char c);
 int syntax_checker(t_tok_list *list);
 
+
+int	str_table_counter(char **str_table);
 //TESTS.C
 void	print_temp_list(t_temp *temp);
 void	print_temp_link(t_temp *temp);

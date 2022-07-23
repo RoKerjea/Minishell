@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/23 20:47:33 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/23 21:50:14 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,8 +178,6 @@ char	**get_args(t_tok_link *token)
 	//prot
 	while (token != NULL && token->str[0] != NULL)//can get rid of num?
 	{
-		printf("str tokens in parser: \n");
-		print_char_tab(token->str);
 		//res[i] = ft_strdup(token->str[0]);
 		//protect
 		res = char_tab_fuser(res, token->str);
@@ -187,7 +185,6 @@ char	**get_args(t_tok_link *token)
 		token = token->next;
 		//del previous token here ?
 	}
-	res[i] = NULL;
 	return (res);
 }
 

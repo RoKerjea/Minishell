@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:35:17 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/23 20:50:21 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/23 21:50:00 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,45 +88,48 @@ int	token_splitter(t_tok_list	*list)
 	{
 		if (ft_strchr(token->str[0], ' ') != 0)
 		{
-			printf("inputpresplit = %s\n", token->str[0]);
 			splitted = field_splitter(token->str[0], ' ');
 			ft_freetab(token->str);
 			token->str = splitted;
-			printf("inputpost split = \n");
-			print_char_tab(splitted);
 		}
 		token = token->next;
 	}
 	return (0);
 }
-
+/*
+int	str_table_counter(char **str_table)
+{
+	int	res;
+	
+	res = 0;
+	while (str_table[res] != NULL)
+		res++;
+	return (res);
+}*/
 char	**char_tab_fuser(char **str1, char **str2)
 {
 	char	**res;
 	int		i;
 	int		j;
+	int		count;
 
-	i = 0;
-	j = 0;
-	while (str1[i] != NULL)
-		i++;
-	while (str1[j] != NULL)
-		j++;
-	res = malloc (sizeof(char *) * (i + j + 1));
+	count = str_table_counter(str1);
+	count += str_table_counter(str2);
+	res = malloc (sizeof(char *) * (count + 1));
 	if (!res)
 		return (NULL);
 	i = 0;
 	j = 0;
 	while (str1[i] != NULL)
 	{
-		printf("error");
 		res[i] = ft_strdup(str1[i]);
+		i++;
 	}
-	printf("str in fuser final: \n");
-	print_char_tab(str2);
 	while (str2[j] != NULL)
 	{
-		res[i++] = ft_strdup(str2[j++]);
+		res[i] = ft_strdup(str2[j]);
+		i++;
+		j++;
 	}
 	res[i] = NULL;
 	ft_freetab(str1);
