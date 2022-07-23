@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/23 00:02:04 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/23 19:35:04 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_parsed	*parser(char *input, t_env *local_env)
 	unquoter_loop(list);
 	//print_token(list);
 	temp = token_sorter(list);
-	//print_temp_list(temp);
+	print_temp_list(temp);
 	printf ("gate before parser\n");
 	parsed_list = list_parser(temp);
 	print_parsed_list(parsed_list->first);
@@ -65,9 +65,7 @@ t_parsed	*list_parser(t_temp *temp)
 
 	parsed_list = malloc(sizeof(t_parsed));
 	parsed_list->len = 1;
-	printf ("gate3\n");
 	parsed_list->first = make_parsed_link(temp);
-	printf ("gate4\n");
 	parsed_list->last = parsed_list->first;
 	//destroy temp struct
 	temp = temp->next;
@@ -174,6 +172,8 @@ char	**get_args(t_tok_link *token)
 	//prot
 	while (token != NULL && token->str[0] != NULL)//can get rid of num?
 	{
+		printf("str tokens in parser: \n");
+		print_char_tab(token->str);
 		//res[i] = ft_strdup(token->str[0]);
 		//protect
 		res = char_tab_fuser(res, token->str);
