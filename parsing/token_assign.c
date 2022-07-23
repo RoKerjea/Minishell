@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 19:41:55 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/23 22:05:24 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/23 22:05:56 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	add_token_arg(t_temp *temp, t_tok_link *link)
 
 void	printerror(char *prob)
 {
-	printf("minishell: parse error \n");
+	write(2, "minishell: ", 11);
 	write(2, strerror(errno), ft_strlen(strerror(errno)));
 	if (prob)
 	{
