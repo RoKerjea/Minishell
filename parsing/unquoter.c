@@ -6,16 +6,15 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 19:37:22 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/21 21:06:43 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/22 20:49:55 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parsing.h"
 
-
 int	unquoter_loop(t_tok_list *list)
 {
-	t_tok_link *link;
+	t_tok_link	*link;
 
 	link = list->first;
 	while (link != NULL)
@@ -23,7 +22,7 @@ int	unquoter_loop(t_tok_list *list)
 		unquote_link(link);
 		link = link->next;
 	}
-	return 0;
+	return (0);
 }
 
 int	unquote_link(t_tok_link *link)
@@ -36,12 +35,13 @@ int	unquote_link(t_tok_link *link)
 		unquoter(link->str[i]);
 		i++;
 	}
+	return (i);
 }
 
 int	squash(char *str, int start)
 {
 	int	i;
-	
+
 	i = start + 1;
 	printf("gatesquash %d\n", start);
 	while (str[i] != '\0')
@@ -67,7 +67,7 @@ char	*unquoter(char *str)
 			mem = find_end_quote(str + i, str[i]);
 			printf("mem =  %d\n", mem);
 			squash(str, i);
- 			i += mem - 2;
+			i += mem - 2;
 			squash(str, i);
 		}
 		i++;

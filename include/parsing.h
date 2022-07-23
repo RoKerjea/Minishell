@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:41:23 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/22 12:59:40 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/23 00:03:04 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,15 @@ typedef	struct	s_word
 //TOKENIZER.C
 t_tok_list	*tokenizerstart(char *input);
 void	sep_token(char *str, t_tok_list *list);
-int	strparser(t_tok_list *list, char *str);
-int	metaparser(t_tok_list *list, char *str);
+int	str_tokenizer(t_tok_list *list, char *str);
+int	meta_tokenizer(t_tok_list *list, char *str);
+char	*ft_strtrim_replace(char *str, char *totrim);
+
+//TOKEN_PARSE.C
+char	*redir_trimmer(char	*str, int i);
+enum e_type	meta_type(char *str);
 int	metachar_parser(char *str);
 int	meta_and_arg_size(char *str);
-enum e_type	meta_type(char *str);
 
 //PARSER
 t_parsed	*list_parser(t_temp *temp);
@@ -87,6 +91,13 @@ struct	s_word	*make_word_link(char *str, int len);
 char	*fuse_and_clean(struct	s_word *wordlink, t_env *local_env);
 char	*prototype(char *str, t_env *local_env);
 int	token_splitter(t_tok_list	*list);
+char	**char_tab_fuser(char **str1, char **str2);
+//UNQUOTER.C
+int	unquoter_loop(t_tok_list *list);
+int	unquote_link(t_tok_link *link);
+int	squash(char *str, int start);
+char	*unquoter(char *str);
+
 
 //BOOL_STR.C
 int	ft_isspace(char c);
@@ -99,5 +110,6 @@ void	print_temp_link(t_temp *temp);
 void	print_token_list(t_tok_link *token);
 void	print_parsed_list(t_parsed_cmd *final_link);
 void	print_token(t_tok_list *list);
+void	print_char_tab(char **tab);
 
 #endif

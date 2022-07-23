@@ -6,58 +6,11 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:35:17 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/22 13:20:53 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/22 23:57:42 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parsing.h"
-/* 
-// find & return the length of the str between quotes c
-int find_end_quote(char *str, char c)
-{
-	int i;
-
-	printf("gate quote %s\n", str); // TEST to delete
-	i = 1;
-	while (str[i] != c && str[i] != '\0')
-		i++;
-	printf("char inquote= %d\n", i);
-	//what if str[i] == '\0'?? then big error for all inputstr!
-	return (i);
-}
-
-char	*ft_strndup(const char *s1, int j)
-{
-	char	*s2;
-	int		i;
-
-	i = 0;
-	s2 = malloc(sizeof(char) * (j + 1));
-	while (i < j && s1[i])
-	{
-		s2[i] = s1[i];
-		i++;
-	}
-	s2[i] = '\0';
-	return (s2);
-}
-
-char	**ft_freetab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
-		i++;
-	while (i >= 0)
-	{
-		if (tab[i])
-			free(tab[i]);
-		i--;
-	}
-	free(tab);
-	return (NULL);
-} */
 
 int	field_counter(char *s, char c)
 {
@@ -97,11 +50,12 @@ int	len_field(char *s, char c)
 
 char	**field_splitter(char *s, char c)
 {
-	printf("input = %s\n", s);
 	char	**res;
 	int		wnum;
 	int		lenfield;
+	int		i;
 
+	i = 0;
 	wnum = field_counter(s, c);
 	res = (char **)malloc(sizeof(char *) * (wnum + 1));
 	if (!res)
@@ -109,15 +63,16 @@ char	**field_splitter(char *s, char c)
 	printf("num of field = %d\n", wnum);
 	res[wnum] = 0;
 	wnum = 0;
-	while (res[wnum] != 0)
+	while (s[i] && wnum < field_counter(s, c))
 	{
-		while (s[0] == c)
-			s++;
-		lenfield = len_field(s, c);
-		res[wnum] = ft_strndup(s, lenfield);
-	 	if (!(res[wnum]))
+		while (s[i] == c)
+			i++;
+		printf("str after spaces = %s\n", s + i);
+		lenfield = len_field(s + i, c);
+		res[wnum] = ft_strndup(s + i, lenfield);
+		if (!(res[wnum]))
 			return (ft_freetab(res));
-		s += lenfield;
+		i += lenfield;
 		wnum++;
 	}
 	return (res);
@@ -137,19 +92,20 @@ int	token_splitter(t_tok_list	*list)
 			splitted = field_splitter(token->str[0], ' ');
 			ft_freetab(token->str);
 			token->str = splitted;
-			printf("inputpost split = %s\n", token->str[0]);
+			printf("inputpost split = \n");
+			print_char_tab(splitted);
 		}
 		token = token->next;
 	}
-	return (0); 
+	return (0);
 }
 
-char **char_tab_fuser(char **str1, char **str2)
+char	**char_tab_fuser(char **str1, char **str2)
 {
-	char **res;
-	int i;
-	int j;
-	
+	char	**res;
+	int		i;
+	int		j;
+
 	i = 0;
 	j = 0;
 	while (str1[i] != NULL)
@@ -159,23 +115,18 @@ char **char_tab_fuser(char **str1, char **str2)
 	res = malloc (sizeof(char *) * (i + j + 1));
 	if (!res)
 		return (NULL);
-	i = 0;
+	i = -1;
 	j = 0;
-	while (str1[i] != NULL)
-	{
+	while (str1[++i] != NULL)
 		res[i] = str1[i];
-		i++;
-	}
 	while (str2[j] != NULL)
 	{
-		res[i] = str2[j];
-		j++;
-		i++;
+		res[i++] = str2[j++];
 	}
 	res[i] = 0;
 	free(str1);
 	free(str2);
-	return(res);
+	return (res);
 }
 
 /* int	main(int ac, char **av)

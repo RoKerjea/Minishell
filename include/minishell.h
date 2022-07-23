@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/22 13:36:38 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/22 20:47:03 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,14 @@
 # include <unistd.h>
 # include <stddef.h>
 # include <stdlib.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <linux/limits.h>
+# include <stdio.h>
+# include <string.h>
 # include <errno.h>
+# include <sys/stat.h>
 
 //only builtins and env maker need those structures
 typedef struct s_env_link

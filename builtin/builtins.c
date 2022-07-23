@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:06:47 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/22 14:14:11 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/22 22:17:48 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ int	builtin_parser(char **cmd, t_env *local_env)
 		remove_variable(cmd[0] + 5, local_env);
 	return(0);
 }
+/* 
 
-/*
 int	env(char **cmd, t_env *local_env)
 {
 	if (str_table_counter(cmd) > 1) 

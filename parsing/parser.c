@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/22 14:29:36 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/23 00:02:04 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,11 @@ t_parsed	*parser(char *input, t_env *local_env)
 	token_expander(list, local_env); //HERE
 	//print_token(list);
 	token_splitter(list);
-	//quote remover step
+	unquoter_loop(list);
 	//print_token(list);
 	temp = token_sorter(list);
 	//print_temp_list(temp);
+	printf ("gate before parser\n");
 	parsed_list = list_parser(temp);
 	print_parsed_list(parsed_list->first);
 	//return (parsed_list);
@@ -64,8 +65,9 @@ t_parsed	*list_parser(t_temp *temp)
 
 	parsed_list = malloc(sizeof(t_parsed));
 	parsed_list->len = 1;
-	//printf ("gate3\n");
+	printf ("gate3\n");
 	parsed_list->first = make_parsed_link(temp);
+	printf ("gate4\n");
 	parsed_list->last = parsed_list->first;
 	//destroy temp struct
 	temp = temp->next;
@@ -91,8 +93,16 @@ t_parsed_cmd	*make_parsed_link(t_temp *temp)
 
 	link = malloc(sizeof(t_parsed_cmd));
 	//prot
-	link->cmd_args = get_args(temp->cmd_list_first);
-	link->exec_type = get_type(link->cmd_args);
+	if (temp->cmd_list_first == NULL)
+	{
+		link->cmd_args = NULL;
+		link->exec_type = FAIL;
+	}
+	else
+	{
+		link->cmd_args = get_args(temp->cmd_list_first);
+		link->exec_type = get_type(link->cmd_args);
+	}
 	link->redir_in = NULL;
 	link->heredoc = NULL;
 	link->redir_out = NULL;
@@ -162,11 +172,11 @@ char	**get_args(t_tok_link *token)
 	res = malloc (sizeof(char *) * (num + 1));
 	//res = token->str;
 	//prot
-	while (token != NULL)//can get rid of num?
+	while (token != NULL && token->str[0] != NULL)//can get rid of num?
 	{
-		res[i] = ft_strdup(token->str[0]);
+		//res[i] = ft_strdup(token->str[0]);
 		//protect
-		//res = char_tab_fuser(res, token->str);
+		res = char_tab_fuser(res, token->str);
 		i++;
 		token = token->next;
 		//del previous token here ?

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/22 13:16:42 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/22 23:40:25 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,12 @@ rejoin all??
 */
 char	*prototype(char *str, t_env *local_env)
 {
-	printf ("gateprototype01 \n");
-	char *res;
-	int	i;
-	int	j;
+	char	*res;
+	int		i;
+	int		j;
 	t_word	*wordlink;
 	t_word	*firstword;
-	int				quote;
+	int		quote;
 
 	quote = -1;
 	i = 0;
@@ -63,10 +62,12 @@ char	*prototype(char *str, t_env *local_env)
 			i += find_end_quote(str + i, '\'');//si les ' sont entre des "" actifs, ils ne comptent pas!
 		else if (str[i] == '$')
 		{
-			if (i > j)
-				wordlink = make_add_wordlink(str, i - j, wordlink);
+			if (i > j && j > 0)
+				wordlink = make_add_wordlink(str + (j - 1), i - j + 1, wordlink);
+			else if (i > j)
+				wordlink = make_add_wordlink(str + j, i - j, wordlink);
 			wordlink = make_add_wordlink(str + i, wordlen(str + i), wordlink);
-			i += wordlen(str + i);
+			i += wordlen(str + i) + 1;
 			j = i;
 			printf ("gateprototype02 \n");
 		}
@@ -74,17 +75,16 @@ char	*prototype(char *str, t_env *local_env)
 			i++;
 	}
 	if (j != i)
-		wordlink = make_add_wordlink(str, i - j, wordlink);
+		wordlink = make_add_wordlink(str + (j - 1), i - j + 1, wordlink);
 	res = fuse_and_clean(firstword, local_env);
 	return (res);
 }
 
 char	*fuse_and_clean(struct	s_word *wordlink, t_env *local_env)
 {
-	printf ("gatefuseclean01 \n");
-	struct	s_word	*firstword;
-	char	*temp;
-	char	*res;
+	struct s_word	*firstword;
+	char			*temp;
+	char			*res;
 
 	res = malloc(1);
 	res[0] = '\0';
@@ -95,7 +95,7 @@ char	*fuse_and_clean(struct	s_word *wordlink, t_env *local_env)
 		wordlink = wordlink->next;
 	}
 	wordlink = firstword->next;
-	while (wordlink != NULL)	//loop of expander
+	while (wordlink != NULL)//loop of expander
 	{
 		if (wordlink->word[0] == '$')
 		{
@@ -141,7 +141,7 @@ struct	s_word	*make_word_link(char *str, int len)
 {
 	struct	s_word	*wordlink;
 
-	wordlink = malloc(sizeof(struct	s_word));
+	wordlink = malloc(sizeof(struct s_word));
 	wordlink->word = strndup(str, len);
 	wordlink->next = NULL;
 	return (wordlink);
@@ -149,7 +149,8 @@ struct	s_word	*make_word_link(char *str, int len)
 
 struct	s_word	*make_add_wordlink(char *str, int len, struct	s_word *prevword)
 {
-	struct	s_word	*now_word;
+	printf("str = %s\n", str);
+	struct s_word	*now_word;
 
 	now_word = make_word_link(str, len);
 	prevword->next = now_word;
@@ -214,14 +215,14 @@ char	*expand_res(char *str, int i, t_env *local_env, char *res)
  */
 char	*get_var_content(char *str, t_env *local_env)
 {
-	char	*res;
-	char	*name;
-	
+	char		*res;
+	char		*name;
+	t_env_link	*link;
+
 	name = extract_name(str);
 	printf ("gategetvar2, name = %s\n", name);
 	//parsename for particular cases ($" and $') and their return
-	//what if name start by $ or other metachar?(error)
-	t_env_link		*link;
+	//what if name start by $ or other metachar?(error)	
 	link = find_link(name, local_env);
 	if (link == NULL)
 		return (NULL);
@@ -234,8 +235,8 @@ char	*get_var_content(char *str, t_env *local_env)
 char	*extract_name(char *str)
 {
 	char	*name;
-	int	i;
-	
+	int		i;
+
 	i = wordlen(str);
 	name = ft_strndup(str + 1, i - 1);
 	return (name);
@@ -244,7 +245,7 @@ char	*extract_name(char *str)
 int	wordlen(char *str)
 {
 	int	i;
-	
+
 	i = 0;
 	while (str[i] != '\0' && ft_isspace(str[i]) == NO)
 		i++;

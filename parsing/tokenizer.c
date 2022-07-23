@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/22 15:05:45 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/22 19:58:07 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@
 
 //start of tokenizer, create list of token, launch token separator,
 //syntax check result of this step (if redirection have their arguments)
-t_tok_list *tokenizerstart(char *input)
+t_tok_list	*tokenizerstart(char *input)
 {
-	t_tok_list *token_list;
+	t_tok_list	*token_list;
 
 	token_list = make_list();
 	printf("len of input == %lu\n", strlen(input)); //TEST to delete
@@ -39,10 +39,10 @@ t_tok_list *tokenizerstart(char *input)
 	return (token_list);
 }
 
-// strparser et metaparser cree le maillon, et malloc la bonne taille pour la str
-void sep_token(char *str, t_tok_list *list)
+// str_tokenizer et meta_tokenizer cree le maillon, et malloc la bonne taille pour la str
+void	sep_token(char *str, t_tok_list *list)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	printf("//input at start of tokenizer== \"%s\"\n", str); // TEST to delete
@@ -52,22 +52,22 @@ void sep_token(char *str, t_tok_list *list)
 			i++;
 		if (is_meta(str[i]) == NO && str[i] != '\0')
 		{
-			i += strparser(list, str + i);
+			i += str_tokenizer(list, str + i);
 			//protect
 		}
 		else if (is_meta(str[i]) == YES && str[i] != '\0')
 		{
-			i += metaparser(list, str + i);
+			i += meta_tokenizer(list, str + i);
 			//protect
 		}
 	}
 }
 
 // get str until EOL or metachar, presumably part of same cmd for exec
-int strparser(t_tok_list *list, char *str)
+int	str_tokenizer(t_tok_list *list, char *str)
 {
-	int i;
-	t_tok_link *link;
+	int			i;
+	t_tok_link	*link;
 
 	i = 0;
 	link = make_add_link(list);
@@ -90,11 +90,10 @@ int strparser(t_tok_list *list, char *str)
 }
 
 // get str starting from metachar->create a token with metachar and redirection target, if any,
-int metaparser(t_tok_list *list, char *str)
+int	meta_tokenizer(t_tok_list *list, char *str)
 {
-	int i;
-	t_tok_link *link;
-	char	*temp;
+	int			i;
+	t_tok_link	*link;
 
 	i = 0;
 	link = make_add_link(list);
@@ -106,17 +105,9 @@ int metaparser(t_tok_list *list, char *str)
 	//protect
 	link->meta = meta_type(link->str[0]);
 	if (link->meta == IN || link->meta == OUT)
-	{
-		temp = link->str[0];
-		link->str[0] = ft_strdup(link->str[0] + 1);
-		free (temp);
-	}
+		link->str[0] = redir_trimmer(link->str[0], 1);
 	if (link->meta == APPEND || link->meta == HEREDOC)
-	{
-		temp = link->str[0];
-		link->str[0] = ft_strdup(link->str[0] + 2);
-		free (temp);
-	}
+		link->str[0] = redir_trimmer(link->str[0], 2);
 	link->str[0] = ft_strtrim_replace(link->str[0], " ");
 	return (i);
 }
@@ -124,61 +115,9 @@ int metaparser(t_tok_list *list, char *str)
 char	*ft_strtrim_replace(char *str, char *totrim)
 {
 	char	*temp;
-	
-	temp = ft_strtrim(str, " ");
+
+	temp = ft_strtrim(str, totrim);
 	free (str);
 	str = temp;
-}
-
-// identify the type of redirection the current token is
-enum e_type	meta_type(char *str)
-{
-	if (strncmp(str, "<<", 2) == 0)
-	{
-		if (strchr(str, '\'') != 0)
-			return (HEREDOC_NOEXPAND);
-		return (HEREDOC);
-	}
-	if (strncmp(str, "<", 1) == 0)
-		return (IN);
-	if (strncmp(str, ">>", 2) == 0)
-		return (APPEND);
-	if (strncmp(str, ">", 1) == 0)
-		return (OUT);
-	if (strncmp(str, "|", 1) == 0)
-		return (PIPE);
-	else
-		return (FAIL);
-}
-
-// fnd & return the length of meta token, from the metachar,
-// to the end of it's arg, if any
-int metachar_parser(char *str)
-{
-	if (strncmp(str, "<<", 2) == 0 || strncmp(str, ">>", 2) == 0)
-		return (meta_and_arg_size(str + 2) + 2);
-	if (strncmp(str, "<", 1) == 0 || strncmp(str, ">", 1) == 0)
-		return (meta_and_arg_size(str + 1) + 1);
-	if (strncmp(str, "|", 1) == 0)
-		return (1);
-	else
-		return (0);
-}
-
-// find & return the length of arg of redirection token
-int meta_and_arg_size(char *str) // could be fused later with str parser?
-{
-	int i;
-
-	i = 0;
-	while (ft_isspace(str[i]) == YES && str[i] != '\0')
-		i++;
-	while (is_meta(str[i]) == NO && ft_isspace(str[i]) == NO && str[i] != '\0')
-	{
-		if (str[i] == '\'' || str[i] == '\"')
-			i += find_end_quote(str + i, str[i]);
-		else
-			i++;
-	}
-	return (i);
+	return (str);
 }

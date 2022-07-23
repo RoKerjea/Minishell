@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 22:10:02 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/21 17:25:18 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/22 23:37:50 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	update_variable(char *str, t_env *env_list)
 	char		*strvar;
 	char		*name;
 
-	strvar = ft_strchr(str, '=');
+	strvar = ft_strchr(str, '=');//if str doesnt have '=', return error because input = "export name =var"
 	name = ft_strndup(str, (strvar - &str[0]));
 	link = find_link(name, env_list);
 	free (name);

@@ -6,24 +6,13 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 19:41:55 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/22 12:57:53 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/23 00:00:46 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../include/macro.h"
 #include "../include/parsing.h"
-
-/* typedef struct s_temp
-{
-	t_tok_link	*cmd_list_first;
-	t_tok_link	*cmd_list_last;
-	t_tok_link	*in_list_first;
-	t_tok_link	*in_list_last;
-	t_tok_link	*out_list_first;
-	t_tok_link	*out_list_last;
-	t_temp		*next;
-}	t_temp; */
 
 //I don't really need to keep all the redirections tokens if i can just test
 //them immediatly and replace the previous one with the last one done??
@@ -38,7 +27,7 @@ t_temp	*token_sorter(t_tok_list *list)
 	t_tok_link	*nextlink;
 	t_temp		*temp;
 	t_temp		*tempfirst;
-	
+
 	temp = mktemplist();
 	tempfirst = temp;
 	link = list->first;
@@ -77,15 +66,17 @@ t_temp	*mktemplist(void)
 	temp_link->in_list_first = NULL;
 	temp_link->out_list_first = NULL;
 	temp_link->next = NULL;
-	return(temp_link);
+	return (temp_link);
 }
 
 void	add_token_arg(t_temp *temp, t_tok_link *link)
 {
-	if(temp->cmd_list_first == NULL)
+	if (temp->cmd_list_first == NULL)
 		temp->cmd_list_first = link;
-	if(temp->cmd_list_last != NULL)
+	if (temp->cmd_list_last != NULL)
 		temp->cmd_list_last->next = link;
+	printf("inputin sorter = \n");//tg
+	print_char_tab(link->str);//g
 	temp->cmd_list_last = link;
 	temp->cmd_list_last->next = NULL;
 }
@@ -127,8 +118,18 @@ int	add_token_in(t_temp *temp, t_tok_link *link)
 //need to do access tests for targets(F_OK, W_OK if F_OK, maybe R_OK??)
 int	add_token_out(t_temp *temp, t_tok_link *link)
 {
+	int	fd;
+	
 	if (temp->out_list_first != NULL)
 		destroy_token(temp->in_list_first);
 	temp->out_list_first = link;
+	fd = open(link->str[0], O_CREAT | O_WRONLY | O_TRUNC,
+			S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
+	if (fd < 0)
+	{
+		printerror(link->str[0]);
+		return (FAIL);
+	}
+	close (fd);
 	return (1);
 }
