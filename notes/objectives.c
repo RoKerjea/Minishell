@@ -112,7 +112,9 @@ redirections need heredocs to complete
 
 signals need exec first
 error messages, last to complete because need every possibilities, but can be added one by one
-
+BUG
+if cmd>str $PAGER str $USER str (fixed)
+sometimes, !added the end??
 //BONUSES
 1 - Les wildcards * doivent fonctionner pour le répertoire courant.
 (donc QUE pour les fichiers et dossiers presents a ce niveau de ce dossier

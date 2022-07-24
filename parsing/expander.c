@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/24 19:59:48 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/24 20:52:13 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*prototype(char *str, t_env *local_env)
 	quote = -1;
 	i = 0;
 	j = 0;
-	wordlink = make_word_link(str, ft_strlen(str));
+	wordlink = make_word_link("", 1);
 	firstword = wordlink;
 	while (str[i] != '\0')
 	{
@@ -65,11 +65,12 @@ char	*prototype(char *str, t_env *local_env)
 			if (i > j && j > 0)
 				wordlink = make_add_wordlink(str + (j - 1), i - j + 1, wordlink);
 			else if (i > j)
+			{
 				wordlink = make_add_wordlink(str + j, i - j, wordlink);
+			}
 			wordlink = make_add_wordlink(str + i, wordlen(str + i), wordlink);
 			i += wordlen(str + i) + 1;
 			j = i;
-			printf ("gateprototype02 \n");
 		}
 		else
 			i++;
@@ -91,7 +92,7 @@ char	*fuse_and_clean(struct	s_word *wordlink, t_env *local_env)
 	firstword = wordlink;
 	while (wordlink != NULL)
 	{
-		printf ("word in curr link = %s \n", wordlink->word);
+		//printf ("word in curr link = %s \n", wordlink->word);
 		wordlink = wordlink->next;
 	}
 	wordlink = firstword->next;
@@ -110,11 +111,11 @@ char	*fuse_and_clean(struct	s_word *wordlink, t_env *local_env)
 		}
 		wordlink = wordlink->next;
 	}
-	printf ("gatefuseclean02 \n");
+	//printf ("gatefuseclean02 \n");
 	wordlink = firstword;
 	while (wordlink != NULL)
 	{
-		printf ("word in curr link after exp = %s \n", wordlink->word);
+		//printf ("word in curr link after exp = %s \n", wordlink->word);
 		wordlink = wordlink->next;
 	}
 	wordlink = firstword->next;
@@ -141,7 +142,7 @@ struct	s_word	*make_word_link(char *str, int len)
 {
 	struct	s_word	*wordlink;
 
-	wordlink = malloc(sizeof(struct s_word));
+	wordlink = malloc(sizeof(struct	s_word));
 	wordlink->word = strndup(str, len);
 	wordlink->next = NULL;
 	return (wordlink);
@@ -149,7 +150,6 @@ struct	s_word	*make_word_link(char *str, int len)
 
 struct	s_word	*make_add_wordlink(char *str, int len, struct	s_word *prevword)
 {
-	printf("str = %s\n", str);
 	struct s_word	*now_word;
 
 	now_word = make_word_link(str, len);
