@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 22:10:02 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/22 23:37:50 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/24 17:03:58 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,26 @@ void	remove_variable(char *str, t_env *env_list)
 	t_env_link	*linknext;
 
 	link = find_link(str, env_list);
-	linkprev = link->prev;
-	linknext = link->next;
-	if (linknext != NULL && linkprev != NULL)
-		forgelink (linkprev, linknext);
-	free (link->name);
-	free (link->variable);
-	free (link);
-	env_list->len--;
-	if (linkprev == NULL)
+	if (link != NULL)
 	{
-		env_list->first = linknext;
-		linknext->prev = NULL;
-	}
-	if (linknext == NULL)
-	{
-		env_list->last = linkprev;
-		linkprev->next = NULL;
+		linkprev = link->prev;
+		linknext = link->next;
+		if (linknext != NULL && linkprev != NULL)
+			forgelink (linkprev, linknext);
+		free (link->name);//use env_link_destroyer in env_destroyer TODO
+		free (link->variable);
+		free (link);
+		env_list->len--;
+		if (linkprev == NULL)
+		{
+			env_list->first = linknext;
+			linknext->prev = NULL;
+		}
+		if (linknext == NULL)
+		{
+			env_list->last = linkprev;
+			linkprev->next = NULL;
+		}
 	}
 }
 
@@ -90,7 +93,6 @@ void	update_variable(char *str, t_env *env_list)
 //for expand functionality during parsing
 char	*get_env_var(char *name, t_env *env_list)
 {
-	printf ("getenvvar\n");
 	t_env_link	*link;
 
 	link = find_link(name, env_list);
@@ -104,13 +106,13 @@ char	*get_env_var(char *name, t_env *env_list)
 //for env_update, export, expand, cd, pwd, etc
 t_env_link	*find_link(char *var_name, t_env *env_list)
 {
-	printf ("getlinkr\n");
 	t_env_link		*link;
 
 	link = env_list->first;
 	while (link != NULL)
 	{
-		if (strncmp(var_name, link->name, ft_strlen(var_name)) == 0 && strncmp(var_name, link->name, ft_strlen(link->name)) == 0)
+		if (strncmp(var_name, link->name, ft_strlen(var_name)) == 0
+			&& strncmp(var_name, link->name, ft_strlen(link->name)) == 0)
 			return (link);
 		link = link->next;
 	}

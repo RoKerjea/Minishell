@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:06:47 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/24 00:12:29 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/24 16:51:23 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,8 @@ int	env_unset(char **cmd, t_env *local_env)
 	i = 0;
 	while (cmd[i] != NULL)
 	{
-		printf("str to remove = %s\n", cmd[i] + 5);
-		remove_variable(cmd[i] + 5, local_env);
+		//printf("str to remove = \'%s\'\n", cmd[i] + 6);
+		remove_variable(cmd[i] + 6, local_env);
 		i++;
 	}
 	return (0);
@@ -168,10 +168,7 @@ int	echo(char **cmd, t_env *local_env)
 	if (newline == 1)
 		printf("/n");
 	return(0);//protect write?
-}
-
-
- */
+}*/
 /*
 need to return int for exit status, to be used for "$?"
 all of them should use(char *cmd, t_env *local_env)

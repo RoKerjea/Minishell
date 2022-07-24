@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 19:37:22 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/22 20:49:55 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/24 16:46:54 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	squash(char *str, int start)
 	int	i;
 
 	i = start + 1;
-	printf("gatesquash %d\n", start);
 	while (str[i] != '\0')
 	{
 		str[i - 1] = str[i];
@@ -65,7 +64,6 @@ char	*unquoter(char *str)
 		if (str[i] == '\'' || str[i] == '\"')
 		{
 			mem = find_end_quote(str + i, str[i]);
-			printf("mem =  %d\n", mem);
 			squash(str, i);
 			i += mem - 2;
 			squash(str, i);
@@ -74,14 +72,3 @@ char	*unquoter(char *str)
 	}
 	return (str);
 }
-
-/* 
-int	main(void)
-{
-	char	*str;
-	str = ft_strdup("c\"eci \"e'st un' te\"\"st!\n");
-	str = unquoter(str);
-	printf("%s", str);
-	free (str);
-	return(0);
-} */

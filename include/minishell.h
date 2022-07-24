@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/22 20:47:03 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/24 16:46:30 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_env_link
 	struct s_env_link	*prev;
 }		t_env_link;
 
-typedef struct s_env//maybe one more int for $?, the exit status of last command done?
+typedef struct s_env
 {
 	unsigned int		len;
 	unsigned int		lst_exit;
@@ -41,10 +41,10 @@ typedef struct s_env//maybe one more int for $?, the exit status of last command
 	struct s_env_link	*last;
 }		t_env;
 
-typedef struct s_parsed_cmd//new version
+typedef struct s_parsed_cmd
 {
-	int					exec_type;//defined in macro
-	char				**cmd_args;//for execve, arg[0] sera la cmd dont trouver le path, ou dont le path sera donne
+	int					exec_type;
+	char				**cmd_args;
 	char				*redir_in;
 	char				*heredoc;
 	char				*redir_out;
