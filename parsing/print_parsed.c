@@ -8,7 +8,8 @@ void	print_char_tab(char **tab)
 	int i;
 
 	i = 0;
-	while (tab[i] != NULL)
+	printf("gate\n");
+	while (tab[i] != NULL && tab[i][0] != '\0')
 	{
 		printf("arg n%d = %s\n", i, tab[i]);
 		i++;
@@ -23,8 +24,12 @@ void	print_parsed_list(t_parsed_cmd *final_link)
 	while (final_link != NULL)
 	{
 		printf("Maillon %d is of type %d\n", i, final_link->exec_type);
-		printf("cmd args are:\n");
-		print_char_tab(final_link->cmd_args);
+		
+		if (final_link->cmd_args != NULL)
+		{
+			printf("cmd args are:\n");
+			print_char_tab(final_link->cmd_args);
+		}
 		if (final_link->redir_in != NULL)
 		{
 			printf("redir in target:");

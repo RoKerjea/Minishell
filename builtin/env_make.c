@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 21:07:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/20 20:13:55 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/24 20:03:57 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,28 @@
 //FILE: everything needed to create and assign internal env of minishell
 //really need to think about protection from malloc in links!!
 
+int	env_destroy_link(t_env_link *link)
+{
+	free (link->name);
+	free (link->variable);
+	free (link);
+	return (0);
+}
+
+int	env_destroy_list(t_env *env_list)
+{
+	t_env_link *link;
+	t_env_link *nextlink;
+
+	link = env_list->first;
+	while (link != NULL)
+	{
+		nextlink = link->next;
+		env_destroy_link (link);
+		link = next_history;
+	}
+	return (0);
+}
 
 t_env	*minimal_env(void)
 {
