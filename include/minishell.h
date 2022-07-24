@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/24 16:46:30 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/07/24 20:09:05 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_parsed
 	t_parsed_cmd	*last;
 }		t_parsed;
 
+//LIBFT
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 unsigned long	ft_strlen(const char *s);
 char			*ft_strchr(const char *s, int c);
