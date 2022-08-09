@@ -86,6 +86,10 @@ The  shell  shall give the export attribute to the
 
 every redirection dup is done in child process
 but verification that they exist happen before
+//TODO
+separer la structr env du .h principal, vu qu'il est utile dans tt les modules, on peut l'include ds tt les differents .h
+si la partie main n'a acces qu'au fonctions principales des modules(interacteur/porte d'entree)
+le .h du main peut etre tres limite, pareil pour ttout les modules et sous modules(builtins dans exec)
 
 //PRIORITIES
 builtins don't need anything, and can be unified in style

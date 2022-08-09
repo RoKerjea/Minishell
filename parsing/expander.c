@@ -215,6 +215,11 @@ char	*expand_res(char *str, int i, t_env *local_env, char *res)
  */
 char	*get_var_content(char *str, t_env *local_env)
 {
+	/*
+	need
+	if (name == $?)
+	return(itoa(local_env->lst_exit));
+	*/
 	char		*res;
 	char		*name;
 	t_env_link	*link;
