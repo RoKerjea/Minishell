@@ -104,6 +104,7 @@ pointeurs sur fonctions pour builtins
 syntax error sur les multipipes
 not expand heredoc delimiter/name
 expand all content of heredoc if allowed(even if '$NAME' format inside a heredoc)
+archi a revoir? fonctions externes
 
 //PRIORITIES
 builtins don't need anything, and can be unified in style
