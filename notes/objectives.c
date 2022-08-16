@@ -1,5 +1,4 @@
-/*get ac, av, env, heredoc
-
+/*
 Afficher un prompt en l’attente d’une nouvelle commande.
 (probablement readline? puis wait until newline?)
 
@@ -86,10 +85,25 @@ The  shell  shall give the export attribute to the
 
 every redirection dup is done in child process
 but verification that they exist happen before
+
 //TODO
 separer la structr env du .h principal, vu qu'il est utile dans tt les modules, on peut l'include ds tt les differents .h
 si la partie main n'a acces qu'au fonctions principales des modules(interacteur/porte d'entree)
-le .h du main peut etre tres limite, pareil pour ttout les modules et sous modules(builtins dans exec)
+le .h du main peut etre tres limite, pareil pour tout les modules et sous modules(builtins dans exec)
+message erreurs
+status sortie(avec signaux)
+export qui trie en ordre ascii avec prefix
+char **env to create from t_env
+heredoc!!
+refacto, from the start...
+$?
+leaks....(everywhere......)
+malloc protection
+new .h limites avec des scopes precis pour pas mettre tout au meme endroit
+pointeurs sur fonctions pour builtins
+syntax error sur les multipipes
+not expand heredoc delimiter/name
+expand all content of heredoc if allowed(even if '$NAME' format inside a heredoc)
 
 //PRIORITIES
 builtins don't need anything, and can be unified in style
@@ -118,7 +132,17 @@ signals need exec first
 error messages, last to complete because need every possibilities, but can be added one by one
 BUG
 if cmd>str $PAGER str $USER str (fixed)
-sometimes, !added the end??
+sometimes, !added at the end??
+
+
+
+
+
+
+
+
+
+
 //BONUSES
 1 - Les wildcards * doivent fonctionner pour le répertoire courant.
 (donc QUE pour les fichiers et dossiers presents a ce niveau de ce dossier
