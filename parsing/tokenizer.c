@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/22 19:58:07 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/18 19:26:33 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 #include "../include/macro.h"
 
 //need to divide into creation and parsing?
-// FILE: what's needed to make list of tokens from input
+// CONTENT OF FILE: what's needed to make list of tokens from input
 // INPUT: the full line from readline
 // OUTPUT: liste chainee de token contenant seulement les '|', str pour cmd,
 // et redirections avec leurs cibles
+
 //zsh: parse error near `>'
 
 //start of tokenizer, create list of token, launch token separator,

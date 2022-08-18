@@ -91,20 +91,29 @@ separer la structr env du .h principal, vu qu'il est utile dans tt les modules, 
 si la partie main n'a acces qu'au fonctions principales des modules(interacteur/porte d'entree)
 le .h du main peut etre tres limite, pareil pour tout les modules et sous modules(builtins dans exec)
 message erreurs
-status sortie(avec signaux)
+status sortie(avec signaux, probaby at the end, with $?)
 export qui trie en ordre ascii avec prefix
-char **env to create from t_env
+char **env to create from t_env, and destructor(ft_freetab(xx))
 heredoc!!
 refacto, from the start...
 $?
 leaks....(everywhere......)
 malloc protection
 new .h limites avec des scopes precis pour pas mettre tout au meme endroit
-pointeurs sur fonctions pour builtins
-syntax error sur les multipipes
-not expand heredoc delimiter/name
-expand all content of heredoc if allowed(even if '$NAME' format inside a heredoc)
-archi a revoir? fonctions externes
+pointeurs sur fonctions pour builtins(at the end, as bonus/practice)
+syntax error sur les multipipes("|||")
+not expand heredoc delimiter/name(check type o token before expander)
+expand all content of heredoc if allowed(even if '$NAME' format inside a heredoc, single quotes INSIDE heredoc doesn't counts)
+archi a revoir? fonctions externes seuls points de contacts entre modules et "master" functions
+env structs in other .h
+struct destructors
+*tokenizer
+*expander
+*splitter
+*unquoter
+*token assembler
+*(redir parser)
+*parsed list maker
 
 //PRIORITIES
 builtins don't need anything, and can be unified in style
