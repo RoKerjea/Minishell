@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/18 19:26:33 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/20 19:06:49 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_tok_list	*tokenizerstart(char *input)
 	printf("len of input == %lu\n", strlen(input)); //TEST to delete
 	sep_token(input, token_list);
 	//protect
-	if (syntax_checker(token_list) == NO)
+	if (syntax_checker(token_list) == NO)//fuse with malloc protection result so destroy isn't repeated??
 	{
 		destroy_token_list(token_list);
 		return (NULL);
@@ -51,7 +51,7 @@ void	sep_token(char *str, t_tok_list *list)
 	{
 		while (ft_isspace(str[i]) == YES && str[i] != '\0')
 			i++;
-		if (is_meta(str[i]) == NO && str[i] != '\0')
+		if (is_meta(str[i]) == NO && str[i] != '\0')//maybe fuse the ifs in a single function outside, that just check if valid and destroy list??
 		{
 			i += str_tokenizer(list, str + i);
 			//protect

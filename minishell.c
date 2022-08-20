@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/23 21:58:02 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/20 19:03:41 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	input(t_env *local_env)
 		if (input[0] == NULL || input[0][0] == '\0')//J'aime pas :/
 		{
 			printf("no input!\n");
-			continue ;
+			continue ;//peux virer les continue si je fais une fonction check input qui fait les deux if avec des returns!!
 		}
 		add_history (input[0]);
 		if (check_input(input[0]) == NO)//can put next steps inside actions of that if?
