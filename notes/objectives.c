@@ -92,16 +92,15 @@ si la partie main n'a acces qu'au fonctions principales des modules(interacteur/
 le .h du main peut etre tres limite, pareil pour tout les modules et sous modules(builtins dans exec)
 export qui trie en ordre ascii avec prefix
 
-
 refacto, from the start...
 malloc protection
 leaks....(everywhere......)
 struct destructors
 message erreurs
 $?
-status sortie(avec signaux, probaby at the end, with $?)
+status sortie(avec signaux, probaby at the end, with $? + sigvalue)
 char **env to create from t_env, and destructor(ft_freetab(xx))
-heredoc!!
+heredoc!!(create temp folder, temp file, random names with target name as base for name)
 
 pointeurs sur fonctions pour builtins(at the end, as bonus/practice)
 syntax error sur les multipipes("|||")
