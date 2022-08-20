@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/23 22:03:51 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/20 20:33:16 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ t_parsed	*parser(char *input, t_env *local_env)
 	printf ("gate before parser\n");
 	parsed_list = list_parser(temp);
 	print_parsed_list(parsed_list->first);
-	//return (parsed_list);
+	//clean destroy final list, just for leaks check before exec merge
+	//return (parsed_list); //or NULL if malloc error
 	return (NULL);
 }
 
