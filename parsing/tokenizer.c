@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/21 18:33:59 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/21 18:54:41 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,6 @@ int	token_var(t_tok_link *link, char *str, int i)
 	link->meta = meta_type(link->str[0]);
 	//link->str[0] = ft_strtrim_replace(link->str[0], "> <");
 	//does it work for every cases? possibly yes
-	if (link->str[0] == 0)
-	{
-		link->meta = FAIL;
-		return (0);
-	}
 	return (1);
 }
 
@@ -101,7 +96,7 @@ int	str_tokenizer(t_tok_list *list, char *str)
 	link = make_add_link(list);//to protect also
 	if (link == NULL)
 	{
-		list->last->meta = FAIL;//what if this is the first link?
+		list->len = 0;//what if this is the first link?
 		return (0);
 	}
 	while (is_meta(str[i]) == NO && str[i] != '\0')

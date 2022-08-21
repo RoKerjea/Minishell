@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 19:42:10 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/21 17:15:00 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/21 18:51:50 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ char	*redir_trimmer(char	*str, int i)
 // identify the type of redirection the current token is
 enum	e_type	meta_type(char *str)
 {
+	if (!str)
+		return (FAIL);
 	if (strncmp(str, "<<", 2) == 0)
 	{
 		if (strchr(str, '\'') != 0)
