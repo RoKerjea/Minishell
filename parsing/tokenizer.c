@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/21 18:54:41 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/21 19:32:32 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "../include/parsing.h"
 #include "../include/macro.h"
 
-//need to divide into creation and parsing?
 // CONTENT OF FILE: what's needed to make list of tokens from input
 // INPUT: the full line from readline
 // OUTPUT: liste chainee de token contenant seulement les '|', str pour cmd,
@@ -33,14 +32,11 @@ t_tok_list	*tokenizerstart(char *input)
 		return (NULL);
 	printf("len of input == %lu\n", strlen(input)); //TEST to delete
 	sep_token(input, token_list);//if == ERROR then destroy and return NULL?
-	//protect
-	/*
 	if (token_list->last->meta == FAIL || token_list->len == 0 || syntax_checker(token_list) == NO)
 	{
 		destroy_token_list(token_list);
 		return (NULL);
-	}
-	*/
+	}	
 	if (syntax_checker(token_list) == NO)//fuse with malloc protection result so destroy isn't repeated??
 	{
 		destroy_token_list(token_list);
@@ -128,11 +124,13 @@ int	meta_tokenizer(t_tok_list *list, char *str)
 	link = make_add_link(list);
 	if (link == NULL)
 	{
-		list->last->meta = FAIL;
+		list->len = 0;
 		return (0);
 	}
 	i += metachar_parser(str);
 	printf("str in metaparse == \"%s\", strlen = %d\n", str, i); // TEST to delete
+	if (token_var(link, str, i) == 0)
+		return (0);
 /* 	link->str = malloc(sizeof(char *) * 2);
 	link->str[0] = ft_strndup(str, i);
 	link->str[1] = 0;

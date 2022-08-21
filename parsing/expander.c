@@ -6,13 +6,17 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/24 20:52:13 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/21 19:48:05 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../include/macro.h"
 #include "../include/parsing.h"
+
+// CONTENT OF FILE: what's needed to expand content of tokenlink->str[0], correspondning to env variable
+// INPUT: linked list of token
+// OUTPUT: same list but with expander step executed on str
 
 //expander function, to be used after tokenizer but before parser
 //send input str back but with $VAR replaced by its content in env
@@ -28,7 +32,7 @@ void	token_expander(t_tok_list *list, t_env *local_env)
 		{
 			expanded = prototype(token->str[0], local_env);
 			//protect
-			//free (token->str);
+			free (token->str);
 			token->str[0] = expanded;
 		}
 		token = token->next;

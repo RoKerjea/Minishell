@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 21:07:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/24 20:16:26 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/21 19:45:56 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_env	*env_list(char **env)
 	t_env_link	*prev;
 
 
-	env_list = malloc(sizeof(env_list));
+	env_list = malloc(sizeof(t_env));
 	i = 0;
 	env_list->first = create_link(env[i]);
 	i++;
