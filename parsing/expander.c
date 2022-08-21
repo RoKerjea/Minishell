@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/21 19:48:05 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/21 20:46:06 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,7 @@ char	*prototype(char *str, t_env *local_env)
 			if (i > j && j > 0)
 				wordlink = make_add_wordlink(str + (j - 1), i - j + 1, wordlink);
 			else if (i > j)
-			{
 				wordlink = make_add_wordlink(str + j, i - j, wordlink);
-			}
 			wordlink = make_add_wordlink(str + i, wordlen(str + i), wordlink);
 			i += wordlen(str + i) + 1;
 			j = i;
@@ -160,63 +158,7 @@ struct	s_word	*make_add_wordlink(char *str, int len, struct	s_word *prevword)
 	prevword->next = now_word;
 	return (now_word);
 }
-/* 
-char	*expander(char *str, t_env *local_env)
-{
-	unsigned int	i;
-	unsigned int	last_var;
-	int				quote;
-	char			*res;
-	char			*temp;
-	
-	quote = -1;
-	i = 0;
-	res = malloc(1);
-	res[0] = '\0';
-	while (str[i] != '\0')
-	{
-		if (str[i] == '\"')
-			quote *= -1;//pas tres beau, mais ca signale si on est a l'interieur de "" ou non (-1 exterieur, 1 interieur)
-		if (str[i] == '\'' && quote == -1)
-			i += find_end_quote(str + i, '\'');//si les ' sont entre des "" actifs, ils ne comptent pas!
-		else if (str[i] == '$')
-		{
-			printf ("gateexpandres %d\n", i);
-			res = expand_res(str, i, local_env, res);
-			i += wordlen(str + i);
-			last_var = i;
-			temp = ft_strjoin(res, ft_strdup(str + last_var));
-			free (res);
-			res = temp;
-		}
-		else
-			i++;
-	}
-	printf ("gateexpandedres res = %s\n", res);
- 	temp = ft_strjoin(res, ft_strdup(str + last_var));
-	free (res);
-	res = temp; 
-	//make an strdup of whats AFTER last variable, and join(res, laststr);
-	printf ("expanded str = %s\n", res);
-	return (res);
-}
 
-char	*expand_res(char *str, int i, t_env *local_env, char *res)
-{
-	char	*str1;
-	char	*str2;
-	//char	*res;
-
-	str1 = res;
-	str2 = get_var_content(str + i, local_env);
-	printf ("gateexpandres2, str1 = %s, str2 = %s\n", str1, str2);
-	res = ft_strjoin(str1, str2);
-	free (str1);
-	free (str2);
-	printf ("gateexpandres res = %s\n", res);
-	return (res);
-}
- */
 char	*get_var_content(char *str, t_env *local_env)
 {
 	/*
