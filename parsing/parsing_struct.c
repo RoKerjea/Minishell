@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 18:13:48 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/20 18:57:06 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/21 17:18:32 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ t_tok_list	*make_list(void)
 	t_tok_list	*list;
 
 	list = malloc(sizeof(t_tok_list));//memset??
-	//protect
+	if (list == NULL)//protect
+		return (NULL);
 	list->len = 0;
 	list->first = NULL;
 	list->last = NULL;
@@ -33,7 +34,8 @@ t_tok_link	*make_add_link(t_tok_list *list)
 	t_tok_link	*link;
 
 	link = malloc(sizeof(t_tok_link));//memset?
-	//protect
+	if (link == NULL)//protect
+		return (NULL);
 	if (list->len == 0)
 	{
 		list->first = link;
@@ -52,7 +54,8 @@ t_tok_link	*make_add_link(t_tok_list *list)
 
 void	destroy_token(t_tok_link *link)
 {
-	free(link->str);
+	if (link->str != NULL);
+	ft_freetab(link->str);
 	free(link);
 }
 
@@ -68,5 +71,6 @@ void	destroy_token_list(t_tok_list *list)
 		destroy_token(link);
 		link = nextlink;
 	}
-	free (list);
+	if (list)
+		free (list);
 }

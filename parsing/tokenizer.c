@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/20 19:53:12 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/21 17:17:17 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,17 @@ t_tok_list	*tokenizerstart(char *input)
 	t_tok_list	*token_list;
 
 	token_list = make_list();
+	if (token_list == NULL)
+		return (NULL);
 	printf("len of input == %lu\n", strlen(input)); //TEST to delete
 	sep_token(input, token_list);//if == ERROR then destroy and return NULL?
 	//protect
 	/*
-	if (!token_list)
+	if (token_list->last->meta == FAIL || token_list->len == 0 || syntax_checker(token_list) == NO)
+	{
+		destroy_token_list(token_list);
 		return (NULL);
+	}
 	*/
 	if (syntax_checker(token_list) == NO)//fuse with malloc protection result so destroy isn't repeated??
 	{
@@ -50,7 +55,7 @@ void	sep_token(char *str, t_tok_list *list)
 	int	i;
 
 	i = 0;
-	printf("//input at start of tokenizer== \"%s\"\n", str); // TEST to delete
+	printf("//input at start of tokenizer== \"%s\"\n", str);//TEST to delete
 	while (str[i] != '\0')
 	{
 		while (ft_isspace(str[i]) == YES && str[i] != '\0')
@@ -58,14 +63,23 @@ void	sep_token(char *str, t_tok_list *list)
 		if (is_meta(str[i]) == NO && str[i] != '\0')//maybe fuse the ifs in a single function outside, that just check if valid and return error?
 		{
 			i += str_tokenizer(list, str + i);
-			//protect
 		}
 		else if (is_meta(str[i]) == YES && str[i] != '\0')
 		{
 			i += meta_tokenizer(list, str + i);
-			//protect
 		}
+		if (list->last->meta == FAIL || list->len == 0)
+			return ;
 	}
+}
+
+int	token_var(t_tok_link *link, char *str, int i)
+{
+	link->str = malloc(sizeof(char *) * 2);//char **because after split need char** as arg of execve
+	link->str[0] = ft_strndup(str, i);
+	link->str[1] = 0;
+	link->meta = meta_type(link->str[0]);
+	return (1);
 }
 
 // get str until EOL or metachar, presumably part of same cmd for exec
@@ -76,6 +90,11 @@ int	str_tokenizer(t_tok_list *list, char *str)
 
 	i = 0;
 	link = make_add_link(list);//to protect also
+	if (link == NULL)
+	{
+		list->last->meta = FAIL;//what if this is the first link?
+		return (0);
+	}
 	while (is_meta(str[i]) == NO && str[i] != '\0')
 	{
 		if (str[i] == '\'' || str[i] == '\"')
@@ -84,12 +103,13 @@ int	str_tokenizer(t_tok_list *list, char *str)
 			i++;
 	}
 	printf("str in strparse == \"%s\", strlen = %d\n", str, i); // TEST to delete
-	link->str = malloc(sizeof(char *) * 2);//char **because after split need char** as arg of execve
+	if (token_var(link, str, i) == 0)
+		return (0);
+/* 	link->str = malloc(sizeof(char *) * 2);//char **because after split need char** as arg of execve
 	link->str[0] = ft_strndup(str, i);
 	link->str[1] = 0;
-	//protect
 	printf("str made == \"%s\"\n", link->str[0]); // TEST to delete
-	link->meta = CMD;
+	link->meta = CMD; */
 	link->str[0] = ft_strtrim_replace(link->str[0], " ");//protect too, maybe only thing needed to protect if inside it, it can manage a char* NULL and return NULL immediatly
 	return (i);
 }
@@ -102,13 +122,18 @@ int	meta_tokenizer(t_tok_list *list, char *str)
 
 	i = 0;
 	link = make_add_link(list);
+	if (link == NULL)
+	{
+		list->last->meta = FAIL;
+		return (0);
+	}
 	i += metachar_parser(str);
 	printf("str in metaparse == \"%s\", strlen = %d\n", str, i); // TEST to delete
-	link->str = malloc(sizeof(char *) * 2);
+/* 	link->str = malloc(sizeof(char *) * 2);
 	link->str[0] = ft_strndup(str, i);
 	link->str[1] = 0;
 	//protect
-	link->meta = meta_type(link->str[0]);
+	link->meta = meta_type(link->str[0]); */
 	if (link->meta == IN || link->meta == OUT)//what if strtrim_replce(str, "> <")??? it should get us rid of everything at once!!
 		link->str[0] = redir_trimmer(link->str[0], 1);
 	if (link->meta == APPEND || link->meta == HEREDOC)
@@ -121,6 +146,8 @@ char	*ft_strtrim_replace(char *str, char *totrim)//if str == NULL, return NULL, 
 {
 	char	*temp;
 
+	if (str == NULL)
+		return (str);
 	temp = ft_strtrim(str, totrim);
 	free (str);
 	str = temp;

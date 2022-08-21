@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 19:42:10 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/22 19:52:40 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/21 17:15:00 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ enum	e_type	meta_type(char *str)
 	if (strncmp(str, "|", 1) == 0)
 		return (PIPE);
 	else
-		return (FAIL);
+		return (CMD);
 }
 
 // fnd & return the length of meta token, from the metachar,
