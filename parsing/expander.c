@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/21 20:46:06 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/24 14:11:19 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ char	*fuse_and_clean(struct	s_word *wordlink, t_env *local_env)
 		res = temp;
 		wordlink = wordlink->next;
 	}
+	wordlink_destroyer(firstword);
 /* 	wordlink = firstword->next;
 	struct	s_word	*tempword;
  	while (wordlink != NULL)//loop of destroy, starting from first;
@@ -138,6 +139,22 @@ char	*fuse_and_clean(struct	s_word *wordlink, t_env *local_env)
 		wordlink = tempword->next;
 	} */
 	return (res);
+}
+
+void	wordlink_destroyer(struct s_word *firstword)
+{
+	struct	s_word	*tempword;
+	struct	s_word	*wordlink;
+	
+	wordlink = firstword->next;
+ 	while (wordlink != NULL)//loop of destroy, starting from first;
+	{
+		tempword = wordlink;
+		free (wordlink->word);
+		free (wordlink);
+		wordlink = tempword->next;
+	}	
+	return ;
 }
 
 struct	s_word	*make_word_link(char *str, int len)

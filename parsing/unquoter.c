@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 19:37:22 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/24 16:46:54 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/24 13:36:58 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,6 @@ int	unquote_link(t_tok_link *link)
 	return (i);
 }
 
-int	squash(char *str, int start)
-{
-	int	i;
-
-	i = start + 1;
-	while (str[i] != '\0')
-	{
-		str[i - 1] = str[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (0);
-}
-
 char	*unquoter(char *str)
 {
 	int	i;
@@ -71,4 +57,18 @@ char	*unquoter(char *str)
 		i++;
 	}
 	return (str);
+}
+
+int	squash(char *str, int start)
+{
+	int	i;
+
+	i = start + 1;
+	while (str[i] != '\0')
+	{
+		str[i - 1] = str[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (0);
 }

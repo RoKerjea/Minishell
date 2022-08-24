@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 19:42:10 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/21 18:51:50 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/24 13:59:49 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 char	*redir_trimmer(char	*str, int i)
 {
 	char	*temp;
+
 	temp = str;
 	str = ft_strdup(str + i);
 	free (temp);
@@ -59,8 +60,9 @@ int	metachar_parser(char *str)
 		return (0);
 }
 
+// could be fused later with str parser?
 // find & return the length of arg of redirection token
-int	meta_and_arg_size(char *str) // could be fused later with str parser?
+int	meta_and_arg_size(char *str)
 {
 	int	i;
 

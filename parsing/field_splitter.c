@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:35:17 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/23 21:50:00 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/24 13:54:45 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ char	**field_splitter(char *s, char c)
 	res = (char **)malloc(sizeof(char *) * (wnum + 1));
 	if (!res)
 		return (NULL);
-	printf("num of field = %d\n", wnum);
+	printf("num of field = %d\n", wnum);//TO DEL
 	res[wnum] = 0;
 	wnum = 0;
 	while (s[i] && wnum < field_counter(s, c))
 	{
 		while (s[i] == c)
 			i++;
-		printf("str after spaces = %s\n", s + i);
+		printf("str after spaces = %s\n", s + i);//TO DEL
 		lenfield = len_field(s + i, c);
 		res[wnum] = ft_strndup(s + i, lenfield);
 		if (!(res[wnum]))
@@ -106,6 +106,8 @@ int	str_table_counter(char **str_table)
 		res++;
 	return (res);
 }*/
+
+//une ligne a enlever, probablement un i++ qqpart suffira
 char	**char_tab_fuser(char **str1, char **str2)
 {
 	char	**res;
@@ -113,8 +115,7 @@ char	**char_tab_fuser(char **str1, char **str2)
 	int		j;
 	int		count;
 
-	count = str_table_counter(str1);
-	count += str_table_counter(str2);
+	count = str_table_counter(str1) + str_table_counter(str2);
 	res = malloc (sizeof(char *) * (count + 1));
 	if (!res)
 		return (NULL);
