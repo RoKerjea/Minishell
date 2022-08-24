@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/20 19:03:41 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/24 22:55:07 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	input(t_env *local_env)
 		}
 		builtin_parser(input, local_env);//ca il faudra le mettre ailleur, mais il marchera pareil
 		list = parser(input[0], local_env);
+		destroy_env_input_list(list, input, local_env);
 		//parser(input[0], local_env);
 		(void)list;
 		//local_env->lst_exit = exec(list, local_env);

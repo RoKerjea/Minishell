@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/20 20:33:16 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/24 20:32:03 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,18 @@ t_parsed	*parser(char *input, t_env *local_env)
 	//bash: $TEST: ambiguous redirect if TEST="file1 file2", in, redirection step in parser probably
 	//means parse step after expander wich is after tokenizer, yup
 	token_expander(list, local_env); //HERE
-	//print_token(list);
+	print_token(list);
+	printf("\033[1;31m");
+	printf ("gate before splitter\n");
+	printf("\033[0m");
+	print_token(list);
 	token_splitter(list);
+	printf("\033[1;31m");
+	printf ("gate before unquoter\n");
+	printf("\033[0m");
+	print_token(list);
 	unquoter_loop(list);
-	//print_token(list);
+	print_token(list);
 	temp = token_sorter(list);
 	print_temp_list(temp);
 	printf ("gate before parser\n");

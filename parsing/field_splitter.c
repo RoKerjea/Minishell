@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:35:17 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/24 13:54:45 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/24 22:27:27 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ char	**field_splitter(char *s, char c)
 		i += lenfield;
 		wnum++;
 	}
+	print_char_tab(res);
 	return (res);
 }
 
@@ -89,7 +90,9 @@ int	token_splitter(t_tok_list	*list)
 		if (ft_strchr(token->str[0], ' ') != 0)
 		{
 			splitted = field_splitter(token->str[0], ' ');
+			print_char_tab(splitted);
 			ft_freetab(token->str);
+			print_char_tab(splitted);
 			token->str = splitted;
 		}
 		token = token->next;

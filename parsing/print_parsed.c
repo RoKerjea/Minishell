@@ -8,8 +8,7 @@ void	print_char_tab(char **tab)
 	int i;
 
 	i = 0;
-	printf("gate\n");
-	while (tab[i] != NULL && tab[i][0] != '\0')
+	while (tab[i])
 	{
 		printf("arg n%d = %s\n", i, tab[i]);
 		i++;
