@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/24 18:42:33 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/30 18:48:17 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	token_expander(t_tok_list *list, t_env *local_env)
 		{
 			expanded = prototype(token->str[0], local_env);
 			//protect
-			free (token->str);
+			free (token->str[0]);
 			token->str[0] = expanded;
 		}
 		token = token->next;
@@ -47,8 +47,8 @@ rejoin all??
 char	*prototype(char *str, t_env *local_env)
 {
 	char	*res;
-	int		i;
-	int		j;
+	long unsigned int		i;
+	long unsigned int	j;
 	t_word	*wordlink;
 	t_word	*firstword;
 	int		quote;
@@ -58,7 +58,8 @@ char	*prototype(char *str, t_env *local_env)
 	j = 0;
 	wordlink = make_word_link("", 1);
 	firstword = wordlink;
-	while (str[i] != '\0')
+	
+	while (i <= ft_strlen(str))
 	{
 		if (str[i] == '\"')
 			quote *= -1;//pas tres beau, mais ca signale si on est a l'interieur de "" ou non (-1 exterieur, 1 interieur)
@@ -88,7 +89,7 @@ void	wordlink_destroyer(struct s_word *firstword)
 	struct	s_word	*tempword;
 	struct	s_word	*wordlink;
 	
-	wordlink = firstword->next;
+	wordlink = firstword;
  	while (wordlink != NULL)//loop of destroy, starting from first;
 	{
 		tempword = wordlink->next;

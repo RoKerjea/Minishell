@@ -10,7 +10,7 @@ void	print_char_tab(char **tab)
 	i = 0;
 	while (tab[i])
 	{
-		printf("arg n%d = %s\n", i, tab[i]);
+		printf("arg n%d = (%s)\n", i, tab[i]);
 		i++;
 	}
 }
@@ -22,29 +22,29 @@ void	print_parsed_list(t_parsed_cmd *final_link)
 	i = 0;
 	while (final_link != NULL)
 	{
-		printf("Maillon %d is of type %d\n", i, final_link->exec_type);
+		printf("CMD %d is of type %d\n", i, final_link->exec_type);
 		
-		if (final_link->cmd_args != NULL)
+		if (final_link->cmd_args)
 		{
 			printf("cmd args are:\n");
 			print_char_tab(final_link->cmd_args);
 		}
-		if (final_link->redir_in != NULL)
+		if (final_link->redir_in)
 		{
 			printf("redir in target:");
 			printf("%s\n", final_link->redir_in);
 		}
-		if (final_link->heredoc != NULL)
+		if (final_link->heredoc)
 		{
 			printf("heredoc delimiteur/target:");
 			printf("%s\n", final_link->heredoc);
 		}
-		if (final_link->redir_out != NULL)
+		if (final_link->redir_out)
 		{
 			printf("redir out target:");
 			printf("%s\n", final_link->redir_out);
 		}
-		if (final_link->redir_append != NULL)
+		if (final_link->redir_append)
 		{
 			printf("redir append target:");
 			printf("%s\n", final_link->redir_append);

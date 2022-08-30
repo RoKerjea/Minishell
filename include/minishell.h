@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/24 20:09:05 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/30 18:20:06 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int				ft_atoi(const char *str);
 char			*ft_strtrim(char const *s1, char const *set);
 
 //ENV_MAKE.C
+int	env_destroy_list(t_env *env_list);
 t_env			*minimal_env(void);
 t_env			*env_list(char **env);
 t_env_link		*create_link(char *envstr);
@@ -98,4 +99,8 @@ int	builtin_parser(char **input, t_env *local_env);
 
 int	find_end_quote(char *str, char c);
 
+
+//TODELETE
+void	print_parsed_list(t_parsed_cmd *final_link);
+void	destroy_final_list(t_parsed *parsed_list);
 #endif

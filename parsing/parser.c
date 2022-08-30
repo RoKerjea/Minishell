@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/24 20:32:03 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/30 18:20:29 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,45 +46,82 @@ t_parsed	*parser(char *input, t_env *local_env)
 	//bash: $TEST: ambiguous redirect if TEST="file1 file2", in, redirection step in parser probably
 	//means parse step after expander wich is after tokenizer, yup
 	token_expander(list, local_env); //HERE
-	print_token(list);
+/* 	print_token(list);
 	printf("\033[1;31m");
 	printf ("gate before splitter\n");
 	printf("\033[0m");
-	print_token(list);
+	print_token(list); */
 	token_splitter(list);
+	
 	printf("\033[1;31m");
 	printf ("gate before unquoter\n");
 	printf("\033[0m");
 	print_token(list);
+	
 	unquoter_loop(list);
+
+
 	print_token(list);
+	
 	temp = token_sorter(list);
-	print_temp_list(temp);
+	free (list);
 	printf ("gate before parser\n");
+
 	parsed_list = list_parser(temp);
-	print_parsed_list(parsed_list->first);
-	//clean destroy final list, just for leaks check before exec merge
+	
+	
+	//destroy_token_list(list);
 	//return (parsed_list); //or NULL if malloc error
-	return (NULL);
+	return (parsed_list);
+}
+
+void	destroy_final_list(t_parsed *parsed_list)
+{
+	t_parsed_cmd *cmd;
+	t_parsed_cmd *cmd_next;
+	
+	cmd = parsed_list->first;
+	while (cmd != NULL)
+	{
+		cmd_next = cmd->next;
+		ft_freetab(cmd->cmd_args);
+		if (cmd->redir_in)
+			free(cmd->redir_in);
+		if (cmd->heredoc)
+			free(cmd->heredoc);
+		if (cmd->redir_out)
+			free(cmd->redir_out);
+		if (cmd->redir_append)
+			free(cmd->redir_append);
+		free (cmd);
+		cmd = cmd_next;
+	}
+	free (parsed_list);
+	return;
 }
 
 t_parsed	*list_parser(t_temp *temp)
 {
 	t_parsed *parsed_list;
+	t_temp *temp_next;
 
 	parsed_list = malloc(sizeof(t_parsed));
+	temp_next = temp->next;
 	parsed_list->len = 1;
 	parsed_list->first = make_parsed_link(temp);
 	parsed_list->last = parsed_list->first;
 	//destroy temp struct
-	temp = temp->next;
+	free (temp);
+	temp = temp_next;
 	while (temp != NULL)
 	{
+		temp_next = temp->next;
 		printf ("gate one more cmd\n");
 		parsed_list->last->next = make_parsed_link(temp);
 		parsed_list->last = parsed_list->last->next;
 		parsed_list->len++;
-		temp = temp->next;
+		free (temp);
+		temp = temp_next;
 	}
 	return (parsed_list);
 }
@@ -117,16 +154,18 @@ t_parsed_cmd	*make_parsed_link(t_temp *temp)
 	if (temp->in_list_first != NULL)
 	{
 		if (temp->in_list_first->meta == IN)
-			link->redir_in = temp->in_list_first->str[0];
+			link->redir_in = ft_strdup(temp->in_list_first->str[0]);
 		if (temp->in_list_first->meta == HEREDOC)
-			link->heredoc = temp->in_list_first->str[0];
+			link->heredoc = ft_strdup(temp->in_list_first->str[0]);
+		destroy_token(temp->in_list_first);
 	}
 	if (temp->out_list_first != NULL)
 	{
 		if (temp->out_list_first->meta == OUT)
-			link->redir_out = temp->out_list_first->str[0];
+			link->redir_out = ft_strdup(temp->out_list_first->str[0]);
 		if (temp->out_list_first->meta == APPEND)
-			link->redir_append = temp->out_list_first->str[0];
+			link->redir_append = ft_strdup(temp->out_list_first->str[0]);
+		destroy_token(temp->out_list_first);
 	}
 	link->next = NULL;
 	if (temp->type == 0)
@@ -178,6 +217,7 @@ char	**empty_tab(void)
 //expand, split,unquotes here?NO, only fusion of multiple char** TODO
 char	**get_args(t_tok_link *token)
 {
+	t_tok_link	*token_next;
 	char	**res;
 	int		i;
 	
@@ -187,11 +227,13 @@ char	**get_args(t_tok_link *token)
 	//prot
 	while (token != NULL && token->str[0] != NULL)//can get rid of num?
 	{
+		token_next = token->next;
 		//res[i] = ft_strdup(token->str[0]);
 		//protect
 		res = char_tab_fuser(res, token->str);
 		i++;
-		token = token->next;
+		destroy_token(token);
+		token = token_next;
 		//del previous token here ?
 	}
 	return (res);

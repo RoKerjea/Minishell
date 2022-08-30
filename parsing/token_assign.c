@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 19:41:55 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/23 22:05:56 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/30 18:01:21 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_temp	*token_sorter(t_tok_list *list)
 		{
 			temp->next = mktemplist();
 			temp = temp->next;
+			destroy_token (link);
 			printf ("gate new temp\n");
 		}
 		else
@@ -121,7 +122,7 @@ int	add_token_out(t_temp *temp, t_tok_link *link)
 	int	fd;
 	
 	if (temp->out_list_first != NULL)
-		destroy_token(temp->in_list_first);
+		destroy_token(temp->out_list_first);
 	temp->out_list_first = link;
 	fd = open(link->str[0], O_CREAT | O_WRONLY | O_TRUNC,
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);

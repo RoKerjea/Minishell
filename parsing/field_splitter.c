@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:35:17 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/24 22:27:27 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/30 17:45:43 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	len_field(char *s, char c)
 		}
 		i++;
 	}
-	return (i + 1);
+	return (i);
 }
 
 char	**field_splitter(char *s, char c)
@@ -63,7 +63,7 @@ char	**field_splitter(char *s, char c)
 	printf("num of field = %d\n", wnum);//TO DEL
 	res[wnum] = 0;
 	wnum = 0;
-	while (s[i] && wnum < field_counter(s, c))
+	while (wnum < field_counter(s, c))
 	{
 		while (s[i] == c)
 			i++;
@@ -90,9 +90,9 @@ int	token_splitter(t_tok_list	*list)
 		if (ft_strchr(token->str[0], ' ') != 0)
 		{
 			splitted = field_splitter(token->str[0], ' ');
-			print_char_tab(splitted);
+			//print_char_tab(splitted);
 			ft_freetab(token->str);
-			print_char_tab(splitted);
+			//print_char_tab(splitted);
 			token->str = splitted;
 		}
 		token = token->next;
@@ -137,7 +137,7 @@ char	**char_tab_fuser(char **str1, char **str2)
 	}
 	res[i] = NULL;
 	ft_freetab(str1);
-	ft_freetab(str2);
+	//ft_freetab(str2);
 	return (res);
 }
 

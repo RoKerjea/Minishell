@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/21 20:35:33 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/30 18:43:07 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,8 @@ int	meta_tokenizer(t_tok_list *list, char *str)
 	link->str[1] = 0;
 	//protect
 	link->meta = meta_type(link->str[0]); */
+	if (link->meta == PIPE)
+		return (i);
 	if (link->meta == IN || link->meta == OUT)//what if strtrim_replce(str, "> <")??? it should get us rid of everything at once!!
 		link->str[0] = redir_trimmer(link->str[0], 1);
 	if (link->meta == APPEND || link->meta == HEREDOC)

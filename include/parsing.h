@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:41:23 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/23 21:40:29 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/30 17:29:39 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int	metachar_parser(char *str);
 int	meta_and_arg_size(char *str);
 
 //PARSER
+
+void	destroy_final_list(t_parsed *parsed_list);
 t_parsed	*list_parser(t_temp *temp);
 t_parsed_cmd	*make_parsed_link(t_temp *temp);
 int	get_type(char **cmd_args);

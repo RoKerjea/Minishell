@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 17:08:59 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/06/18 21:31:35 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/30 17:44:28 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	**ft_freetab(char **tab)
 	int	i;
 
 	i = 0;
-	while (tab[i])
+	while (tab[i] != NULL)
 		i++;
 	while (i >= 0)
 	{

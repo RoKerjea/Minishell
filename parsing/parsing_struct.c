@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 18:13:48 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/21 19:18:43 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/30 17:45:05 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_tok_link	*make_add_link(t_tok_list *list)
 
 void	destroy_token(t_tok_link *link)
 {
-	if (link->str != NULL)
+	if (link->str)
 		ft_freetab(link->str);
 	free(link);
 }

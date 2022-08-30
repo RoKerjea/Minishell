@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 21:07:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/21 19:45:56 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/30 16:18:50 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	env_destroy_list(t_env *env_list)
 		env_destroy_link (link);
 		link = nextlink;
 	}
+	free (env_list);
 	return (0);
 }
 

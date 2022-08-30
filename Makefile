@@ -109,4 +109,4 @@ git: fclean
 
 re:			fclean all
 
-.PHONY:		all clean fclean re gitm git printstart
+.PHONY:		all clean fclean re gitm git
