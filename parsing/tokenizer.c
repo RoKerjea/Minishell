@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/30 18:43:07 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/30 19:02:35 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_tok_list	*tokenizerstart(char *input)
 	token_list = make_list();
 	if (token_list == NULL)
 		return (NULL);
-	printf("len of input == %lu\n", strlen(input)); //TEST to delete
+	//printf("len of input == %lu\n", strlen(input)); //TEST to delete
 	sep_token(input, token_list);//if == ERROR then destroy and return NULL?
 	if (token_list->last->meta == FAIL || token_list->len == 0 || syntax_checker(token_list) == NO)
 	{
@@ -51,12 +51,12 @@ void	sep_token(char *str, t_tok_list *list)
 	int	i;
 
 	i = 0;
-	printf("//input at start of tokenizer== \"%s\"\n", str);//TEST to delete
+	//printf("//input at start of tokenizer== \"%s\"\n", str);//TEST to delete
 	while (str[i] != '\0')
 	{
 		while (ft_isspace(str[i]) == YES && str[i] != '\0')
 			i++;
-		if (is_meta(str[i]) == NO && str[i] != '\0')//maybe fuse the ifs in a single function outside, that just check if valid and return error?
+		if (is_meta(str[i]) == NO && str[i] != '\0')
 		{
 			i += str_tokenizer(list, str + i);
 		}

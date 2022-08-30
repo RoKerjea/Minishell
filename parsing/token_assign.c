@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 19:41:55 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/30 18:01:21 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/08/30 19:10:45 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ void	printerror(char *prob)
 	write(2, strerror(errno), ft_strlen(strerror(errno)));
 	if (prob)
 	{
-		write(2, prob, ft_strlen(prob));
 		write(2, ": ", 2);
+		write(2, prob, ft_strlen(prob));
 	}
 	write(2, "\n", 1);
 }

@@ -146,15 +146,6 @@ BUG
 if cmd>str $PAGER str $USER str (fixed)
 sometimes, !added at the end??
 
-
-
-
-
-
-
-
-
-
 //BONUSES
 1 - Les wildcards * doivent fonctionner pour le répertoire courant.
 (donc QUE pour les fichiers et dossiers presents a ce niveau de ce dossier
