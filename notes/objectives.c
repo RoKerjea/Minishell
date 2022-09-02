@@ -106,7 +106,7 @@ heredoc!!(create temp folder, temp file, random names with target name as base f
 
 pointeurs sur fonctions pour builtins(at the end, as bonus/practice)
 
-syntax error sur les multipipes("|||")
+parse error sur les multipipes("|||") ou ("| |")
 
 not expand heredoc delimiter/name(check type o token before expander)
 expand all content of heredoc if allowed(even if '$NAME' format inside a heredoc, single quotes INSIDE heredoc doesn't counts)
@@ -150,6 +150,8 @@ error messages, last to complete because need every possibilities, but can be ad
 BUG
 if cmd>str $PAGER str $USER str (fixed)
 sometimes, !added at the end??
+if env -i minishell, $PATH existe tout de meme!
+exit arg (arg cannot be bigger than long long unsigned, before % 256, need strlen comp and atoll(arg) )
 
 //BONUSES
 1 - Les wildcards * doivent fonctionner pour le répertoire courant.
