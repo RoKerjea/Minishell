@@ -99,14 +99,19 @@ struct destructors
 message erreurs
 $?
 status sortie(avec signaux, probaby at the end, with $? + sigvalue)
+
 char **env to create from t_env, and destructor(ft_freetab(xx))
+
 heredoc!!(create temp folder, temp file, random names with target name as base for name)
 
 pointeurs sur fonctions pour builtins(at the end, as bonus/practice)
+
 syntax error sur les multipipes("|||")
+
 not expand heredoc delimiter/name(check type o token before expander)
 expand all content of heredoc if allowed(even if '$NAME' format inside a heredoc, single quotes INSIDE heredoc doesn't counts)
 archi a revoir? fonctions externes seuls points de contacts entre modules et "master" functions
+
 new .h limites avec des scopes precis pour pas mettre tout au meme endroit
 env structs in other .h
 *tokenizer

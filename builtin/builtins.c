@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:06:47 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/24 16:51:23 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/02 22:27:20 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,6 @@ int	env_unset(char **cmd, t_env *local_env)
 //rajouter une ft par builtin pour verifier input format, return to keep in struct $?, et printerror
 int	builtin_parser(char **cmd, t_env *local_env)
 {
-	printf ("builtin\n");
 	//if (ft_strncmp(cmd, "echo", 4) == 0 && (cmd[4] == ' ' || cmd[4] == '\0'))
 	if (ft_strncmp(cmd[0], "exit", 4) == 0 && (cmd[0][4] == ' ' || cmd[0][4] == '\0'))//need function for exit arg or last exit status
 		return(final_exit(cmd, local_env));
@@ -145,11 +144,9 @@ int	builtin_parser(char **cmd, t_env *local_env)
 		return(cd(cmd, local_env));
 	if (ft_strncmp(cmd[0], "export", 6) == 0 && (cmd[0][7] != ' ' || cmd[0][7] != '\0'))
 		return(env_export(cmd, local_env));
-		//update_variable(cmd[0] + 7, local_env);//need to trim spaces if there are any, at the beginning
 	if (ft_strncmp(cmd[0], "unset", 5) == 0 && (cmd[0][6] != ' ' || cmd[0][6] != '\0'))
 		return(env_unset(cmd, local_env));
-		//remove_variable(cmd[0] + 5, local_env);
-	return(1);
+	return (1);
 }
 
 /* 

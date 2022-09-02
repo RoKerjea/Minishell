@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 21:07:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/30 16:18:50 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/02 22:26:07 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int	env_destroy_link(t_env_link *link)
 
 int	env_destroy_list(t_env *env_list)
 {
-	t_env_link *link;
-	t_env_link *nextlink;
+	t_env_link	*link;
+	t_env_link	*nextlink;
 
 	link = env_list->first;
 	while (link != NULL)
@@ -63,10 +63,9 @@ t_env	*minimal_env(void)
 t_env	*env_list(char **env)
 {
 	int			i;
-	t_env		*env_list;//maybe need to malloc it actually, bit weird like that!
+	t_env		*env_list;
 	t_env_link	*now;
 	t_env_link	*prev;
-
 
 	env_list = malloc(sizeof(t_env));
 	i = 0;
