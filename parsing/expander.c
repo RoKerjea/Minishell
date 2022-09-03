@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/03 16:59:14 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/03 20:25:58 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,12 +142,11 @@ char	*fuse_and_clean(struct	s_word *wordlink, t_env *local_env)
 	return (res);
 }
 
-
 struct	s_word	*make_word_link(char *str, int len)
 {
-	struct	s_word	*wordlink;
+	struct s_word	*wordlink;
 
-	wordlink = malloc(sizeof(struct	s_word));
+	wordlink = malloc(sizeof(struct s_word));
 	wordlink->word = strndup(str, len);
 	wordlink->next = NULL;
 	return (wordlink);
@@ -164,23 +163,21 @@ struct	s_word	*make_add_wordlink(char *str, int len, struct	s_word *prevword)
 
 char	*get_var_content(char *str, t_env *local_env)
 {
+	char		*res;
+	char		*name;
+	t_env_link	*link;
+
 	/*
 	need
 	if (name == $?)
 	return(itoa(local_env->lst_exit));
 	*/
-	char		*res;
-	char		*name;
-	t_env_link	*link;
-
 	name = extract_name(str);
-	printf ("gategetvar2, name = %s\n", name);
 	//parsename for particular cases ($" and $') and their return
 	//what if name start by $ or other metachar?(error)	
 	link = find_link(name, local_env);
 	if (link == NULL)
 		return (NULL);
-	printf ("gategetvar4, content of var = %s\n", link->variable);
 	res = ft_strdup(link->variable);
 	free (name);
 	return (res);
@@ -209,7 +206,6 @@ int	wordlen(char *str)
 from left to right, until $, stdup(str, i), when $, find variable, stdup var, join str1 and str2,
 same from end of $var in original string, repeat, until '\0'...
 */
-
 
 /*Parcourir les str de gauche a droite, suivant les cas de $x(et quotes), translate from env ou delete/ignore
 can go through str while str[i] != '\0'

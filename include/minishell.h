@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/03 15:10:32 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/03 20:37:59 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ char			*ft_strtrim(char const *s1, char const *set);
 
 //ENV_MAKE.C
 int	env_destroy_list(t_env *env_list);
+int	env_destroy_link(t_env_link *link);
 t_env			*minimal_env(void);
 t_env			*env_list(char **env);
 t_env_link		*create_link(char *envstr);

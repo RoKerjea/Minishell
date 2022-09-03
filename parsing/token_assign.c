@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 19:41:55 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/30 19:10:45 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/03 20:35:54 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ t_temp	*mktemplist(void)
 	temp_link->type = 1;
 	temp_link->cmd_list_first = NULL;
 	temp_link->cmd_list_last = NULL;
-	temp_link->in_list_first = NULL;
-	temp_link->out_list_first = NULL;
+	temp_link->redir_in = NULL;
+	temp_link->redir_out = NULL;
 	temp_link->next = NULL;
 	return (temp_link);
 }
@@ -99,9 +99,9 @@ void	printerror(char *prob)
 //print "minishell: (target): No such file or directory" on error fd
 int	add_token_in(t_temp *temp, t_tok_link *link)
 {
-	if (temp->in_list_first != NULL)
-		destroy_token(temp->in_list_first);
-	temp->in_list_first = link;
+	if (temp->redir_in != NULL)
+		destroy_token(temp->redir_in);
+	temp->redir_in = link;
 	if (access(link->str[0], F_OK))
 	{
 		printerror(link->str[0]);
@@ -121,9 +121,9 @@ int	add_token_out(t_temp *temp, t_tok_link *link)
 {
 	int	fd;
 	
-	if (temp->out_list_first != NULL)
-		destroy_token(temp->out_list_first);
-	temp->out_list_first = link;
+	if (temp->redir_out != NULL)
+		destroy_token(temp->redir_out);
+	temp->redir_out = link;
 	fd = open(link->str[0], O_CREAT | O_WRONLY | O_TRUNC,
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
 	if (fd < 0)

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:06:47 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/03 15:18:01 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/03 20:14:17 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ int	env_export(char **cmd, t_env *local_env)
 		update_variable(cmd[i] + 7, local_env);
 		i++;
 	}
-	//NEED print export type for cmd[1] ==NULL
+	//NEED print export type for cmd[1] == NULL
+	//print_export(local_env);
 	return (0);
 }
 

@@ -23,9 +23,7 @@ SRCS		=	${addprefix parsing/, \
 				token_parser.c \
 				unquoter.c \
 				parser.c \
-				parsing_struct.c \
-				print_parsed.c \
-				print_token.c} \
+				parsing_struct.c} \
 				${addprefix libft/, \
 				ft_strlen.c \
 				ft_split.c \
@@ -41,6 +39,9 @@ SRCS		=	${addprefix parsing/, \
 				directories.c \
 				env_make.c \
 				env_use.c} \
+				${addprefix testdir/, \
+				print_parsed.c \
+				print_token.c} \
 				minishell.c
 
 HEADER		= include/shell_parsing.h

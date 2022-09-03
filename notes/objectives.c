@@ -153,6 +153,14 @@ sometimes, !added at the end??
 if env -i minishell, $PATH existe tout de meme!
 exit arg (arg cannot be bigger than long long unsigned, before % 256, need strlen comp and atoll(arg) )
 
+step by step:
+merge basique
+env fuser in char**
+faire marcher sans builtins
+faire marcher builtins
+mettre les fonctions tests ds test.h
+cas d'echecs particuliers
+
 //BONUSES
 1 - Les wildcards * doivent fonctionner pour le répertoire courant.
 (donc QUE pour les fichiers et dossiers presents a ce niveau de ce dossier
