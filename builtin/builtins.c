@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:06:47 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/02 22:27:20 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/03 15:18:01 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	final_exit(char **cmd, t_env *local_env)
 	status = local_env->lst_exit;
 	if (str_table_counter(cmd) > 1)
 	{
-		status = ft_atoi(cmd[1]);
+		status = ft_atoi(cmd[1]);//need atoll and checker if x > long long max
 		if (status == -1)
 		{
 			printf("minishell: exit: %s: numeric argument required\n", cmd[1]);
@@ -62,9 +62,9 @@ int	final_exit(char **cmd, t_env *local_env)
 		printf("minishell: exit: too many arguments\n");
 		return(1);
 	}
-	//free all local_env
+	//free all local_env and cmd_link
 	printf ("exiting\n");
-	exit (status);
+	exit (status % 256);
 }
 
 int	env(char **cmd, t_env *local_env)

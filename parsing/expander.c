@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/30 18:48:17 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/03 16:59:14 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ then, expand first word after *str[0]
 replace,
 rejoin all??
 */
-char	*prototype(char *str, t_env *local_env)
+char	*prototype(char *str, t_env *local_env)//need to norme this!!
 {
 	char	*res;
 	long unsigned int		i;
@@ -110,12 +110,9 @@ char	*fuse_and_clean(struct	s_word *wordlink, t_env *local_env)
 	res[0] = '\0';
 	firstword = wordlink;
 	while (wordlink != NULL)
-	{
-		//printf ("word in curr link = %s \n", wordlink->word);
 		wordlink = wordlink->next;
-	}
 	wordlink = firstword->next;
-	while (wordlink != NULL)//loop of expander
+	while (wordlink != NULL)//loop of expander, should be external function
 	{
 		if (wordlink->word[0] == '$')
 		{
@@ -130,15 +127,11 @@ char	*fuse_and_clean(struct	s_word *wordlink, t_env *local_env)
 		}
 		wordlink = wordlink->next;
 	}
-	//printf ("gatefuseclean02 \n");
 	wordlink = firstword;
 	while (wordlink != NULL)
-	{
-		//printf ("word in curr link after exp = %s \n", wordlink->word);
 		wordlink = wordlink->next;
-	}
 	wordlink = firstword->next;
-	while (wordlink != NULL)//res = loop of fuse, starting from second;
+	while (wordlink != NULL)//res = loop of fuse, starting from second, can be external function
 	{
 		temp = ft_strjoin(res, wordlink->word);
 		free (res);
@@ -146,15 +139,6 @@ char	*fuse_and_clean(struct	s_word *wordlink, t_env *local_env)
 		wordlink = wordlink->next;
 	}
 	wordlink_destroyer(firstword);
-/* 	wordlink = firstword->next;
-	struct	s_word	*tempword;
- 	while (wordlink != NULL)//loop of destroy, starting from first;
-	{
-		tempword = wordlink;
-		free (wordlink->word);
-		free (wordlink);
-		wordlink = tempword->next;
-	} */
 	return (res);
 }
 

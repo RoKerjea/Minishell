@@ -54,18 +54,6 @@ void	print_parsed_list(t_parsed_cmd *final_link)
 	}
 }
 
-/* typedef struct s_temp
-{
-	t_tok_link	*cmd_list_first;
-	t_tok_link	*cmd_list_last;
-	t_tok_link	*in_list_first;
-	t_tok_link	*in_list_last;
-	t_tok_link	*out_list_first;
-	t_tok_link	*out_list_last;
-	t_temp		*next;
-
-}	t_temp; */
-
 void	print_temp_list(t_temp *temp)
 {
 	int i;
@@ -85,9 +73,9 @@ void	print_temp_link(t_temp *temp)
 	printf("str tokens : \n");
 	print_token_list(temp->cmd_list_first);
 	printf("in redirections tokens : \n");
-	print_token_list(temp->in_list_first);
+	print_token_list(temp->redir_in);
 	printf("out redirections tokens : \n");
-	print_token_list(temp->out_list_first);
+	print_token_list(temp->redir_out);
 }
 
 void	print_token_list(t_tok_link *token)

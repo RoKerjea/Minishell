@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/30 18:20:29 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/03 16:52:54 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,7 @@ t_parsed	*parser(char *input, t_env *local_env)
 	
 	list = tokenizerstart(input);
 	//print_token(list);
-	//expander loop here? replace in every str in every link of list
 	//bash: $TEST: ambiguous redirect if TEST="file1 file2", in, redirection step in parser probably
-	//means parse step after expander wich is after tokenizer, yup
 	token_expander(list, local_env); //HERE
 /* 	print_token(list);
 	printf("\033[1;31m");
@@ -59,17 +57,14 @@ t_parsed	*parser(char *input, t_env *local_env)
 	print_token(list);
 	
 	unquoter_loop(list);
-
-
-	print_token(list);
-	
+		
 	temp = token_sorter(list);
 	free (list);
+	
 	printf ("gate before parser\n");
 
 	parsed_list = list_parser(temp);
-	
-	
+		
 	//destroy_token_list(list);
 	//return (parsed_list); //or NULL if malloc error
 	return (parsed_list);
@@ -132,11 +127,11 @@ t_parsed	*list_parser(t_temp *temp)
 //!neeed a complete step of redirection parsing and only returning one for in and out at maximum
 t_parsed_cmd	*make_parsed_link(t_temp *temp)
 {
-	//printf ("gate4\n");
 	t_parsed_cmd	*link;
 
 	link = malloc(sizeof(t_parsed_cmd));
 	//prot
+	//memset (link, 0, sizeof(t_parsed_cmd))
 	if (temp->cmd_list_first == NULL)
 	{
 		link->cmd_args = NULL;
@@ -147,25 +142,26 @@ t_parsed_cmd	*make_parsed_link(t_temp *temp)
 		link->cmd_args = get_args(temp->cmd_list_first);
 		link->exec_type = get_type(link->cmd_args);
 	}
+	//can delete next 4 lines if memset link
 	link->redir_in = NULL;
 	link->heredoc = NULL;
 	link->redir_out = NULL;
 	link->redir_append = NULL;
-	if (temp->in_list_first != NULL)
+	if (temp->redir_in != NULL)//can externalize in subfunctions
 	{
-		if (temp->in_list_first->meta == IN)
-			link->redir_in = ft_strdup(temp->in_list_first->str[0]);
-		if (temp->in_list_first->meta == HEREDOC)
-			link->heredoc = ft_strdup(temp->in_list_first->str[0]);
-		destroy_token(temp->in_list_first);
+		if (temp->redir_in->meta == IN)
+			link->redir_in = ft_strdup(temp->redir_in->str[0]);
+		if (temp->redir_in->meta == HEREDOC)
+			link->heredoc = ft_strdup(temp->redir_in->str[0]);
+		destroy_token(temp->redir_in);
 	}
-	if (temp->out_list_first != NULL)
+	if (temp->redir_out != NULL)
 	{
-		if (temp->out_list_first->meta == OUT)
-			link->redir_out = ft_strdup(temp->out_list_first->str[0]);
-		if (temp->out_list_first->meta == APPEND)
-			link->redir_append = ft_strdup(temp->out_list_first->str[0]);
-		destroy_token(temp->out_list_first);
+		if (temp->redir_out->meta == OUT)
+			link->redir_out = ft_strdup(temp->redir_out->str[0]);
+		if (temp->redir_out->meta == APPEND)
+			link->redir_append = ft_strdup(temp->redir_out->str[0]);
+		destroy_token(temp->redir_out);
 	}
 	link->next = NULL;
 	if (temp->type == 0)

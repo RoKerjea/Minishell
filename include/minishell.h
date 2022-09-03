@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/30 18:20:06 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/03 15:10:32 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <sys/stat.h>
 
 //only builtins and env maker need those structures
+//need next AND prev because if i remove one, i need to link next and prev to each other
 typedef struct s_env_link
 {
 	char				*name;
@@ -37,6 +38,7 @@ typedef struct s_env
 {
 	unsigned int		len;
 	unsigned int		lst_exit;
+	//harcoded $PATH in case of env -i
 	struct s_env_link	*first;
 	struct s_env_link	*last;
 }		t_env;

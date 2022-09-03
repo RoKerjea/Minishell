@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:41:23 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/30 17:29:39 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/03 16:44:50 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ typedef struct s_temp
 	int				type;
 	t_tok_link		*cmd_list_first;
 	t_tok_link		*cmd_list_last;
-	t_tok_link		*in_list_first;
-	t_tok_link		*out_list_first;
+	t_tok_link		*redir_in;
+	t_tok_link		*redir_out;
 	struct s_temp	*next;
 }	t_temp;
 
