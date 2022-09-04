@@ -159,7 +159,9 @@ env fuser in char**
 faire marcher sans builtins
 faire marcher builtins
 mettre les fonctions tests ds test.h
-cas d'echecs particuliers
+create script.sh for tests cases
+diff with same 
+gerer cas d'echecs particuliers
 
 //BONUSES
 1 - Les wildcards * doivent fonctionner pour le répertoire courant.
