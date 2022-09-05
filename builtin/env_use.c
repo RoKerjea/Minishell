@@ -6,13 +6,31 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 22:10:02 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/02 22:24:52 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/05 14:00:51 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 //FILE: everything that use env AFTER it had been created at process startup
+
+char	**make_env_tab(t_env *env)
+{
+	char **res;
+	int	i;
+	t_env_link	*env_link;
+
+	i = 0;
+	res = malloc(sizeof(char *) * env->len);
+	env_link = env->first;
+	while(i < env->len)
+	{
+		res[i] = function(env_link);
+		env_link = env_link->next;
+		i++;
+	}
+	return (res);
+}
 
 //print the env line by line, without formating,
 //in the order it was received, with new variables at the bottom

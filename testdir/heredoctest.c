@@ -80,7 +80,10 @@ int	main(int ac, char** av)
 		if (strcmp(input, end_of_file) != 0)
 			write(filefd, "\n", 1);
 	}
+	open(filepath, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	unlink (filepath);
 	close (filefd);
 	return (0); //should return filepath in the end
 }
+
+//close in parent AND child process?, but unlink in parent before fork?
