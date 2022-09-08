@@ -6,10 +6,13 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/30 18:59:40 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/08 15:25:08 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "./include/common.h"
+#include "./include/exec.h"
+#include "./include/utils.h"
 #include "./include/minishell.h"
 #include "./include/macro.h"
 
@@ -36,17 +39,43 @@ int	check_input(char *input)
 	return (YES);
 }
 
+t_list_info	*cmd_list_info2(t_parsed *cmd_list)
+{
+	t_list_info	*info;
+
+	info = (t_list_info *)malloc(sizeof(t_list_info));
+	if (info == NULL)
+		return (NULL);
+	info->size = cmd_list->len;
+	info->head = cmd_list->first;
+	info->tail = cmd_list->last;
+	info->cpid = NULL;
+	info->cpid = (pid_t *)malloc(sizeof(pid_t) * info->size);
+	if (!info->cpid)
+	{
+		free(info);
+		return (NULL);
+	}
+	for (size_t i = 0; i < 3; i++)
+		info->pfds[i] = -1;
+	for (size_t i = 0; i < 2; i++)
+		info->rfds[i] = -1;
+	info->status = 0;
+	return (info);
+}
+
 //start of input loop, should add to history, tokenize->parse->expand->send to exec
 int	input(t_env *local_env)
 {
 	char		**input;
 	t_parsed	*cmd_list;
+	t_list_info	*list_info;
 
 	input = malloc(sizeof(char *) * 2);
 	input[1] = 0;
 	while (1)
 	{
-		input[0] = ft_strdup("truc <in1 machin $PAGER <in2 >out1 | chose");
+		input[0] = ft_strdup("cat < Makefile | wc");
 		//input[0] = readline ("cmd>");//history should use this
 		if (input[0] == NULL || input[0][0] == '\0')//J'aime pas :/
 		{
@@ -58,19 +87,21 @@ int	input(t_env *local_env)
 			continue ;
 		//builtin_parser(input, local_env);//ca il faudra le mettre ailleur, mais il marchera pareil
 		cmd_list = parser(input[0], local_env);
-		
 		printf("\033[1;31m");
 		printf ("res at end of parsing =>\n");
 		printf("\033[0m");
 		print_parsed_list(cmd_list->first);
-		free(input[0]);
+/* 		free(input[0]);
 		free(input);
-		env_destroy_list(local_env);
-		//local_env->lst_exit = exec(list, local_env);
-		destroy_final_list(cmd_list);
-		exit (0);
+		env_destroy_list(local_env); */
+		//function that call exec_controller need to create list_info for now, with cmd_list as base
+		list_info = cmd_list_info2(cmd_list);
+		local_env->lst_exit = exec_controller(list_info, local_env);
+		//destroy_final_list(cmd_list);
+		//clear history to deal with readline leaks
+		exit (local_env->lst_exit);
 	}
-	return (0);
+	return (local_env->lst_exit);
 }
 
 //start of process, get env and ignore args, make internal env and launch input loop

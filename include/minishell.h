@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/03 20:37:59 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/08 14:17:08 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void			split_env(char *str, t_env_link *link);
 void			forgelink(t_env_link *prev, t_env_link *now);
 
 //ENV_USE.C
+char			**make_env_tab(t_env *env);
 void			printenv(t_env *env);
 void			update_variable(char *str, t_env *env_list);
 void			remove_variable(char *str, t_env *env_list);

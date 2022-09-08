@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 22:10:02 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/05 14:00:51 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/08 15:19:48 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,38 @@
 
 //FILE: everything that use env AFTER it had been created at process startup
 
+char	*function(t_env_link *env_link)
+{
+	char	*res;
+	char	*temp;
+	
+	res = ft_strjoin(env_link->name, "=");
+	//protect
+	temp = ft_strjoin(res, env_link->variable);
+	//protect
+	free (res);
+	res = temp;
+	return (res);
+}
+
 char	**make_env_tab(t_env *env)
 {
 	char **res;
-	int	i;
+	unsigned int	i;
 	t_env_link	*env_link;
 
 	i = 0;
-	res = malloc(sizeof(char *) * env->len);
+	res = (char **)malloc(sizeof(char *) * (env->len + 1));
+	//protect
 	env_link = env->first;
 	while(i < env->len)
 	{
 		res[i] = function(env_link);
+		//protect
 		env_link = env_link->next;
 		i++;
 	}
+	res[i] = 0;
 	return (res);
 }
 

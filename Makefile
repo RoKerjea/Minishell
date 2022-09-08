@@ -33,12 +33,27 @@ SRCS		=	${addprefix parsing/, \
 				ft_freetab.c \
 				ft_strdup.c \
 				ft_strchr.c \
+				ft_putchar_fd.c \
+				ft_putnbr_fd.c \
+				ft_putstr_fd.c \
+				ft_substr.c \
+				get_next_line.c \
 				ft_strncmp.c} \
 				${addprefix builtin/, \
 				builtins.c \
 				directories.c \
 				env_make.c \
 				env_use.c} \
+				${addprefix exec/, \
+				simulate_args.c \
+				exec_controller.c \
+				exec_builtin.c \
+				exec_cmd.c \
+				get_path.c \
+				print_err.c \
+				free_args.c \
+				exec_redirect.c \
+				exec_subshell.c} \
 				${addprefix testdir/, \
 				print_parsed.c \
 				print_token.c} \
@@ -47,6 +62,7 @@ SRCS		=	${addprefix parsing/, \
 HEADER		= include/shell_parsing.h
 RM			= rm -rf
 NAME		= minishell
+INCLUDES	= -I ./includes/
 CC			= gcc $(CFLAGS)
 
 OBJECTS = $(subst /,/build/,${SRCS:.c=.o})

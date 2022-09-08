@@ -35,6 +35,20 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
+char	*find_free_name(char *str)
+{
+	int	x;
+
+	x = ft_strlen(str);
+	x--;
+	str[x] = 'a';
+	while(str[x] <= 'z' && access(str, F_OK) == 0)
+	{
+		str[x]++;
+	}
+	return (str);
+}
+
 char	*findnewname(char *name)
 {
 	char	*res;
@@ -44,12 +58,13 @@ char	*findnewname(char *name)
 	rand = malloc(2);
 	rand[1] = '\n';
 	res = ft_strjoin("/tmp/", name);
+	//protect
 	while (access(res, F_OK) == 0)
 	{
-		rand [0] = 41 + (random () % 136);
-		temp = ft_strjoin(res, rand);
+		temp = ft_strjoin(res, "a");
+		//protect
 		free (res);
-		res = temp;
+		res = find_free_name(temp);
 	}
 	free (rand);
 	printf ("name = %s\n", res);
@@ -62,6 +77,7 @@ int	main(int ac, char** av)
 	char	*end_of_file;
 	char	*filepath;
 	char	*input;
+	//quote flag?? for expander of line
 
 	if (ac != 2)
 	{
