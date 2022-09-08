@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/08 15:25:08 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/08 19:33:05 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ int	input(t_env *local_env)
 	input[1] = 0;
 	while (1)
 	{
-		input[0] = ft_strdup("cat < Makefile | wc");
-		//input[0] = readline ("cmd>");//history should use this
+		//input[0] = ft_strdup("cat < Makefile | wc > out2");
+		input[0] = readline ("cmd>");//history should use this
 		if (input[0] == NULL || input[0][0] == '\0')//J'aime pas :/
 		{
 			printf("no input!\n");
@@ -87,10 +87,10 @@ int	input(t_env *local_env)
 			continue ;
 		//builtin_parser(input, local_env);//ca il faudra le mettre ailleur, mais il marchera pareil
 		cmd_list = parser(input[0], local_env);
-		printf("\033[1;31m");
+/* 		printf("\033[1;31m");
 		printf ("res at end of parsing =>\n");
 		printf("\033[0m");
-		print_parsed_list(cmd_list->first);
+		print_parsed_list(cmd_list->first); */
 /* 		free(input[0]);
 		free(input);
 		env_destroy_list(local_env); */
@@ -99,7 +99,7 @@ int	input(t_env *local_env)
 		local_env->lst_exit = exec_controller(list_info, local_env);
 		//destroy_final_list(cmd_list);
 		//clear history to deal with readline leaks
-		exit (local_env->lst_exit);
+		//exit (local_env->lst_exit);
 	}
 	return (local_env->lst_exit);
 }

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 19:41:55 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/03 20:35:54 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/08 19:54:10 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ t_temp	*token_sorter(t_tok_list *list)
 	link = list->first;
 	while (link != NULL)
 	{
-		nextlink = link->next;
-		printf ("str in token :%s\n", link->str[0]);
+		nextlink = link->next;/* 
+		printf ("str in token :%s\n", link->str[0]); */
 		if (link->meta == CMD)
 			add_token_arg(temp, link);
 		else if (link->meta == IN || link->meta == HEREDOC)
@@ -45,8 +45,8 @@ t_temp	*token_sorter(t_tok_list *list)
 		{
 			temp->next = mktemplist();
 			temp = temp->next;
-			destroy_token (link);
-			printf ("gate new temp\n");
+			destroy_token (link);/* 
+			printf ("gate new temp\n"); */
 		}
 		else
 			printf ("error, meta = %d\n", link->meta);//to delete
@@ -75,9 +75,9 @@ void	add_token_arg(t_temp *temp, t_tok_link *link)
 	if (temp->cmd_list_first == NULL)
 		temp->cmd_list_first = link;
 	if (temp->cmd_list_last != NULL)
-		temp->cmd_list_last->next = link;
+		temp->cmd_list_last->next = link;/* 
 	printf("inputin sorter = \n");//tg
-	print_char_tab(link->str);//g
+	print_char_tab(link->str);//g */
 	temp->cmd_list_last = link;
 	temp->cmd_list_last->next = NULL;
 }

@@ -97,6 +97,7 @@ malloc protection
 leaks....(everywhere......)
 struct destructors
 message erreurs
+cd - et cd~ maybe
 $?
 status sortie(avec signaux, probaby at the end, with $? + sigvalue)
 

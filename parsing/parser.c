@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/03 16:52:54 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/08 19:53:39 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,18 @@ t_parsed	*parser(char *input, t_env *local_env)
 	print_token(list); */
 	token_splitter(list);
 	
-	printf("\033[1;31m");
+	/* printf("\033[1;31m");
 	printf ("gate before unquoter\n");
-	printf("\033[0m");
-	print_token(list);
+	printf("\033[0m"); */
+	/* print_token(list); */
 	
 	unquoter_loop(list);
-		
+	/* 
+	printf ("gate before sorter\n"); */
 	temp = token_sorter(list);
 	free (list);
-	
-	printf ("gate before parser\n");
+	 /* 
+	printf ("gate before parser\n"); */
 
 	parsed_list = list_parser(temp);
 		
@@ -111,7 +112,7 @@ t_parsed	*list_parser(t_temp *temp)
 	while (temp != NULL)
 	{
 		temp_next = temp->next;
-		printf ("gate one more cmd\n");
+		//printf ("gate one more cmd\n");
 		parsed_list->last->next = make_parsed_link(temp);
 		parsed_list->last = parsed_list->last->next;
 		parsed_list->len++;
