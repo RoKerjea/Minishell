@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 02:12:12 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/09 18:44:33 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/09 21:24:16 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void		print_cmd_list(t_parsed_cmd *cmd_list);
 t_list_info	*cmd_list_info(t_parsed_cmd *cmd_list);
 void		free_cmd_list(t_parsed_cmd *cmd_list);
 int			exec_controller(t_list_info *list_info, t_env *local_env);
-int			exec_builtin(char **cmd, char *const envp[]);
+int			exec_builtin(t_parsed_cmd *cmd, t_env *local_env);
 int			exec_redirect(t_parsed_cmd *cmd_list, t_list_info *list_info);
 void		exec_cmd(char **cmd, char **envp);
 void		print_err_open(int errnum, char *path);

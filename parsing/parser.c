@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/08 19:53:39 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/09 20:55:00 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,26 +44,22 @@ t_parsed	*parser(char *input, t_env *local_env)
 	//print_token(list);
 	//bash: $TEST: ambiguous redirect if TEST="file1 file2", in, redirection step in parser probably
 	token_expander(list, local_env); //HERE
-/* 	print_token(list);
-	printf("\033[1;31m");
-	printf ("gate before splitter\n");
-	printf("\033[0m");
-	print_token(list); */
+	/* print_token(list); */
+	/* printf ("\033[1;31mgate before splitter\n\033[0m"); */
+	/* print_token(list); */
 	token_splitter(list);
 	
-	/* printf("\033[1;31m");
-	printf ("gate before unquoter\n");
-	printf("\033[0m"); */
+/* 	printf ("\033[1;31mgate before unquoter\n\033[0m"); */
 	/* print_token(list); */
 	
 	unquoter_loop(list);
-	/* 
-	printf ("gate before sorter\n"); */
+	
+	/* printf ("gate before sorter\n"); */
 	temp = token_sorter(list);
 	free (list);
-	 /* 
-	printf ("gate before parser\n"); */
-
+	 
+/* 	printf ("gate before parser\n");
+ */
 	parsed_list = list_parser(temp);
 		
 	//destroy_token_list(list);

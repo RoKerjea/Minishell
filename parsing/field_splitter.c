@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:35:17 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/30 17:45:43 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/09 20:52:34 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ char	**field_splitter(char *s, char c)
 	res = (char **)malloc(sizeof(char *) * (wnum + 1));
 	if (!res)
 		return (NULL);
-	printf("num of field = %d\n", wnum);//TO DEL
+	//printf("num of field = %d\n", wnum);//TO DEL
 	res[wnum] = 0;
 	wnum = 0;
 	while (wnum < field_counter(s, c))
 	{
 		while (s[i] == c)
 			i++;
-		printf("str after spaces = %s\n", s + i);//TO DEL
+		//printf("str after spaces = %s\n", s + i);//TO DEL
 		lenfield = len_field(s + i, c);
 		res[wnum] = ft_strndup(s + i, lenfield);
 		if (!(res[wnum]))
@@ -75,7 +75,7 @@ char	**field_splitter(char *s, char c)
 		i += lenfield;
 		wnum++;
 	}
-	print_char_tab(res);
+	/* print_char_tab(res); */
 	return (res);
 }
 

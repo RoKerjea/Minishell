@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 00:43:34 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/07/23 00:46:19 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/09/09 21:26:05 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 # include "common.h"
 
-int	final_exit(char **cmd, t_env *local_env);
+int	str_table_counter(char **str_table);
+int	final_exit(t_parsed_cmd *cmd_struct, t_env *local_env);
 int	env(char **cmd, t_env *local_env);
 int	echo(char **cmd, t_env *local_env);
 int	pwd(char **cmd, t_env *local_env);

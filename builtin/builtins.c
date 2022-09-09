@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:06:47 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/09 18:24:03 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/09 20:47:04 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	isflag_newline(char *str)//doit uniquement etre utilise pour echo, mais avan
 	return (1);
 }
 
-int	final_exit(char **cmd, t_env *local_env)
+/* int	final_exit(char **cmd, t_env *local_env)
 {
 	int	status;
 
@@ -65,7 +65,7 @@ int	final_exit(char **cmd, t_env *local_env)
 	//free all local_env and cmd_link
 	//printf ("exiting\n");
 	exit (status % 256);
-}
+} */
 
 int	env(char **cmd, t_env *local_env)
 {

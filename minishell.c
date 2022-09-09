@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/09 17:59:24 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/09 22:29:23 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,14 @@ int	input(t_env *local_env)
 	input[1] = 0;
 	while (1)
 	{
-		//input[0] = ft_strdup("cat < Makefile | wc > out2");
-		input[0] = readline ("cmd>");//history should use this
-		if (input[0] == NULL || input[0][0] == '\0')//J'aime pas :/
+		/* input[0] = ft_strdup("exit 25"); */
+		dup2(1, 2);
+		input[0] = readline ("cmd >");//history should use this
+/* 		if (input[0] == NULL || input[0][0] == '\0')//J'aime pas :/
 		{
 			printf("no input!\n");
 			continue ;//peux virer les continue si je fais une fonction check input qui fait les deux if avec des returns!!
-		}
+		} */
 		add_history (input[0]);
 		if (check_input(input[0]) == NO)//can put next steps inside actions of that if?
 			continue ;
@@ -91,16 +92,15 @@ int	input(t_env *local_env)
 		printf ("res at end of parsing =>\n");
 		printf("\033[0m");
 		print_parsed_list(cmd_list->first); */
-/* 		free(input[0]);
-		free(input);
-		env_destroy_list(local_env); */
+ 		/* free(input[0]);
+		free(input); */
 		//function that call exec_controller need to create list_info for now, with cmd_list as base
 		list_info = cmd_list_info2(cmd_list);
+		free (cmd_list);
 		local_env->lst_exit = exec_controller(list_info, local_env);
 		//destroy_final_list(cmd_list);
 		//clear history to deal with readline leaks
 		//exit (local_env->lst_exit);
-		printf("last exit value = %d\n", local_env->lst_exit);
 	}
 	return (local_env->lst_exit);
 }

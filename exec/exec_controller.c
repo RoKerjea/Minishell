@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 13:42:18 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/09 18:42:01 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/09 21:25:00 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	execute(t_parsed_cmd *cmd, t_list_info *info, t_env *local_env)
 	envp = make_env_tab(local_env);//to make char **env for execve
 	status = 0;
 	if (cmd->exec_type == BUILT)
-		status = exec_builtin(cmd->cmd_args, envp);
+		status = exec_builtin(cmd, local_env);
 	else
 		exec_subshell(cmd, info, envp);
 	return (exit(status), status);
@@ -78,6 +78,8 @@ int	exec_controller(t_list_info *list_info, t_env *local_env)
 		if (list_info->size > 1)
 			if (pipe(list_info->pfds) == -1)
 				return (EXIT_FAILURE); //to protect (free heap + close pfds + errno)
+		if (list_info->size == 1 && cmd_list->exec_type == BUILT)
+			return(exec_builtin(cmd_list, local_env));
 		list_info->cpid[i] = fork();
 		if (list_info->cpid[i] == -1)
 			return (EXIT_FAILURE); //to protect (free heap + close pfds + errno)
