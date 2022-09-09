@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 13:42:18 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/08 14:37:23 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/09 18:42:01 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,22 +58,11 @@ int	execute(t_parsed_cmd *cmd, t_list_info *info, t_env *local_env)
 	char	**envp;
 
 	envp = make_env_tab(local_env);//to make char **env for execve
-/* 	int i = 0;
-	while (envp[i])
-	{
-		printf ("%s\n", envp[i]);
-		i++;
-	} */
 	status = 0;
 	if (cmd->exec_type == BUILT)
 		status = exec_builtin(cmd->cmd_args, envp);
 	else
-	{
-		if (info->size == 1)
-	 		exec_cmd(cmd->cmd_args, envp);
-		else
-			exec_subshell(cmd, info, envp);
-	 }
+		exec_subshell(cmd, info, envp);
 	return (exit(status), status);
 }
 

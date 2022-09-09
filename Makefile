@@ -47,6 +47,7 @@ SRCS		=	${addprefix parsing/, \
 				${addprefix exec/, \
 				simulate_args.c \
 				exec_controller.c \
+				exec_pipeline.c \
 				exec_builtin.c \
 				exec_cmd.c \
 				get_path.c \

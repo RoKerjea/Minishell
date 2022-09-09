@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:06:47 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/03 20:14:17 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/09 18:24:03 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	final_exit(char **cmd, t_env *local_env)
 		return(1);
 	}
 	//free all local_env and cmd_link
-	printf ("exiting\n");
+	//printf ("exiting\n");
 	exit (status % 256);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 02:12:12 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/08 15:10:10 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/09 18:44:33 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ char		**get_paths(char *const envp[]); // to be replaced by t_env
 void		free_err_join(char *path, char *tmp, char **paths);
 void		free_tab(char **tab);
 void		exec_subshell(t_parsed_cmd *cmd, t_list_info *info, char **envp);
+void		exec_pipeline(t_parsed_cmd *cmd, t_list_info *info);
 int			execute(t_parsed_cmd *cmd, t_list_info *info, t_env *local_env);
 
 #endif

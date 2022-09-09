@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/08 19:33:05 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/09 17:59:24 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	input(t_env *local_env)
 			printf("no input!\n");
 			continue ;//peux virer les continue si je fais une fonction check input qui fait les deux if avec des returns!!
 		}
-		//add_history (input[0]);
+		add_history (input[0]);
 		if (check_input(input[0]) == NO)//can put next steps inside actions of that if?
 			continue ;
 		//builtin_parser(input, local_env);//ca il faudra le mettre ailleur, mais il marchera pareil
@@ -100,6 +100,7 @@ int	input(t_env *local_env)
 		//destroy_final_list(cmd_list);
 		//clear history to deal with readline leaks
 		//exit (local_env->lst_exit);
+		printf("last exit value = %d\n", local_env->lst_exit);
 	}
 	return (local_env->lst_exit);
 }

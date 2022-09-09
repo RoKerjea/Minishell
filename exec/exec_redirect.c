@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 19:32:27 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/08 14:28:10 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/09 18:38:05 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	exec_redirect(t_parsed_cmd *cmd_list, t_list_info *list_info)
 	{
 		list_info->rfds[IN] = open(cmd_list->redir_in, O_RDONLY);
 		if (list_info->rfds[IN] == -1)
-			return (EXIT_FAILURE);
+			return (print_err_open(errno, cmd_list->redir_in), EXIT_FAILURE);
 		if (dup2(list_info->rfds[IN], STDIN_FILENO) < 0)
 			exit(EXIT_FAILURE);
 		close(list_info->rfds[IN]);
@@ -36,7 +36,7 @@ int	exec_redirect(t_parsed_cmd *cmd_list, t_list_info *list_info)
 	{
 		list_info->rfds[OUT] = open(cmd_list->redir_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (list_info->rfds[OUT] == -1)
-			return (EXIT_FAILURE);
+			return (print_err_open(errno, cmd_list->redir_out), EXIT_FAILURE);
 		if (dup2(list_info->rfds[OUT], STDOUT_FILENO) < 0)
 			exit(EXIT_FAILURE);
 		close(list_info->rfds[OUT]);
@@ -45,7 +45,7 @@ int	exec_redirect(t_parsed_cmd *cmd_list, t_list_info *list_info)
 	{
 		list_info->rfds[OUT] = open(cmd_list->redir_append, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (list_info->rfds[OUT] == -1)
-			return (EXIT_FAILURE);
+			return (print_err_open(errno, cmd_list->redir_append), EXIT_FAILURE);
 		if (dup2(list_info->rfds[OUT], STDOUT_FILENO) < 0)
 			exit(EXIT_FAILURE);
 		close(list_info->rfds[OUT]);

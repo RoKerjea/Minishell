@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:33:22 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/08 14:34:06 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/09 18:35:01 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ void	print_err(int errnum, char *str, int line)
 {
 	ft_putstr_fd("minishell ", STDERR_FILENO);
 	if (errnum == -1 || errno == ENOENT)
-		ft_putstr_fd("command not found", STDERR_FILENO);
+		ft_putstr_fd(strerror(ENOENT), STDERR_FILENO);
 	else
-		ft_putstr_fd(strerror(EACCES), STDERR_FILENO);
+		ft_putstr_fd("command not found", STDERR_FILENO);
 	if (str)
 	{
-		ft_putstr_fd(":", STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
 		ft_putstr_fd(str, STDERR_FILENO);
 	}
 	if (line)

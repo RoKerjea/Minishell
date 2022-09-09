@@ -59,3 +59,5 @@ si temp1 n'existe pas encore, il ya un message d'erreur mais "<test_cases.c cat 
 <heredoc_bash.sh cat > temp1 | < temp1 cat
 si temp1 existe deja, pas de message d'erreur, ET cat recois le contenu de temp1, AU MOMENT ou l'input est recu
 */
+
+cat <Makefile >out1 | <out1 wc >out2 //should work correctly
