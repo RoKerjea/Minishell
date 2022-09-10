@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 13:42:18 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/09 21:25:00 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/10 18:39:09 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	exec_controller(t_list_info *list_info, t_env *local_env)
 		if (list_info->size > 1)
 			if (pipe(list_info->pfds) == -1)
 				return (EXIT_FAILURE); //to protect (free heap + close pfds + errno)
-		if (list_info->size == 1 && cmd_list->exec_type == BUILT)
+ 		if (list_info->size == 1 && cmd_list->exec_type == BUILT)
 			return(exec_builtin(cmd_list, local_env));
 		list_info->cpid[i] = fork();
 		if (list_info->cpid[i] == -1)

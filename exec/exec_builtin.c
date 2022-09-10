@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:17:15 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/09 21:28:15 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/11 01:35:17 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,93 @@ int	is_not_num(char *str)
 	return (0);
 }
 
+typedef struct s_atoll
+{
+	long long	num;
+	int			overflow;
+}	t_atoll;
+
+long long	ft_atoll(const char *str)
+{
+	long long	res;
+	int			i;
+	int			min;
+
+	i = 0;
+	min = 1;
+	res = 0;
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n'
+		|| str[i] == '\v' || str[i] == '\r' || str[i] == '\f')
+		i++;
+	if (str[i] == '+' || str[i] == '-')
+	{
+		if (str[i] == '-')
+			min = -1;
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		res *= 10;
+		res += str[i] - '0';
+		i++;
+	}
+	res *= min;
+	return (res);
+}
+
+int	check_overflow(const char *str)
+{
+	long long	res;
+	long long	newres;
+	int			i;
+	
+	i = 0;
+	res = 0;
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n'
+		|| str[i] == '\v' || str[i] == '\r' || str[i] == '\f')
+		i++;
+	if (str[i] == '+' || str[i] == '-')
+	{
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		
+		newres = res * 10;
+		if ((newres / 10) != res)
+		{/* 
+			printf ("whut?\n"); */
+			return (1);
+		}
+		res *= 10;
+		res += str[i] - '0';
+		i++;
+		
+	}
+	return (0);	
+}
+
 int	final_exit(t_parsed_cmd *cmd_struct, t_env *local_env)
 {
-	int	status;
-	char	**cmd;
+	long long	status;
+	char		**cmd;
 
 	cmd = cmd_struct->cmd_args;
 	status = local_env->lst_exit;
 	if (str_table_counter(cmd) == 2)
 	{
-		if (is_not_num(cmd[1]))
+		status = ft_atoll(cmd[1]);//need atoll and checker if x > long long max
+		if (is_not_num(cmd[1]) || check_overflow(cmd[1]) == 1)
 		{
-			printf("minishell: exit: %s: numeric argument required\n", cmd[1]);
+			ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+			ft_putstr_fd(cmd[1], STDERR_FILENO);
+			ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 			exit (2);
 		}
-		status = ft_atoi(cmd[1]);//need atoll and checker if x > long long max
 	}
 	if (str_table_counter(cmd) > 2)
 	{
-		printf("minishell: exit: too many arguments\n");
+		write(2, "minishell: exit: too many arguments\n", 37);
 		return(1);
 	}
 	//free all local_env and cmd_link
@@ -69,7 +137,6 @@ int	final_exit(t_parsed_cmd *cmd_struct, t_env *local_env)
 	if (cmd_struct->redir_append)
 		free(cmd_struct->redir_append);
 	free (cmd_struct);
-	//printf ("exiting\n");
 	exit (status % 256);
 }
 

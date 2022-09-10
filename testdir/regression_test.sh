@@ -25,10 +25,36 @@ make -C ../ > /dev/null
 cp ../minishell .
 chmod 755 minishell
 ##ya peut etre un truc avec read pour les ';'
+
+
+pipe=/tmp/testpipe
+trap "rm -f $pipe" EXIT
+if [[ ! -p $pipe ]]; then
+    mkfifo $pipe
+fi
+
 function exec_test()
 {
-	TEST1=$(echo $@ "; exit" | ./minishell 2>&-)
+
+	rm -f msh_log
+	# execute commands, separated by ';' in minishell, using nfifo
+	./minishell <$pipe >msh_log 2>&- &
+	mshpid=$!
+	IFS=';' read -ra CMND <<< "$@"
+	for command in "${CMND[@]}"; do
+		echo $command > $pipe
+	done
+
+
+	echo 'exit' > $pipe 
+	sleep 0.03
+	wait $!
 	ES_1=$?
+	TEST1=$(cat msh_log)
+
+	rm -f msh_log
+	#TEST1=$(echo $@ "; exit" | ./minishell 2>&-)
+	#ES_1=$?
 	TEST2=$(echo $@ "; exit" | bash 2>&-)
 	ES_2=$?
 	if [ "$TEST1" == "$TEST2" ] && [ "$ES_1" == "$ES_2" ]; then
@@ -50,11 +76,34 @@ function exec_test()
 		printf $BOLDGREEN"Expected exit status : $BOLDGREEN$ES_2$RESET\n"
 	fi
 	echo
-	sleep 0.1
+	sleep 0.01
 }
 
-#exec_test "exit 42"
-exec_test "wc regression_test.sh"
-#exec_test "cat <Makefile >out1 | <out1 wc >out2"
+#Exit builtins
+exec_test "exit 42"
+exec_test "exit 0"
+exec_test "exit truc"
+exec_test "exit 42 56"
+exec_test "exit"
+exec_test "exit             "
+exec_test "exit -1"
+exec_test "exit 255"
+exec_test "exit 256"
+exec_test "exit 2147483647"
+exec_test "exit 2147483648"
+exec_test "exit 9223372036854775806"
+exec_test "exit 9223372036854775807"
+exec_test "exit 9223372036854775808"
+exec_test "exit 9223372036854775809"
+exec_test "exit 9223372036854775818"
+exec_test "exit 922337203685477580866"
+exec_test "exit -9223372036854775808"
+exec_test "exit -9223372036854775809"
 
+
+exec_test "wc test_cases.c"
+exec_test "cat <test_cases.c | wc"
+exec_test "cat <test_cases.c >out1 ; <out1 wc "
+
+rm minishell out1
 #rm lol ls test
