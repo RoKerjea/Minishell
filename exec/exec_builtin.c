@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:17:15 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/11 01:35:17 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/11 18:09:15 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,29 +75,34 @@ int	check_overflow(const char *str)
 	long long	res;
 	long long	newres;
 	int			i;
+	int min;
 	
 	i = 0;
 	res = 0;
+	min = 1;
 	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n'
 		|| str[i] == '\v' || str[i] == '\r' || str[i] == '\f')
 		i++;
 	if (str[i] == '+' || str[i] == '-')
 	{
+		min = -1;
 		i++;
 	}
 	while (str[i] >= '0' && str[i] <= '9')
-	{
-		
+	{		
 		newres = res * 10;
 		if ((newres / 10) != res)
-		{/* 
-			printf ("whut?\n"); */
+		{
 			return (1);
 		}
 		res *= 10;
-		res += str[i] - '0';
-		i++;
-		
+		newres = res + (str[i] - '0') * min;
+		if (newres < res && res > 0)
+			return (1);
+		if (newres > res && res < 0)
+			return (1);
+		res += (str[i] - '0') * min;
+		i++;		
 	}
 	return (0);	
 }
