@@ -105,7 +105,26 @@ exec_test "echo \$LESS"
 exec_test "echo truc"
 exec_test "echo -n truc"
 
+exec_test "pwd"
+exec_test "pwd truc"
+
+exec_test "pwd ; cd ; pwd"
+exec_test "pwd ; cd .. ; pwd"
+exec_test "pwd ; cd false"
+exec_test "pwd ; cd false ; pwd"
+
+#exec_test "env"
+exec_test "env truc"
+exec_test "env -n truc"
+exec_test "env truc machin"
+
+exec_test "export TRUC=machin ; echo \$TRUC"
+exec_test "export TRUC=machin  CHOSE=chouette ; echo \$TRUC ; echo \$CHOSE"
+
+exec_test "export TRUC=machin ; echo \$TRUC ; unset TRUC ; echo \$TRUC"
+
 exec_test "cat test_cases.c"
+exec_test "cat <test_cases.c"
 exec_test "wc test_cases.c"
 
 exec_test "cat <test_cases.c | wc"

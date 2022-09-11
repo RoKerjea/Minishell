@@ -40,6 +40,9 @@ SRCS		=	${addprefix parsing/, \
 				get_next_line.c \
 				ft_strncmp.c} \
 				${addprefix builtin/, \
+				exec_builtin.c \
+				echo.c \
+				exit.c \
 				builtins.c \
 				directories.c \
 				env_make.c \
@@ -47,7 +50,6 @@ SRCS		=	${addprefix parsing/, \
 				${addprefix exec/, \
 				exec_controller.c \
 				exec_pipeline.c \
-				exec_builtin.c \
 				exec_cmd.c \
 				get_path.c \
 				print_err.c \

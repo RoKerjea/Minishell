@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 22:10:02 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/08 15:19:48 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/11 22:10:13 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,6 @@ void	remove_variable(char *str, t_env *env_list)
 		if (linknext != NULL && linkprev != NULL)
 			forgelink (linkprev, linknext);
 		env_destroy_link(link);
-		/*free (link->name);//use env_link_destroyer in env_destroyer TODO
-		free (link->variable);
-		free (link);*/
 		env_list->len--;
 		if (linkprev == NULL)
 		{

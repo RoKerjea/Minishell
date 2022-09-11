@@ -6,13 +6,13 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:06:47 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/11 19:16:55 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/11 22:02:28 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins.h"
 
-int	str_table_counter(char **str_table)
+/* int	str_table_counter(char **str_table)
 {
 	int	res;
 	
@@ -21,32 +21,6 @@ int	str_table_counter(char **str_table)
 		res++;
 	return (res);
 }
-
-
-
-/* int	final_exit(char **cmd, t_env *local_env)
-{
-	int	status;
-
-	status = local_env->lst_exit;
-	if (str_table_counter(cmd) > 1)
-	{
-		status = ft_atoi(cmd[1]);//need atoll and checker if x > long long max
-		if (status == -1)
-		{
-			printf("minishell: exit: %s: numeric argument required\n", cmd[1]);
-			exit (2);
-		}
-	}
-	if (str_table_counter(cmd) > 2)
-	{
-		printf("minishell: exit: too many arguments\n");
-		return(1);
-	}
-	//free all local_env and cmd_link
-	//printf ("exiting\n");
-	exit (status % 256);
-} */
 
 int	env(char **cmd, t_env *local_env)
 {
@@ -58,31 +32,10 @@ int	env(char **cmd, t_env *local_env)
 	else
 		printenv(local_env);
 	return(0);
-}
+} */
 
-int	pwd(char **cmd, t_env *local_env)
-{
-	(void)cmd;
-	(void)local_env;
-	printpath();
-	return(0);
-}
 
-int	cd(char **cmd, t_env *local_env)
-{
-	if (str_table_counter(cmd) > 2)
-	{
-		printf("minishell: cd: too many arguments\n");
-		return(1);
-	}
-	if (change_dir(cmd[0], local_env) && str_table_counter(cmd) > 1)
-	{
-		printf("minishell: cd: %s: No such file or directory\n", cmd[1]);
-		return (2);
-	}
-	return(0);
-}
-int	env_export(char **cmd, t_env *local_env)
+/* int	env_export(char **cmd, t_env *local_env)
 {
 	int	i;
 
@@ -95,9 +48,9 @@ int	env_export(char **cmd, t_env *local_env)
 	//NEED print export type for cmd[1] == NULL
 	//print_export(local_env);
 	return (0);
-}
+} */
 
-int	env_unset(char **cmd, t_env *local_env)
+/* int	env_unset(char **cmd, t_env *local_env)
 {
 	int	i;
 
@@ -109,7 +62,7 @@ int	env_unset(char **cmd, t_env *local_env)
 		i++;
 	}
 	return (0);
-}
+} */
 
 //need to present input in compatible way with parsed cmd -> char** with char[0] name of builtin
 //rajouter une ft par builtin pour verifier input format, return to keep in struct $?, et printerror
@@ -122,8 +75,8 @@ int	builtin_parser(char **cmd, t_env *local_env)
 		return(env(cmd, local_env));
 	if (ft_strncmp(cmd[0], "pwd", 3) == 0 && (cmd[0][3] == ' ' || cmd[0][3] == '\0'))
 		return(pwd(cmd, local_env));
-	if (ft_strncmp(cmd[0], "cd", 2) == 0 && (cmd[0][2] == ' ' || cmd[0][2] == '\0'))
-		return(cd(cmd, local_env));
+/* 	if (ft_strncmp(cmd[0], "cd", 2) == 0 && (cmd[0][2] == ' ' || cmd[0][2] == '\0'))
+		return(cd(cmd, local_env)); */
 	if (ft_strncmp(cmd[0], "export", 6) == 0 && (cmd[0][7] != ' ' || cmd[0][7] != '\0'))
 		return(env_export(cmd, local_env));
 	if (ft_strncmp(cmd[0], "unset", 5) == 0 && (cmd[0][6] != ' ' || cmd[0][6] != '\0'))
