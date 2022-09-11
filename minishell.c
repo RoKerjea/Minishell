@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/10 18:35:51 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/11 22:28:26 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,16 +115,10 @@ int	main(int argc, char **argv, char **env)
 
 	if (!argc || !argv)
 		return (0);
-	status = 1;
 	if (!env[0])
-	{
 		local_env = minimal_env();
-	}
 	else
 		local_env = env_list(env);
-	while (status != 0)
-	{
-		status = input(local_env);
-	}
+	status = input(local_env);
 	return (status);
 }

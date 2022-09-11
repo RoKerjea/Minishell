@@ -122,6 +122,7 @@ exec_test "export TRUC=machin ; echo \$TRUC"
 exec_test "export TRUC=machin  CHOSE=chouette ; echo \$TRUC ; echo \$CHOSE"
 
 exec_test "export TRUC=machin ; echo \$TRUC ; unset TRUC ; echo \$TRUC"
+exec_test "unset RIEN"
 
 exec_test "cat test_cases.c"
 exec_test "cat <test_cases.c"
