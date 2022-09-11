@@ -99,8 +99,11 @@ exec_test "exit 922337203685477580866"
 exec_test "exit -9223372036854775807"
 exec_test "exit -9223372036854775808"
 exec_test "exit -9223372036854775809"
+exec_test "exit -n"
 
 exec_test "echo \$LESS"
+exec_test "echo truc"
+exec_test "echo -n truc"
 
 exec_test "cat test_cases.c"
 exec_test "wc test_cases.c"

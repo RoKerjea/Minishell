@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:17:15 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/11 19:08:35 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/11 19:31:01 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ int	is_not_num(char *str)
 
 	valid_num = "+-0123456789";
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		j = 0;
-		while(valid_num[j] != str[i] && j < 12)
+		while (valid_num[j] != str[i] && j < 12)
 			j++;
 		if (j == 12)
-		return (1);
+			return (1);
 		i++;
 	}
 	return (0);
@@ -75,8 +75,8 @@ int	check_overflow(const char *str)
 	long long	res;
 	long long	newres;
 	int			i;
-	int min;
-	
+	int			min;
+
 	i = 0;
 	res = 0;
 	min = 1;
@@ -84,27 +84,19 @@ int	check_overflow(const char *str)
 		|| str[i] == '\v' || str[i] == '\r' || str[i] == '\f')
 		i++;
 	if (str[i] == '+' || str[i] == '-')
-	{
-		min = -1;
-		i++;
-	}
+		if (str[i++] == '-')
+			min = -1;
 	while (str[i] >= '0' && str[i] <= '9')
 	{		
 		newres = res * 10;
 		if ((newres / 10) != res)
-		{
 			return (1);
-		}
-		res *= 10;
-		newres = res + (str[i] - '0') * min;
-		if (newres < res && res > 0)
+		res = res * 10 + (str[i] - '0') * min;
+		if ((res < newres && newres > 0) || (res > newres && newres < 0))
 			return (1);
-		if (newres > res && res < 0)
-			return (1);
-		res += (str[i] - '0') * min;
-		i++;		
+		i++;
 	}
-	return (0);	
+	return (0);
 }
 
 int	final_exit(t_parsed_cmd *cmd_struct, t_env *local_env)
@@ -116,7 +108,7 @@ int	final_exit(t_parsed_cmd *cmd_struct, t_env *local_env)
 	status = local_env->lst_exit;
 	if (str_table_counter(cmd) == 2)
 	{
-		status = ft_atoll(cmd[1]);//need atoll and checker if x > long long max
+		status = ft_atoll(cmd[1]);
 		if (is_not_num(cmd[1]) || check_overflow(cmd[1]) == 1)
 		{
 			ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
@@ -128,7 +120,7 @@ int	final_exit(t_parsed_cmd *cmd_struct, t_env *local_env)
 	if (str_table_counter(cmd) > 2)
 	{
 		write(2, "minishell: exit: too many arguments\n", 37);
-		return(1);
+		return (1);
 	}
 	//free all local_env and cmd_link
 	env_destroy_list(local_env);
@@ -145,6 +137,31 @@ int	final_exit(t_parsed_cmd *cmd_struct, t_env *local_env)
 	exit (status % 256);
 }
 
+//doit etre teste avant chaque str (cmd[x])
+/* int	isflag_parser(char *str)
+{
+	if (str[0] == '-')
+		return (1);
+	return (0);
+} */
+
+//doit uniquement etre utilise pour echo
+int	isflag_newline(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[0] != '-')
+		return (0);
+	while (str[i] == '-')
+		i++;
+	while (str[i] == 'n')
+		i++;
+	if (str[i] != '\0')
+		return (0);
+	return (1);
+}
+
 int	echo(char **cmd, t_env *local_env)
 {
 	int	i;
@@ -152,28 +169,29 @@ int	echo(char **cmd, t_env *local_env)
 
 	(void)local_env;
 	i = 1;
-	//parse -n, i++ if
 	newline = 0;
 	while (cmd[i] != NULL)
 	{
-		printf("%s", cmd[i]);
+		if (isflag_newline(cmd[i]))
+			newline = 1;
+		else
+			printf("%s", cmd[i]);
 		i++;
 	}
 	if (newline == 1)
-		printf("/n");
-	return(0);//protect write?
+		printf("\n");
+	return (0);
 }
 
 int	exec_builtin(t_parsed_cmd *cmd, t_env *local_env)
 {
 	int	status;
 
-	//(void)local_env;
 	status = 0;
 	if (ft_strncmp(cmd->cmd_args[0], "exit", 4) == 0)
-		return(final_exit(cmd, local_env));
+		return (final_exit(cmd, local_env));
 	else if (ft_strncmp(cmd->cmd_args[0], "echo", 4) == 0)
-		return(echo(cmd->cmd_args, local_env));
+		return (echo(cmd->cmd_args, local_env));
 /* 	else if (ft_strncmp(cmd[0], "cd", 2) == 0)
 		printf("cd() executed.\n");
 	else if (ft_strncmp(cmd[0], "env", 3) == 0)
