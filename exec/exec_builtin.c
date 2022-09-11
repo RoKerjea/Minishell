@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:17:15 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/11 18:09:15 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/11 19:08:35 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,25 @@ int	final_exit(t_parsed_cmd *cmd_struct, t_env *local_env)
 	exit (status % 256);
 }
 
+int	echo(char **cmd, t_env *local_env)
+{
+	int	i;
+	int	newline;
+
+	(void)local_env;
+	i = 1;
+	//parse -n, i++ if
+	newline = 0;
+	while (cmd[i] != NULL)
+	{
+		printf("%s", cmd[i]);
+		i++;
+	}
+	if (newline == 1)
+		printf("/n");
+	return(0);//protect write?
+}
+
 int	exec_builtin(t_parsed_cmd *cmd, t_env *local_env)
 {
 	int	status;
@@ -153,6 +172,8 @@ int	exec_builtin(t_parsed_cmd *cmd, t_env *local_env)
 	status = 0;
 	if (ft_strncmp(cmd->cmd_args[0], "exit", 4) == 0)
 		return(final_exit(cmd, local_env));
+	else if (ft_strncmp(cmd->cmd_args[0], "echo", 4) == 0)
+		return(echo(cmd->cmd_args, local_env));
 /* 	else if (ft_strncmp(cmd[0], "cd", 2) == 0)
 		printf("cd() executed.\n");
 	else if (ft_strncmp(cmd[0], "env", 3) == 0)

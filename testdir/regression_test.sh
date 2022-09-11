@@ -94,16 +94,17 @@ exec_test "exit 2147483648"
 exec_test "exit 9223372036854775806"
 exec_test "exit 9223372036854775807"
 exec_test "exit 9223372036854775808"
-exec_test "exit 9223372036854775809"
 exec_test "exit 9223372036854775818"
 exec_test "exit 922337203685477580866"
-exec_test "exit -9223372036854775800"
 exec_test "exit -9223372036854775807"
 exec_test "exit -9223372036854775808"
 exec_test "exit -9223372036854775809"
 
+exec_test "echo \$LESS"
 
+exec_test "cat test_cases.c"
 exec_test "wc test_cases.c"
+
 exec_test "cat <test_cases.c | wc"
 exec_test "cat <test_cases.c >out1 ; <out1 wc "
 
