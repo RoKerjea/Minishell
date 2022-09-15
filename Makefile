@@ -14,7 +14,9 @@ _PURPLE=$'\033[35m
 _CYAN=$'\033[36m
 _WHITE=$'\033[37m
 
-SRCS		=	${addprefix parsing/, \
+SRCS		=	${addprefix common/, \
+				signal_handler.c} \
+				${addprefix parsing/, \
 				bool_str.c \
 				tokenizer.c \
 				token_assign.c \

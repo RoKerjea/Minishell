@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   common.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/17 01:57:05 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/08 14:20:54 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/14 23:48:04 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COMMON_H
 # define COMMON_H
+
+#include <signal.h>
+
 /*
 enum e_type
 {
@@ -46,5 +49,9 @@ typedef struct s_cmd_list
 	char				*heredoc;
 	struct s_cmd_list	*next;
 }	t_cmd_list;
+
+extern int global_var;
+
+void	signal_handler(int signo, siginfo_t *siginfo, void *ucontext);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_controller.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 13:42:18 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/10 18:39:09 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/15 18:27:08 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <stdlib.h>
+#include <signal.h>
 
 int	wait_for_child(pid_t *cpid, unsigned int max_proc)
 {
@@ -73,13 +74,17 @@ int	exec_controller(t_list_info *list_info, t_env *local_env)
 
 	i = 0;
 	cmd_list = list_info->head;
+	kill(0, SIGUSR1);
 	while (i < list_info->size)
 	{
 		if (list_info->size > 1)
 			if (pipe(list_info->pfds) == -1)
 				return (EXIT_FAILURE); //to protect (free heap + close pfds + errno)
  		if (list_info->size == 1 && cmd_list->exec_type == BUILT)
-			return(exec_builtin(cmd_list, local_env));
+		{
+			list_info->status = exec_builtin(cmd_list, local_env);
+			break;
+		}
 		list_info->cpid[i] = fork();
 		if (list_info->cpid[i] == -1)
 			return (EXIT_FAILURE); //to protect (free heap + close pfds + errno)
@@ -97,5 +102,6 @@ int	exec_controller(t_list_info *list_info, t_env *local_env)
 		close(list_info->pfds[TEMP_READ_END]);
 	close(list_info->pfds[READ_END]);
 	list_info->status = wait_for_child(list_info->cpid, list_info->size);
+	kill(0, SIGUSR1);
 	return (exit_status(list_info->status));
 }
