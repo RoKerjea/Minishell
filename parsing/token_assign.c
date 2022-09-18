@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 19:41:55 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/08 19:54:10 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/17 01:26:55 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ t_temp	*token_sorter(t_tok_list *list)
 	link = list->first;
 	while (link != NULL)
 	{
-		nextlink = link->next;/* 
-		printf ("str in token :%s\n", link->str[0]); */
+		nextlink = link->next;
 		if (link->meta == CMD)
 			add_token_arg(temp, link);
 		else if (link->meta == IN || link->meta == HEREDOC)
@@ -100,8 +99,23 @@ void	printerror(char *prob)
 int	add_token_in(t_temp *temp, t_tok_link *link)
 {
 	if (temp->redir_in != NULL)
-		destroy_token(temp->redir_in);
+	{
+		int	fd;
+		if (temp->redir_in->meta == HEREDOC)
+		{
+			printf ("gate, \'%s\' \n", temp->redir_in->str[0]);
+			fd = open(temp->redir_in->str[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			unlink (temp->redir_in->str[0]);
+			close (fd);
+		}
+		destroy_token(temp->redir_in);	
+	}
 	temp->redir_in = link;
+	if (link->meta == HEREDOC)
+	{
+		link->str[0] = heredoc(link->str[0]);
+		return (1);
+	}
 	if (access(link->str[0], F_OK))
 	{
 		printerror(link->str[0]);
@@ -112,7 +126,6 @@ int	add_token_in(t_temp *temp, t_tok_link *link)
 		printerror(link->str[0]);
 		return (FAIL);
 	}
-	//deal with heredoc here?
 	return (1);
 }
 

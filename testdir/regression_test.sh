@@ -103,6 +103,7 @@ exec_test "exit -n"
 
 exec_test "echo \$LESS"
 exec_test "echo truc"
+exec_test "echo \$?"
 exec_test "echo -n truc"
 
 exec_test "pwd"
@@ -130,6 +131,11 @@ exec_test "wc test_cases.c"
 
 exec_test "cat <test_cases.c | wc"
 exec_test "cat <test_cases.c >out1 ; <out1 wc "
+
+
+exec_test "truc ; echo $?"
+exec_test "/truc ; echo $?"
+exec_test "touch test2 ; chmod 000 test2 ; cat test2 ; echo \$?"
 
 rm minishell out1
 #rm lol ls test

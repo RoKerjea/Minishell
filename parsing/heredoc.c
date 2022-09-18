@@ -1,13 +1,18 @@
-#include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <string.h>
-#include <errno.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/16 23:16:11 by rokerjea          #+#    #+#             */
+/*   Updated: 2022/09/18 16:39:24 by rokerjea         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-char	*ft_strjoin(char const *s1, char const *s2)
+#include "../include/minishell.h"
+
+/* char	*ft_strjoin(char const *s1, char const *s2)
 {
 	int		i;
 	int		j;
@@ -33,7 +38,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		str[j++] = s2[i++];
 	str[j] = '\0';
 	return (str);
-}
+}*/
 
 char	*find_free_name(char *str)
 {
@@ -71,6 +76,28 @@ char	*findnewname(char *name)
 	return (res);
 }
 
+
+//need expand step, which need env
+char	*heredoc(char *delimiter)
+{
+	int		filefd;
+	char	*filepath;
+	char	*input;
+
+	filepath = findnewname(delimiter);
+	filefd = open(filepath, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	input = readline ("> ");
+	while (strcmp(input, delimiter) != 0)
+	{
+		write(filefd, input, strlen(input));
+		input = readline ("> ");
+		write(filefd, "\n", 1);
+	}
+	//write(filefd, "\0", 1);
+	close (filefd);
+	return (filepath);
+}
+/* 
 int	main(int ac, char** av)
 {
 	int		filefd;
@@ -100,6 +127,6 @@ int	main(int ac, char** av)
 	unlink (filepath);
 	close (filefd);
 	return (0); //should return filepath in the end
-}
+} */
 
 //close in parent AND child process?, but unlink in parent before fork?

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:41:23 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/03 16:44:50 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/16 23:18:59 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ int syntax_checker(t_tok_list *list);
 
 
 int	str_table_counter(char **str_table);
+
+char	*heredoc(char *delimiter);
 //TESTS.C
 void	print_temp_list(t_temp *temp);
 void	print_temp_link(t_temp *temp);

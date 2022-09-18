@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/15 20:21:42 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/09/16 22:42:00 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	input(t_env *local_env)
 			write(STDERR_FILENO, "exit\n", 5);
 			exit(local_env->lst_exit);
 		}
-		if (input[0] == NULL || input[0][0] == '\0')
+		if (input[0][0] == '\0')
 			continue;
 		// if (input[0] == NULL || input[0][0] == '\0')//J'aime pas :/
 		// {
@@ -126,7 +126,6 @@ int	input(t_env *local_env)
 		add_history (input[0]);
 		if (check_input(input[0]) == NO)//can put next steps inside actions of that if?
 			continue ;
-		//builtin_parser(input, local_env);//ca il faudra le mettre ailleur, mais il marchera pareil
 		cmd_list = parser(input[0], local_env);
 /* 		printf("\033[1;31m");
 		printf ("res at end of parsing =>\n");
@@ -163,7 +162,7 @@ int	main(int argc, char **argv, char **env)
 		action.sa_sigaction = signal_handler;
 		if (sigaction(SIGUSR2, &action, NULL) == -1)
 			dprintf(2, "sigaction error\n");
-		kill(0, SIGUSR2);
+		//kill(0, SIGUSR2);
 		if (sigaction(SIGUSR1, &action, NULL) == -1)
 			dprintf(2, "sigaction error\n");
 

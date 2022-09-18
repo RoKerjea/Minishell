@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/03 20:25:58 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/16 22:25:40 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,12 +167,9 @@ char	*get_var_content(char *str, t_env *local_env)
 	char		*name;
 	t_env_link	*link;
 
-	/*
-	need
-	if (name == $?)
-	return(itoa(local_env->lst_exit));
-	*/
 	name = extract_name(str);
+	if (!strncmp(name, "?", 3))
+		return(ft_itoa(local_env->lst_exit));
 	//parsename for particular cases ($" and $') and their return
 	//what if name start by $ or other metachar?(error)	
 	link = find_link(name, local_env);

@@ -21,6 +21,7 @@ SRCS		=	${addprefix common/, \
 				tokenizer.c \
 				token_assign.c \
 				field_splitter.c \
+				heredoc.c \
 				expander.c \
 				token_parser.c \
 				unquoter.c \
@@ -30,6 +31,7 @@ SRCS		=	${addprefix common/, \
 				ft_strlen.c \
 				ft_split.c \
 				ft_atoi.c \
+				ft_itoa.c \
 				ft_strtrim.c \
 				ft_strjoin.c \
 				ft_freetab.c \
@@ -84,7 +86,7 @@ ${NAME}:	${OBJECTS}
 -include ${DEPEND}
 
 ${OBJECTS}: $(subst .o,.c,$(subst /build/,/,$@))
-	@if [ ! -d "./parsing/build" ]; then\
+	@if [ ! -d "./common/build" ]; then\
 		echo "${_UNDER}${_RED}"Creating Objects Directories"${_END}";\
 	fi
 	@if [ ! -d "./$(dir $@)" ]; then\
@@ -98,6 +100,8 @@ clean:
 	@echo "${_UNDER}${_RED}Deleting Objects and Dependencies${_END}"
 	@echo "${_BOLD}${_YELLOW}"${RM} ${OBJECTS} ${DEPEND}"${_END}"
 	@${RM} ${OBJECTS} ${DEPEND}
+	@echo "${_BOLD}${_YELLOW}"${RM} common/build"${_END}"
+	@${RM} common/build
 	@echo "${_BOLD}${_YELLOW}"${RM} parsing/build"${_END}"
 	@${RM} parsing/build
 	@echo "${_BOLD}${_YELLOW}"${RM} libft/build"${_END}"

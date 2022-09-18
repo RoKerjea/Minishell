@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/08 14:17:08 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/18 16:45:48 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_env
 {
 	unsigned int		len;
 	unsigned int		lst_exit;
-	//harcoded $PATH in case of env -i
+	//harcoded $PATH in case of env -i?
 	struct s_env_link	*first;
 	struct s_env_link	*last;
 }		t_env;
@@ -71,6 +71,7 @@ char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strdup(const char *s1);
 char			*ft_strndup(const char *s1, int j);
 int				ft_atoi(const char *str);
+char			*ft_itoa(int num);
 char			*ft_strtrim(char const *s1, char const *set);
 
 //ENV_MAKE.C

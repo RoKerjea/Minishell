@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 19:42:10 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/24 13:59:49 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/16 23:30:10 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ enum	e_type	meta_type(char *str)
 		return (FAIL);
 	if (strncmp(str, "<<", 2) == 0)
 	{
-		if (strchr(str, '\'') != 0)
-			return (HEREDOC_NOEXPAND);
 		return (HEREDOC);
 	}
 	if (strncmp(str, "<", 1) == 0)
