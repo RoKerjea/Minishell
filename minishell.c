@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/16 22:42:00 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/18 17:53:11 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,7 @@ int	check_input(char *input)
 	while (input[i] != '\0')
 	{
 		if (input[i] == '\'' || input[i] == '\"' )
-		{
 			i += find_end_quote(input + i, input[i]);
-		}
 		if (i > len)
 		{
 			printf("unclosed quotes!\n");
@@ -139,7 +137,6 @@ int	input(t_env *local_env)
 		local_env->lst_exit = exec_controller(list_info, local_env);
 		//destroy_final_list(cmd_list);
 		//clear history to deal with readline leaks
-		//exit (local_env->lst_exit);
 	}
 	return (local_env->lst_exit);
 }
@@ -156,22 +153,20 @@ int	main(int argc, char **argv, char **env)
 	if (!env[0])
 		local_env = minimal_env();
 	else
-	{
-		sigemptyset(&action.sa_mask);
-		action.sa_flags = SA_SIGINFO;
-		action.sa_sigaction = signal_handler;
-		if (sigaction(SIGUSR2, &action, NULL) == -1)
-			dprintf(2, "sigaction error\n");
-		//kill(0, SIGUSR2);
-		if (sigaction(SIGUSR1, &action, NULL) == -1)
-			dprintf(2, "sigaction error\n");
-
-		if (sigaction(SIGINT, &action, NULL) == -1)
-			dprintf(2, "sigaction error\n");
-		if (sigaction(SIGQUIT, &action, NULL) == -1)
-			dprintf(2, "sigaction error\n");
 		local_env = env_list(env);
-	}
+	//to extract out
+	sigemptyset(&action.sa_mask);
+	action.sa_flags = SA_SIGINFO;
+	action.sa_sigaction = signal_handler;
+	if (sigaction(SIGUSR2, &action, NULL) == -1)
+		dprintf(2, "sigaction error\n");
+	//kill(0, SIGUSR2);
+	if (sigaction(SIGUSR1, &action, NULL) == -1)
+		dprintf(2, "sigaction error\n");
+	if (sigaction(SIGINT, &action, NULL) == -1)
+		dprintf(2, "sigaction error\n");
+	if (sigaction(SIGQUIT, &action, NULL) == -1)
+		dprintf(2, "sigaction error\n");
 	status = input(local_env);
 	return (status);
 }

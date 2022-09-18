@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/18 16:45:48 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/18 21:14:55 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_env
 {
 	unsigned int		len;
 	unsigned int		lst_exit;
-	//harcoded $PATH in case of env -i?
+	//harcoded $PATH in case of env -i?  /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 	struct s_env_link	*first;
 	struct s_env_link	*last;
 }		t_env;

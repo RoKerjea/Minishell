@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:06:47 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/11 22:02:28 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/18 20:45:33 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	env(char **cmd, t_env *local_env)
 
 //need to present input in compatible way with parsed cmd -> char** with char[0] name of builtin
 //rajouter une ft par builtin pour verifier input format, return to keep in struct $?, et printerror
-int	builtin_parser(char **cmd, t_env *local_env)
+/* int	builtin_parser(char **cmd, t_env *local_env)
 {
 	//if (ft_strncmp(cmd, "echo", 4) == 0 && (cmd[4] == ' ' || cmd[4] == '\0'))
 	if (ft_strncmp(cmd[0], "exit", 4) == 0 && (cmd[0][4] == ' ' || cmd[0][4] == '\0'))//need function for exit arg or last exit status
@@ -75,14 +75,14 @@ int	builtin_parser(char **cmd, t_env *local_env)
 		return(env(cmd, local_env));
 	if (ft_strncmp(cmd[0], "pwd", 3) == 0 && (cmd[0][3] == ' ' || cmd[0][3] == '\0'))
 		return(pwd(cmd, local_env));
-/* 	if (ft_strncmp(cmd[0], "cd", 2) == 0 && (cmd[0][2] == ' ' || cmd[0][2] == '\0'))
-		return(cd(cmd, local_env)); */
+ 	if (ft_strncmp(cmd[0], "cd", 2) == 0 && (cmd[0][2] == ' ' || cmd[0][2] == '\0'))
+		return(cd(cmd, local_env));
 	if (ft_strncmp(cmd[0], "export", 6) == 0 && (cmd[0][7] != ' ' || cmd[0][7] != '\0'))
 		return(env_export(cmd, local_env));
 	if (ft_strncmp(cmd[0], "unset", 5) == 0 && (cmd[0][6] != ' ' || cmd[0][6] != '\0'))
 		return(env_unset(cmd, local_env));
 	return (1);
-}
+} */
 
 /* 
 int	echo(char **cmd, t_env *local_env)

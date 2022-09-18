@@ -6,14 +6,14 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 20:49:51 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/11 20:52:13 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/18 20:44:47 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/utils.h"
 #include "../include/exec.h"
 #include "../include/minishell.h"
-#include "../include/builtin.h"
+#include "../include/builtins.h"
 #include <stdio.h>
 
 int	is_not_num(char *str)

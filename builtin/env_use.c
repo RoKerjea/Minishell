@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 22:10:02 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/11 22:10:13 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/18 21:09:09 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*function(t_env_link *env_link)
 {
 	char	*res;
 	char	*temp;
-	
+
 	res = ft_strjoin(env_link->name, "=");
 	//protect
 	temp = ft_strjoin(res, env_link->variable);
@@ -30,15 +30,15 @@ char	*function(t_env_link *env_link)
 
 char	**make_env_tab(t_env *env)
 {
-	char **res;
+	char			**res;
 	unsigned int	i;
-	t_env_link	*env_link;
+	t_env_link		*env_link;
 
 	i = 0;
 	res = (char **)malloc(sizeof(char *) * (env->len + 1));
 	//protect
 	env_link = env->first;
-	while(i < env->len)
+	while (i < env->len)
 	{
 		res[i] = function(env_link);
 		//protect

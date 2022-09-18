@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 19:21:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/22 14:28:20 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/18 18:10:30 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int ft_isspace(char c)
 
 // verif step for token, if a redirection doesn't have a target, problem
 // syntax check happen BEFORE var expansion! so, last step of tokenizer
+//need write on fd 2!!
 int syntax_checker(t_tok_list *list)
 {
 	t_tok_link *link;
@@ -51,6 +52,11 @@ int syntax_checker(t_tok_list *list)
 			printf("minishell: syntax error near unexpected token `%c'\n", link->next->str[0][0]);
 			return (NO);
 		}
+		if (link->meta == PIPE && link->next->meta == PIPE)//link->next might be NULL, need protection
+		{
+			printf("minishell: syntax error near unexpected token `%c'\n", link->next->str[0][0]);
+			return (NO);
+		}
 		link = link->next;
 	}
 	return (YES);
@@ -61,7 +67,6 @@ int find_end_quote(char *str, char c)
 {
 	int i;
 
-	printf("gate quote %s\n", str); // TEST to delete
 	i = 1;
 	while (str[i] != c && str[i] != '\0')
 		i++;

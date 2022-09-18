@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 15:04:12 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/15 20:26:52 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/09/18 17:47:34 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 
 void	signal_handler(int signo, siginfo_t *siginfo, void *ucontext)
 {
-	(void)ucontext;
 	static int		is_interactive = 1;
 	static pid_t	pid = 0;
 
+	(void)ucontext;
 	if (signo == SIGUSR1 && siginfo->si_pid == pid)
 	{
 		if (is_interactive == 0)

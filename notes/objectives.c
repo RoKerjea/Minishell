@@ -92,13 +92,23 @@ si la partie main n'a acces qu'au fonctions principales des modules(interacteur/
 le .h du main peut etre tres limite, pareil pour tout les modules et sous modules(builtins dans exec)
 export qui trie en ordre ascii avec prefix
 
+check if PATH exist when making char **env, if not, use hardcoded path(maybe before??)
 refacto, from the start...
 malloc protection
 leaks....(everywhere......)
+free everything not used by execve in a fork
+free input from readline
 struct destructors
+shlvl + 1 at startup
+syntax
+
+_= (last command path)
+export empty
+what happen if cd in dir then rm dir? or ..dir
 message erreurs
+ambiguous redirect if variable splittable!
 cd - et cd~ maybe
-$?
+$? (130, etc)
 status sortie(avec signaux, probaby at the end, with $? + sigvalue)
 
 char **env to create from t_env, and destructor(ft_freetab(xx))
@@ -107,7 +117,7 @@ heredoc!!(create temp folder, temp file, random names with target name as base f
 
 pointeurs sur fonctions pour builtins(at the end, as bonus/practice)
 
-parse error sur les multipipes("|||") ou ("| |")
+parse error sur les multipipes("|||") ou ("| |") (et || tant qu'a faire)
 
 not expand heredoc delimiter/name(check type o token before expander)
 expand all content of heredoc if allowed(even if '$NAME' format inside a heredoc, single quotes INSIDE heredoc doesn't counts)
@@ -160,8 +170,6 @@ env fuser in char**
 faire marcher sans builtins
 faire marcher builtins
 mettre les fonctions tests ds test.h
-create script.sh for tests cases
-diff with same 
 gerer cas d'echecs particuliers
 
 //BONUSES

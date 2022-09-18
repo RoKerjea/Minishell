@@ -6,39 +6,11 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 23:16:11 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/18 16:39:24 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/18 17:58:13 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-/* char	*ft_strjoin(char const *s1, char const *s2)
-{
-	int		i;
-	int		j;
-	char	*str;
-
-	i = 0;
-	j = 0;
-	if (!s1 || !s2)
-		return (NULL);
-	while (s1[i])
-		i++;
-	while (s2[j])
-		j++;
-	str = malloc(sizeof(char) * (i + j + 1));
-	if (!str)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (s1[i])
-		str[j++] = s1[i++];
-	i = 0;
-	while (s2[i])
-		str[j++] = s2[i++];
-	str[j] = '\0';
-	return (str);
-}*/
 
 char	*find_free_name(char *str)
 {
@@ -89,11 +61,11 @@ char	*heredoc(char *delimiter)
 	input = readline ("> ");
 	while (strcmp(input, delimiter) != 0)
 	{
+		//replace input line by expanded line, if no ''
 		write(filefd, input, strlen(input));
 		input = readline ("> ");
 		write(filefd, "\n", 1);
 	}
-	//write(filefd, "\0", 1);
 	close (filefd);
 	return (filepath);
 }

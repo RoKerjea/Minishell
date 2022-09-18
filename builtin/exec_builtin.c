@@ -6,38 +6,38 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:17:15 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/11 22:12:31 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/18 21:07:07 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/utils.h"
 #include "../include/exec.h"
 #include "../include/minishell.h"
-#include "../include/builtin.h"
+#include "../include/builtins.h"
 #include <stdio.h>
 
 int	str_table_counter(char **str_table)
 {
 	int	res;
-	
+
 	res = 0;
 	while (str_table[res] != NULL)
 		res++;
 	return (res);
 }
 
-int	env(char **cmd, t_env *local_env)//? maybe we should just do env in all cases? and ignore args
+int	env(char **cmd, t_env *local_env)
 {
-	if (str_table_counter(cmd) > 1) 
+	if (str_table_counter(cmd) > 1)
 	{
 		ft_putstr_fd("env: \'", STDERR_FILENO);
 		ft_putstr_fd(cmd[1], STDERR_FILENO);
 		ft_putstr_fd("\': No such file or directory\n", STDERR_FILENO);
-		return(125);
+		return (125);
 	}
 	else
 		printenv(local_env);
-	return(0);
+	return (0);
 }
 
 int	pwd(char **cmd, t_env *local_env)
@@ -45,7 +45,7 @@ int	pwd(char **cmd, t_env *local_env)
 	(void)cmd;
 	(void)local_env;
 	printpath();
-	return(0);
+	return (0);
 }
 
 int	cd(char **cmd, t_env *local_env)
@@ -53,13 +53,13 @@ int	cd(char **cmd, t_env *local_env)
 	if (str_table_counter(cmd) > 2)
 	{
 		printf("minishell: cd: too many arguments\n");
-		return(1);
+		return (1);
 	}
 	if (change_dir(cmd[1], local_env) && str_table_counter(cmd) > 1)
 	{
 		return (1);
 	}
-	return(0);
+	return (0);
 }
 
 int	env_unset(char **cmd, t_env *local_env)

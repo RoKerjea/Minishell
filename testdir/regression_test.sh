@@ -26,7 +26,6 @@ cp ../minishell .
 chmod 755 minishell
 ##ya peut etre un truc avec read pour les ';'
 
-
 pipe=/tmp/testpipe
 trap "rm -f $pipe" EXIT
 if [[ ! -p $pipe ]]; then
@@ -35,7 +34,6 @@ fi
 
 function exec_test()
 {
-
 	rm -f msh_log
 	# execute commands, separated by ';' in minishell, using nfifo
 	./minishell <$pipe >msh_log 2>&- &
@@ -44,7 +42,6 @@ function exec_test()
 	for command in "${CMND[@]}"; do
 		echo $command > $pipe
 	done
-
 
 	echo 'exit' > $pipe 
 	sleep 0.03
@@ -132,10 +129,9 @@ exec_test "wc test_cases.c"
 exec_test "cat <test_cases.c | wc"
 exec_test "cat <test_cases.c >out1 ; <out1 wc "
 
-
 exec_test "truc ; echo $?"
 exec_test "/truc ; echo $?"
 exec_test "touch test2 ; chmod 000 test2 ; cat test2 ; echo \$?"
 
-rm minishell out1
+rm -rf minishell out1 test2
 #rm lol ls test

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 21:07:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/02 22:26:07 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/18 21:28:14 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ t_env	*minimal_env(void)
 	env_list->last = create_link(path);
 	forgelink(env_list->first->next, env_list->last);
 	free (path);
+	//create a PATH var /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+	//forgelink last prev
 	env_list->lst_exit = 0;
 	env_list->len = 3;
 	return (env_list);
@@ -113,31 +115,13 @@ void	split_env(char *str, t_env_link *link)
 	return ;
 }
 
-//link two links to each others
+//bond two links to each others
 void	forgelink(t_env_link *prev, t_env_link *now)
 {
 	prev->next = now;
 	now->prev = prev;
 }
 
-//destroy and free env_list
-int	env_destroyer(t_env *env)
-{
-	t_env_link	*link;
-	t_env_link	*nextlink;
-
-	link = env->first;
-	while (link != NULL)
-	{
-		nextlink = link->next;
-		free (link->name);
-		free (link->variable);
-		free (link);
-		link = nextlink;
-	}
-	return (1);
-}
-
 //gerer SHLVL: +1si il existe, = 1 sinon
 //utiliser getcwd pour etre sur du pwd actuel
-// C'est quoi $_ ???
+// C'est quoi $_ ??? last singular cmd executed?
