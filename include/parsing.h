@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:41:23 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/16 23:18:59 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/20 22:59:01 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,10 @@ void		destroy_token(t_tok_link *link);
 void		destroy_token_list(t_tok_list *list);
 
 //EXPANDER.C
+
+char	*str_expander(char *str, t_env *local_env);
+char	*smartass(char *str, int i, t_env *local_env);
+char	*get_right_str(char	*str);
 void	token_expander(t_tok_list *list, t_env *local_env);
 char	*expander(char *str, t_env *local_env);
 char	*expand_res(char *str, int i, t_env *local_env, char *res);

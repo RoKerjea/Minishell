@@ -92,7 +92,6 @@ si la partie main n'a acces qu'au fonctions principales des modules(interacteur/
 le .h du main peut etre tres limite, pareil pour tout les modules et sous modules(builtins dans exec)
 export qui trie en ordre ascii avec prefix
 
-check if PATH exist when making char **env, if not, use hardcoded path(maybe before??)
 refacto, from the start...
 malloc protection
 leaks....(everywhere......)
@@ -136,15 +135,7 @@ env structs in other .h
 //PRIORITIES
 builtins don't need anything, and can be unified in style
 	parse option -n and every combination(-nnnnnnn ------nn -n -n -n -n -n -n) for echo
-how about char** for token, field splitting?, splitting happen AFTER expand,
-	pre word count to malloc char**precisely at first, or
-	splitting in temp var to then count easily and just put in right place after?
-	if expander need to be split anyway, why not split everything at the same time?
-	so need a way to split inside char* and return char**, and then fuse all char** in one char**
-	what if char **str pour token, but only str[0] is used at first?
-	then, split(str[0], ' ') ->temp, free previous char ** and replace with temp???
-quote removal(trim start and end of char* i ?)
-redirections(after expansion, field split, unquotes)
+
 expander need to know how heredoc work
 (line by line,
 temp = expander(line, env)
@@ -153,24 +144,13 @@ free(line, tmp)
 ->nextline)
 update
 expand first str change cmd that will be executed(bash> $VAR, exec what's VAR after expansion)
-$? is special expander and get return of exec and builtins(pretty much done)
 redirections need heredocs to complete
 
-signals need exec first
 error messages, last to complete because need every possibilities, but can be added one by one
 BUG
 if cmd>str $PAGER str $USER str (fixed)
 sometimes, !added at the end??
 if env -i minishell, $PATH existe tout de meme!
-exit arg (arg cannot be bigger than long long unsigned, before % 256, need strlen comp and atoll(arg) )
-
-step by step:
-merge basique
-env fuser in char**
-faire marcher sans builtins
-faire marcher builtins
-mettre les fonctions tests ds test.h
-gerer cas d'echecs particuliers
 
 //BONUSES
 1 - Les wildcards * doivent fonctionner pour le répertoire courant.

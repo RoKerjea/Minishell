@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 18:16:40 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/07/22 15:01:18 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/20 20:10:22 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ enum e_type
 	HEREDOC,
 	HEREDOC_NOEXPAND,
 	OUT,
-	APPEND
+	APPEND,
+	END
 };
 
 #endif

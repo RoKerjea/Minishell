@@ -98,8 +98,10 @@ exec_test "exit -9223372036854775808"
 exec_test "exit -9223372036854775809"
 exec_test "exit -n"
 
+exec_test "echo"
+exec_test "echo "
 exec_test "echo \$LESS"
-exec_test "echo truc"
+exec_test "echo truc machin"
 exec_test "echo \$?"
 exec_test "echo -n truc"
 
@@ -132,6 +134,21 @@ exec_test "cat <test_cases.c >out1 ; <out1 wc "
 exec_test "truc ; echo $?"
 exec_test "/truc ; echo $?"
 exec_test "touch test2 ; chmod 000 test2 ; cat test2 ; echo \$?"
+
+exec_test "echo \"coucou a va?\" \"pas mal et toi?\""
+#expnd tests
+exec_test "echo $ "
+exec_test "echo $"
+exec_test "echo $\"rfrgrg\""
+exec_test "echo $'rfrgrg'"
+exec_test 'echo $rfrgrg'
+
+#syntax error tests
+exec_test "wc <"
+exec_test "wc >"
+exec_test "wc |"
+exec_test "wc | |"
+exec_test "wc |||"
 
 rm -rf minishell out1 test2
 #rm lol ls test

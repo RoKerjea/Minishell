@@ -1,21 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/18 21:52:00 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/21 00:02:35 by rokerjea         ###   ########.fr       */
+/*   Created: 2021/07/14 17:30:26 by rokerjea          #+#    #+#             */
+/*   Updated: 2022/09/20 20:55:17 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-unsigned long	ft_strlen(const char *s)
+#include <unistd.h>
+#include <stdlib.h>
+
+void	*ft_memset(void *b, int c, size_t len)
 {
 	unsigned long	i;
+	unsigned char	*str;
 
 	i = 0;
-	while (s[i] != '\0')
+	str = (unsigned char *)b;
+	while (i < len)
+	{
+		str[i] = c;
 		i++;
-	return (i);
+	}
+	return (b);
+}
+
+void	*memset_alloc(int c, size_t len)
+{
+	void	*point;
+
+	point = malloc(len);
+	if (!point)
+		return (0);
+	point = ft_memset(point, c, len);
+	return (point);
 }

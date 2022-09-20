@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/16 22:25:40 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/20 23:53:57 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,72 @@ void	token_expander(t_tok_list *list, t_env *local_env)
 	token = list->first;
 	while (token != NULL)
 	{
-		if (strchr(token->str[0], '$') != 0)
+		if (ft_strchr(token->str[0], '$') != 0 && token->meta != HEREDOC
+			&& token->meta != HEREDOC_NOEXPAND)
 		{
-			expanded = prototype(token->str[0], local_env);
+			expanded = str_expander(token->str[0], local_env);
 			//protect
-			free (token->str[0]);
+			//free (token->str[0]);
 			token->str[0] = expanded;
 		}
 		token = token->next;
 	}
+}
+
+//str$var1 str$var2 str"$var3" 'str$var4'
+char	*str_expander(char *str, t_env *local_env)
+{
+	int		quote;
+	int		i;
+
+	i = 0;
+	quote = -1;
+	while (str[i])
+	{
+		if (str[i] == '\"')
+			quote *= -1;//pas tres beau, mais ca signale si on est a l'interieur de "" ou non (-1 exterieur, 1 interieur)
+		if (str[i] == '\'' && quote == -1)
+			i += find_end_quote(str + i, '\'');//si les ' sont entre des "" actifs, ils ne comptent pas!
+		else if (str[i] == '$')
+		{
+			if (str[i + 1] == ' ' || str[i + 1] == '\0')
+				i++;
+			else
+			{
+				str = smartass(str, i, local_env);
+				i = 0;
+			}
+		}
+		else
+			i++;
+	}
+	return (str);
+}
+
+char	*smartass(char *str, int i, t_env *local_env)
+{
+	char	*var;
+	char	*left_str;
+	char	*right_str;
+	char	*temp;
+
+	left_str = ft_strndup(str, i);
+	right_str = get_right_str (str + i);
+	var = get_var_content (str + i, local_env);
+	temp = ft_strjoin (left_str, var);
+	free (left_str);
+	free (var);
+	left_str = temp;
+	temp = ft_strjoin(left_str, right_str);
+	free (left_str);
+	free (right_str);
+	return (temp);
+}
+
+char	*get_right_str(char	*str)
+{
+	str += wordlen(str);
+	return (ft_strdup(str));	
 }
 
 /*si split(str, '$')
@@ -44,7 +101,7 @@ then, expand first word after *str[0]
 replace,
 rejoin all??
 */
-char	*prototype(char *str, t_env *local_env)//need to norme this!!
+/* char	*prototype(char *str, t_env *local_env)//need to norme this shiiiit!!
 {
 	char	*res;
 	long unsigned int		i;
@@ -58,7 +115,6 @@ char	*prototype(char *str, t_env *local_env)//need to norme this!!
 	j = 0;
 	wordlink = make_word_link("", 1);
 	firstword = wordlink;
-	
 	while (i <= ft_strlen(str))
 	{
 		if (str[i] == '\"')
@@ -82,8 +138,8 @@ char	*prototype(char *str, t_env *local_env)//need to norme this!!
 		wordlink = make_add_wordlink(str + (j - 1), i - j + 1, wordlink);
 	res = fuse_and_clean(firstword, local_env);
 	return (res);
-}
-
+} */
+/* 
 void	wordlink_destroyer(struct s_word *firstword)
 {
 	struct	s_word	*tempword;
@@ -160,7 +216,7 @@ struct	s_word	*make_add_wordlink(char *str, int len, struct	s_word *prevword)
 	prevword->next = now_word;
 	return (now_word);
 }
-
+ */
 char	*get_var_content(char *str, t_env *local_env)
 {
 	char		*res;
@@ -169,14 +225,16 @@ char	*get_var_content(char *str, t_env *local_env)
 
 	name = extract_name(str);
 	if (!strncmp(name, "?", 3))
+	{
+		free (name);
 		return(ft_itoa(local_env->lst_exit));
-	//parsename for particular cases ($" and $') and their return
+	}
 	//what if name start by $ or other metachar?(error)	
 	link = find_link(name, local_env);
-	if (link == NULL)
-		return (NULL);
-	res = ft_strdup(link->variable);
 	free (name);
+	if (link == NULL)
+		return (ft_strdup(""));
+	res = ft_strdup(link->variable);
 	return (res);
 }
 
@@ -195,7 +253,7 @@ int	wordlen(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i] != '\0' && ft_isspace(str[i]) == NO)
+	while (str[i] != '\0' && ft_isspace(str[i]) == NO && str[i] != '\"' && str[i] != '\'')
 		i++;
 	return (i);
 }

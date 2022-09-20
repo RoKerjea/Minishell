@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/03 20:21:35 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/20 21:07:00 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,8 @@ t_tok_list	*tokenizerstart(char *input)
 	if (token_list == NULL)
 		return (NULL);
 	sep_token(input, token_list);
-	if (token_list->last->meta == FAIL || token_list->len == 0 || syntax_checker(token_list) == NO)
-	{
-		destroy_token_list(token_list);
-		return (NULL);
-	}	
-	if (syntax_checker(token_list) == NO)//fuse with malloc protection result so destroy isn't repeated??
+	if (token_list->last->meta == FAIL
+		|| token_list->len == 0 || syntax_checker(token_list) == NO)
 	{
 		destroy_token_list(token_list);
 		return (NULL);
@@ -44,7 +40,24 @@ t_tok_list	*tokenizerstart(char *input)
 	return (token_list);
 }
 
-// str_tokenizer et meta_tokenizer cree le maillon, et malloc la bonne taille pour la str
+void	make_last_token(t_tok_list *list)
+{
+	t_tok_link	*link;
+
+	link = make_add_link(list);
+	link->str = malloc(sizeof(char *) * 2);
+	if (link->str == NULL)
+	{
+		link->meta = FAIL;
+		return ;
+	}
+	link->str[0] = ft_strdup("newline");
+	link->str[1] = 0;
+	link->meta = END;
+}
+
+//determine type of token, send to appropriate function
+//and add ending token at the end
 void	sep_token(char *str, t_tok_list *list)
 {
 	int	i;
@@ -61,6 +74,7 @@ void	sep_token(char *str, t_tok_list *list)
 		if (list->last->meta == FAIL || list->len == 0)
 			return ;
 	}
+	make_last_token(list);
 }
 
 int	token_var(t_tok_link *link, char *str, int i)
@@ -71,8 +85,7 @@ int	token_var(t_tok_link *link, char *str, int i)
 	link->str[0] = ft_strndup(str, i);
 	link->str[1] = 0;
 	link->meta = meta_type(link->str[0]);
-	//link->str[0] = ft_strtrim_replace(link->str[0], "> <");
-	//does it work for every cases? possibly yes
+	link->str[0] = ft_strtrim_replace(link->str[0], "> <");
 	return (1);
 }
 
@@ -86,7 +99,7 @@ int	str_tokenizer(t_tok_list *list, char *str)
 	link = make_add_link(list);
 	if (link == NULL)
 	{
-		list->len = 0;//what if this is the first link?
+		list->len = 0;
 		return (0);
 	}
 	while (is_meta(str[i]) == NO && str[i] != '\0')
@@ -98,11 +111,11 @@ int	str_tokenizer(t_tok_list *list, char *str)
 	}
 	if (token_var(link, str, i) == 0)
 		return (0);
-	link->str[0] = ft_strtrim_replace(link->str[0], " ");//protect too, maybe only thing needed to protect if inside it, it can manage a char* NULL and return NULL immediatly
 	return (i);
 }
 
-// get str starting from metachar->create a token with metachar and redirection target, if any,
+// get str starting from metachar
+// create a token with meta type and redirection target, if any
 int	meta_tokenizer(t_tok_list *list, char *str)
 {
 	int			i;
@@ -120,12 +133,6 @@ int	meta_tokenizer(t_tok_list *list, char *str)
 		return (0);
 	if (link->meta == PIPE)
 		return (i);
-	//what if strtrim_replace(str, "> <")??? it should get us rid of everything at once!!
-	if (link->meta == IN || link->meta == OUT)
-		link->str[0] = redir_trimmer(link->str[0], 1);
-	if (link->meta == APPEND || link->meta == HEREDOC)
-		link->str[0] = redir_trimmer(link->str[0], 2);
-	link->str[0] = ft_strtrim_replace(link->str[0], " ");
 	return (i);
 }
 

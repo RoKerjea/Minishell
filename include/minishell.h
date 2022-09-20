@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/18 21:14:55 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/20 20:53:41 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ char			*ft_strdup(const char *s1);
 char			*ft_strndup(const char *s1, int j);
 int				ft_atoi(const char *str);
 char			*ft_itoa(int num);
+void			*memset_alloc(int c, size_t len);
 char			*ft_strtrim(char const *s1, char const *set);
 
 //ENV_MAKE.C

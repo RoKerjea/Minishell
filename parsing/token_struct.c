@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_struct.c                                   :+:      :+:    :+:   */
+/*   token_struct.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 18:13:48 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/17 00:01:29 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/20 20:57:23 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,9 @@ t_tok_list	*make_list(void)
 {
 	t_tok_list	*list;
 
-	list = malloc(sizeof(t_tok_list));//memset??
-	if (list == NULL)//protect
+	list = memset_alloc(0, sizeof(t_tok_list));
+	if (list == NULL)
 		return (NULL);
-	list->len = 0;
-	list->first = NULL;
-	list->last = NULL;
 	return (list);
 }
 
@@ -33,20 +30,16 @@ t_tok_link	*make_add_link(t_tok_list *list)
 {
 	t_tok_link	*link;
 
-	link = malloc(sizeof(t_tok_link));//memset?
-	if (link == NULL)//protect
+	link = memset_alloc(0, sizeof(t_tok_link));
+	if (link == NULL)
 		return (NULL);
 	if (list->len == 0)
-	{
 		list->first = link;
-		link->prev = NULL;
-	}
 	else
 	{
 		list->last->next = link;
 		link->prev = list->last;
 	}
-	link->next = NULL;//remove if memset(0)
 	list->last = link;
 	list->len++;
 	return (link);
@@ -71,6 +64,5 @@ void	destroy_token_list(t_tok_list *list)
 		destroy_token(link);
 		link = nextlink;
 	}
-	if (list)
-		free (list);
+	free (list);
 }

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 21:07:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/18 21:28:14 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/20 21:10:32 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,12 @@ int	env_destroy_list(t_env *env_list)
 	return (0);
 }
 
-t_env	*minimal_env(void)
+t_env	*minimal_env(void)//need protection
 {
-	t_env	*env_list;
-	char	cur_path[PATH_MAX];
-	char	*path;
+	t_env		*env_list;
+	char		cur_path[PATH_MAX];
+	char		*path;
+	t_env_link	*temp;
 
 	env_list = malloc(sizeof(env_list));
 	getcwd(cur_path, PATH_MAX);
@@ -53,16 +54,19 @@ t_env	*minimal_env(void)
 	env_list->last = create_link(path);
 	forgelink(env_list->first->next, env_list->last);
 	free (path);
-	//create a PATH var /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-	//forgelink last prev
+	path = ft_strjoin("PWD=", "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
+	temp = create_link(path);
+	free (path);
+	forgelink(env_list->last, temp);
+	env_list->last = temp;
 	env_list->lst_exit = 0;
-	env_list->len = 3;
+	env_list->len = 4;
 	return (env_list);
 }
 
 //create list, use create_link to assign and create one link by line of env and
 //return a struct with variable count and a pointer to the first and last link
-t_env	*env_list(char **env)
+t_env	*env_list(char **env)//need protection
 {
 	int			i;
 	t_env		*env_list;
@@ -122,6 +126,6 @@ void	forgelink(t_env_link *prev, t_env_link *now)
 	now->prev = prev;
 }
 
-//gerer SHLVL: +1si il existe, = 1 sinon
+//gerer SHLVL: +1 si il existe, = 1 sinon
 //utiliser getcwd pour etre sur du pwd actuel
 // C'est quoi $_ ??? last singular cmd executed?

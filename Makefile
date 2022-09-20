@@ -26,13 +26,14 @@ SRCS		=	${addprefix common/, \
 				token_parser.c \
 				unquoter.c \
 				parser.c \
-				parsing_struct.c} \
+				token_struct.c} \
 				${addprefix libft/, \
 				ft_strlen.c \
 				ft_split.c \
 				ft_atoi.c \
 				ft_itoa.c \
 				ft_strtrim.c \
+				ft_memset.c \
 				ft_strjoin.c \
 				ft_freetab.c \
 				ft_strdup.c \

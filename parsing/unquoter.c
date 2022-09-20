@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 19:37:22 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/24 13:36:58 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/21 00:03:09 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,6 @@ int	squash(char *str, int start)
 		str[i - 1] = str[i];
 		i++;
 	}
-	str[i] = '\0';
+	str[i - 1] = '\0';
 	return (0);
 }

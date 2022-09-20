@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/18 17:53:11 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/20 23:24:07 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	check_input(char *input)
 	{
 		if (input[i] == '\'' || input[i] == '\"' )
 			i += find_end_quote(input + i, input[i]);
-		if (i > len)
+		if (i > len + 1)
 		{
 			printf("unclosed quotes!\n");
 			return (NO);
@@ -103,7 +103,6 @@ int	input(t_env *local_env)
 		rl_outstream = stdout;
 		if (input[0] == NULL)
 		{
-			local_env->lst_exit = 0;
 			write(STDERR_FILENO, "exit\n", 5);
 			exit(local_env->lst_exit);
 		}
@@ -125,6 +124,11 @@ int	input(t_env *local_env)
 		if (check_input(input[0]) == NO)//can put next steps inside actions of that if?
 			continue ;
 		cmd_list = parser(input[0], local_env);
+		if (cmd_list == NULL)
+		{
+			local_env->lst_exit = 2;
+			continue;
+		}
 /* 		printf("\033[1;31m");
 		printf ("res at end of parsing =>\n");
 		printf("\033[0m");
@@ -154,6 +158,8 @@ int	main(int argc, char **argv, char **env)
 		local_env = minimal_env();
 	else
 		local_env = env_list(env);
+	if (!local_env)
+		return (0);
 	//to extract out
 	sigemptyset(&action.sa_mask);
 	action.sa_flags = SA_SIGINFO;
