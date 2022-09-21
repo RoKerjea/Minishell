@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 22:10:02 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/18 21:09:09 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/21 03:00:58 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,11 @@ char	*function(t_env_link *env_link)
 	char	*res;
 	char	*temp;
 
-	res = ft_strjoin(env_link->name, "=");
+	temp = ft_strjoin(env_link->name, "=");
 	//protect
-	temp = ft_strjoin(res, env_link->variable);
+	res = ft_strjoin(temp, env_link->variable);
 	//protect
-	free (res);
-	res = temp;
+	free (temp);
 	return (res);
 }
 

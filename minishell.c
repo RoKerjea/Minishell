@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/20 23:24:07 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/21 03:08:53 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	check_input(char *input)
 			i += find_end_quote(input + i, input[i]);
 		if (i > len + 1)
 		{
-			printf("unclosed quotes!\n");
+			write(2, "unclosed quotes!\n", 17);
 			return (NO);
 		}
 		i++;
@@ -71,14 +71,11 @@ t_list_info	*cmd_list_info2(t_parsed *cmd_list)
 //start of input loop, should add to history, tokenize->parse->expand->send to exec
 int	input(t_env *local_env)
 {
-	char		**input;
+	char		*input;
 	t_parsed	*cmd_list;
 	t_list_info	*list_info;
 	//  int			old_fd;
-
-	input = malloc(sizeof(char *) * 2);
-	input[1] = 0;
-	input[0] = 0;
+	
 	while (1)
 	{
 		rl_catch_signals = 0;
@@ -90,7 +87,7 @@ int	input(t_env *local_env)
 		// 	dup2(fd, 0);
 		// old_fd = dup(STDIN_FILENO);
 		write(STDERR_FILENO, "minishell >", 11);
-		input[0] = readline (" ");//history should use this
+		input = readline (" ");//history should use this
 		// printf("input[0] = %s\n", input[0]);
 		// if (global_var == 130)
 		// {
@@ -101,12 +98,12 @@ int	input(t_env *local_env)
 		// 	continue;
 		// }
 		rl_outstream = stdout;
-		if (input[0] == NULL)
+		if (input == NULL)
 		{
 			write(STDERR_FILENO, "exit\n", 5);
 			exit(local_env->lst_exit);
 		}
-		if (input[0][0] == '\0')
+		if (input[0] == '\0')
 			continue;
 		// if (input[0] == NULL || input[0][0] == '\0')//J'aime pas :/
 		// {
@@ -120,21 +117,16 @@ int	input(t_env *local_env)
 		// 	// write(STDERR_FILENO, "\n", 1);
 		// 	continue ;//peux virer les continue si je fais une fonction check input qui fait les deux if avec des returns!!
 		// }
-		add_history (input[0]);
-		if (check_input(input[0]) == NO)//can put next steps inside actions of that if?
+		add_history (input);
+		if (check_input(input) == NO)//can put next steps inside actions of that if?
 			continue ;
-		cmd_list = parser(input[0], local_env);
+		cmd_list = parser(input, local_env);
 		if (cmd_list == NULL)
 		{
 			local_env->lst_exit = 2;
 			continue;
 		}
-/* 		printf("\033[1;31m");
-		printf ("res at end of parsing =>\n");
-		printf("\033[0m");
-		print_parsed_list(cmd_list->first); */
- 		/* free(input[0]);
-		free(input); */
+		free(input);
 		//function that call exec_controller need to create list_info for now, with cmd_list as base
 		list_info = cmd_list_info2(cmd_list);
 		free (cmd_list);
@@ -143,6 +135,22 @@ int	input(t_env *local_env)
 		//clear history to deal with readline leaks
 	}
 	return (local_env->lst_exit);
+}
+
+void	update_shlvl(t_env *local_env)
+{
+	char	*level;
+	char	*newlevel;
+	int		lvl;
+	
+	level = get_env_var("SHLVL", local_env);
+	lvl = ft_atoi(level);
+	lvl++;
+	level = ft_itoa(lvl);
+	newlevel = ft_strjoin("SHLVL=", level);
+	update_variable(newlevel, local_env);
+	free (level);
+	free (newlevel);
 }
 
 //start of process, get env and ignore args, make internal env and launch input loop
@@ -157,7 +165,10 @@ int	main(int argc, char **argv, char **env)
 	if (!env[0])
 		local_env = minimal_env();
 	else
+	{
 		local_env = env_list(env);
+		update_shlvl(local_env);
+	}
 	if (!local_env)
 		return (0);
 	//to extract out

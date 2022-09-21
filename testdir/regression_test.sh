@@ -76,6 +76,8 @@ function exec_test()
 	sleep 0.01
 }
 
+#Wut?
+exec_test "rien"
 #Exit builtins
 exec_test "exit 42"
 exec_test "exit 0"
@@ -136,6 +138,7 @@ exec_test "/truc ; echo $?"
 exec_test "touch test2 ; chmod 000 test2 ; cat test2 ; echo \$?"
 
 exec_test "echo \"coucou a va?\" \"pas mal et toi?\""
+
 #expnd tests
 exec_test "echo $ "
 exec_test "echo $"

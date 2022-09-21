@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 16:06:43 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/08 14:53:53 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/21 02:32:24 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,5 @@ char	**get_paths(char *const envp[])
 		i++;
 	}
 	free(path);
-/*	i = 0;
- 	while (paths[i])
-	{
-		ft_putstr_fd(paths[i], 1);
-		ft_putstr_fd("\n", 1);
-		i++;
-	} */
 	return (paths);
 }
