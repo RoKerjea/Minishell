@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/21 02:12:42 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/22 20:25:26 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,15 @@ t_parsed	*parser(char *input, t_env *local_env)
 	//print_token(list);
 	//bash: $TEST: ambiguous redirect if TEST="file1 file2", in, redirection step in parser probably
 	token_expander(list, local_env); //this step should be locked and perfect!!
-	/* print_token(list); */
-	/* printf ("\033[1;31mgate before splitter\n\033[0m"); */
-	token_splitter(list);	
-/* 	printf ("\033[1;31mgate before unquoter\n\033[0m"); */
-	/* print_token(list); */
+/* 	print_token(list);
+	printf ("\033[1;31mgate before splitter\n\033[0m"); */
+	if (token_splitter(list) == NO)
+	{
+		destroy_token_list(list);
+		return (NULL);
+	}
+/* 	printf ("\033[1;31mgate before unquoter\n\033[0m");
+	print_token(list); */
 	//etape split check au cas ou des redirections aurait plus de 1 char* ds leur char**
 	unquoter_loop(list);	
 	temp = token_sorter(list);
@@ -195,6 +199,7 @@ char	**empty_tab(void)
 {
 	char	**res;
 	res = malloc(sizeof(char*) * 1);
+	//protect
 	res[0] = NULL;
 	return(res);
 }
@@ -210,9 +215,7 @@ char	**get_args(t_tok_link *token)
 	
 	i = 0;
 	res = empty_tab();
-	//res = token->str;
-	//prot
-	while (token != NULL && token->str[0] != NULL)//can get rid of num?
+	while (token != NULL && token->str[0] != NULL)
 	{
 		token_next = token->next;
 		//res[i] = ft_strdup(token->str[0]);

@@ -77,7 +77,8 @@ function exec_test()
 }
 
 #Wut?
-exec_test "rien"
+#exec_test "rien"
+
 #Exit builtins
 exec_test "exit 42"
 exec_test "exit 0"
@@ -104,6 +105,7 @@ exec_test "echo"
 exec_test "echo "
 exec_test "echo \$LESS"
 exec_test "echo truc machin"
+exec_test "echo truc        machin"
 exec_test "echo \$?"
 exec_test "echo -n truc"
 

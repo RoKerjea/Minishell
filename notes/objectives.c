@@ -98,8 +98,7 @@ leaks....(everywhere......)
 free everything not used by execve in a fork
 free input from readline
 struct destructors
-shlvl + 1 at startup
-syntax
+syntax (wrong token message)
 
 _= (last command path)
 export empty

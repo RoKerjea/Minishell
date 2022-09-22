@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 21:07:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/20 21:10:32 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/22 19:45:24 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_env	*minimal_env(void)//need protection
 	env_list->last = create_link(path);
 	forgelink(env_list->first->next, env_list->last);
 	free (path);
-	path = ft_strjoin("PWD=", "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
+	path = ft_strjoin("PATH=", "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
 	temp = create_link(path);
 	free (path);
 	forgelink(env_list->last, temp);

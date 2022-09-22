@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 19:21:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/20 21:02:00 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/22 20:15:18 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,10 @@ int	find_end_quote(char *str, char c)
 	int	i;
 
 	i = 1;
-	while (str[i] != c && str[i] != '\0')
+	//printf ("searching for %c\n", c);
+	while (str[i] != c && str[i])
 		i++;
+	//printf ("str = %s\n", str);
+	//printf ("i = %d\n", i);
 	return (i + 1);
 }

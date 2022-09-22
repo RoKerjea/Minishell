@@ -6,11 +6,13 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:35:17 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/20 21:23:30 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/22 20:16:27 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parsing.h"
+#include "../include/macro.h"
+#include "../include/utils.h"
 
 int	field_counter(char *s, char c)
 {
@@ -41,7 +43,7 @@ int	len_field(char *s, char c)
 	{
 		if (s[i] == '\'' || s[i] == '\"')
 		{
-			i += find_end_quote(s, s[i]);
+			i += find_end_quote(s + i, s[i]);
 		}
 		i++;
 	}
@@ -87,14 +89,21 @@ int	token_splitter(t_tok_list	*list)
 		if (ft_strchr(token->str[0], ' ') != 0)
 		{
 			splitted = field_splitter(token->str[0], ' ');
-			//print_char_tab(splitted);
+			if (token->meta == IN || token->meta == OUT || token->meta == APPEND)
+			{
+				if (splitted[1] != NULL)
+				{
+					ft_putstr_fd("minishell : ambiguous redirect\n", 2);
+					ft_freetab(splitted);
+					return (NO);
+				}
+			}
 			ft_freetab(token->str);
-			//print_char_tab(splitted);
 			token->str = splitted;
 		}
 		token = token->next;
 	}
-	return (0);
+	return (YES);
 }
 /*
 int	str_table_counter(char **str_table)
