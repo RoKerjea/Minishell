@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:17:15 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/18 21:07:07 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/24 20:16:33 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,18 @@ int	env_unset(char **cmd, t_env *local_env)
 	return (0);
 }
 
+void	print_export(t_env *local_env)
+{
+	t_env_link	*now;
+
+	now = local_env->first;
+	while (now)
+	{
+		printf("declare -x %s=\"%s\"\n", now->name, now->variable);
+		now = now->next;
+	}
+}
+
 int	env_export(char **cmd, t_env *local_env)
 {
 	int	i;
@@ -85,8 +97,8 @@ int	env_export(char **cmd, t_env *local_env)
 		update_variable(cmd[i], local_env);
 		i++;
 	}
-	//NEED print export type for cmd[1] == NULL
-	//print_export(local_env);
+	if (cmd[i] == NULL)
+		print_export(local_env);
 	return (0);
 }
 

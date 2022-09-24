@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/20 23:53:57 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/24 20:03:15 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	token_expander(t_tok_list *list, t_env *local_env)
 		if (ft_strchr(token->str[0], '$') != 0 && token->meta != HEREDOC
 			&& token->meta != HEREDOC_NOEXPAND)
 		{
-			expanded = str_expander(token->str[0], local_env);
+			expanded = str_expander(token->str[0], local_env, 1);
 			//protect
 			//free (token->str[0]);
 			token->str[0] = expanded;
@@ -41,7 +41,7 @@ void	token_expander(t_tok_list *list, t_env *local_env)
 }
 
 //str$var1 str$var2 str"$var3" 'str$var4'
-char	*str_expander(char *str, t_env *local_env)
+char	*str_expander(char *str, t_env *local_env, int expand)
 {
 	int		quote;
 	int		i;
@@ -52,7 +52,7 @@ char	*str_expander(char *str, t_env *local_env)
 	{
 		if (str[i] == '\"')
 			quote *= -1;//pas tres beau, mais ca signale si on est a l'interieur de "" ou non (-1 exterieur, 1 interieur)
-		if (str[i] == '\'' && quote == -1)
+		if (str[i] == '\'' && quote == -1 && expand == 1)
 			i += find_end_quote(str + i, '\'');//si les ' sont entre des "" actifs, ils ne comptent pas!
 		else if (str[i] == '$')
 		{

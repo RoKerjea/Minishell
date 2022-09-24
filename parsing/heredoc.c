@@ -6,11 +6,12 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 23:16:11 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/18 17:58:13 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/24 20:01:27 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include "../include/parsing.h"
 
 char	*find_free_name(char *str)
 {
@@ -50,19 +51,26 @@ char	*findnewname(char *name)
 
 
 //need expand step, which need env
-char	*heredoc(char *delimiter)
+char	*heredoc(t_tok_link *link, t_env *local_env)
 {
 	int		filefd;
 	char	*filepath;
+	char	*expanded;
 	char	*input;
 
-	filepath = findnewname(delimiter);
+	filepath = findnewname(link->str[0]);
 	filefd = open(filepath, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	input = readline ("> ");
-	while (strcmp(input, delimiter) != 0)
+	while (strcmp(input, link->str[0]) != 0)
 	{
-		//replace input line by expanded line, if no ''
+		if (link->meta == HEREDOC && ft_strchr(input, '$'))
+		{
+			expanded = str_expander(input, local_env, 0);
+			free (input);
+			input = expanded;
+		}
 		write(filefd, input, strlen(input));
+		free (input);
 		input = readline ("> ");
 		write(filefd, "\n", 1);
 	}

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:41:23 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/20 22:59:01 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/24 20:02:47 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ char	**get_args(t_tok_link *token);
 int	token_count(t_tok_link *token);
 
 t_temp	*mktemplist(void);
-t_temp	*token_sorter(t_tok_list	*list);
+t_temp	*token_sorter(t_tok_list *list, t_env *local_env);
 void	add_token_arg(t_temp *temp, t_tok_link *link);
-int		add_token_in(t_temp *temp, t_tok_link *link);
+int	add_token_in(t_temp *temp, t_tok_link *link, t_env *local_env);
 int		add_token_out(t_temp *temp, t_tok_link *link);
 
 //TOKEN_STRUCT.C
@@ -83,7 +83,7 @@ void		destroy_token_list(t_tok_list *list);
 
 //EXPANDER.C
 
-char	*str_expander(char *str, t_env *local_env);
+char	*str_expander(char *str, t_env *local_env, int expand);
 char	*smartass(char *str, int i, t_env *local_env);
 char	*get_right_str(char	*str);
 void	token_expander(t_tok_list *list, t_env *local_env);
@@ -113,7 +113,7 @@ int syntax_checker(t_tok_list *list);
 
 int	str_table_counter(char **str_table);
 
-char	*heredoc(char *delimiter);
+char	*heredoc(t_tok_link *link, t_env *local_env);
 //TESTS.C
 void	print_temp_list(t_temp *temp);
 void	print_temp_link(t_temp *temp);

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/22 20:25:26 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/24 16:49:53 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ t_parsed	*parser(char *input, t_env *local_env)
 /* 	printf ("\033[1;31mgate before unquoter\n\033[0m");
 	print_token(list); */
 	//etape split check au cas ou des redirections aurait plus de 1 char* ds leur char**
-	unquoter_loop(list);	
-	temp = token_sorter(list);
+	unquoter_loop(list);
+	temp = token_sorter(list, local_env);
 	free (list);
 	parsed_list = list_parser(temp);
 	//destroy_token_list(list);

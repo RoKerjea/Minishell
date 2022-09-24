@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 19:41:55 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/20 20:34:34 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/24 20:02:43 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 //get token list and create another list with one link by cmd and every
 //redirection in the same link, not expanded or splited yet
 //need to react to redirection error, stop and free everything for current command, et find next pipe before continuing
-t_temp	*token_sorter(t_tok_list *list)
+t_temp	*token_sorter(t_tok_list *list, t_env *local_env)
 {
 	t_tok_link	*link;
 	t_tok_link	*nextlink;
@@ -36,8 +36,8 @@ t_temp	*token_sorter(t_tok_list *list)
 		nextlink = link->next;
 		if (link->meta == CMD)
 			add_token_arg(temp, link);
-		else if (link->meta == IN || link->meta == HEREDOC)
-			temp->type = add_token_in(temp, link);
+		else if (link->meta == IN || link->meta == HEREDOC || link->meta == HEREDOC_NOEXPAND)
+			temp->type = add_token_in(temp, link, local_env);
 		else if (link->meta == OUT || link->meta == APPEND)
 			temp->type = add_token_out(temp, link);
 		else if (link->meta == PIPE)
@@ -93,14 +93,13 @@ void	printerror(char *prob)
 //Maybe do the redirections tests here?(then expander must be done just before it!!)
 //need to do the open tests here, and replace previous redir with new one
 //print "minishell: (target): No such file or directory" on error fd
-int	add_token_in(t_temp *temp, t_tok_link *link)
+int	add_token_in(t_temp *temp, t_tok_link *link, t_env *local_env)
 {
 	if (temp->redir_in != NULL)
 	{
 		int	fd;
-		if (temp->redir_in->meta == HEREDOC)
+		if (temp->redir_in->meta == HEREDOC || temp->redir_in->meta == HEREDOC)
 		{
-			printf ("gate, \'%s\' \n", temp->redir_in->str[0]);
 			fd = open(temp->redir_in->str[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			unlink (temp->redir_in->str[0]);
 			close (fd);
@@ -108,9 +107,10 @@ int	add_token_in(t_temp *temp, t_tok_link *link)
 		destroy_token(temp->redir_in);	
 	}
 	temp->redir_in = link;
-	if (link->meta == HEREDOC)
+	if (link->meta == HEREDOC || link->meta == HEREDOC_NOEXPAND)
 	{
-		link->str[0] = heredoc(link->str[0]);
+		link->str[0] = heredoc(link, local_env);
+		link->meta = HEREDOC;
 		return (1);
 	}
 	if (access(link->str[0], F_OK))
