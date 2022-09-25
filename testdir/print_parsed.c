@@ -15,6 +15,8 @@ void	print_char_tab(char **tab)
 	}
 }
 
+
+
 //TODO, redo for tests
 void	print_parsed_list(t_parsed_cmd *final_link)
 {

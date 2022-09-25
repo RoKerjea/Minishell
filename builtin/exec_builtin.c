@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:17:15 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/24 20:16:33 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/24 23:11:56 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	cd(char **cmd, t_env *local_env)
 {
 	if (str_table_counter(cmd) > 2)
 	{
-		printf("minishell: cd: too many arguments\n");
+		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
 		return (1);
 	}
 	if (change_dir(cmd[1], local_env) && str_table_counter(cmd) > 1)
@@ -92,13 +92,13 @@ int	env_export(char **cmd, t_env *local_env)
 	int	i;
 
 	i = 1;
+	if (cmd[1] == NULL)
+		print_export(local_env);
 	while (cmd[i] != NULL)
 	{
 		update_variable(cmd[i], local_env);
 		i++;
 	}
-	if (cmd[i] == NULL)
-		print_export(local_env);
 	return (0);
 }
 

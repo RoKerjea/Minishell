@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/24 20:03:15 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/25 00:08:04 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,8 +252,8 @@ int	wordlen(char *str)
 {
 	int	i;
 
-	i = 0;
-	while (str[i] != '\0' && ft_isspace(str[i]) == NO && str[i] != '\"' && str[i] != '\'')
+	i = 1;
+	while (str[i] != 36 && str[i] != '\0' && ft_isspace(str[i]) == NO && str[i] != '\"' && str[i] != '\'')
 		i++;
 	return (i);
 }

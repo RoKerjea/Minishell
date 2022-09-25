@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 20:49:51 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/21 02:34:08 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/24 23:05:39 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,5 +128,6 @@ int	final_exit(t_parsed_cmd *cmd_struct, t_env *local_env)
 	if (cmd_struct->redir_append)
 		free(cmd_struct->redir_append);
 	free (cmd_struct);
+	//rl_clear_histoy
 	exit (status % 256);
 }

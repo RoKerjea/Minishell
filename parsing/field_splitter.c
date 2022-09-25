@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:35:17 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/22 20:16:27 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/25 21:25:31 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,31 @@ int	field_counter(char *s, char c)
 
 	wordcount = 0;
 	i = 0;
-	while (s[i])
+	while (s[i] != '\0')
 	{
 		if (s[i] == '\'' || s[i] == '\"')
 		{
-			i += find_end_quote(s, s[i]);
+			//printf ("str before quote = \'%s\'\n", s + i);
+			i += find_end_quote(s + i, s[i]);
+			//printf ("str after quote = \'%s\'\n", s + i);
+			if (s[i] == c || s[i] == '\0')
+				wordcount++;
 		}
-		if (s[i] != c && (s[i + 1] == c || s[i + 1] == '\0'))
+		else if (s[i] != c && s[i] != '\'' && s[i] != '\"' && (s[i + 1] == c || s[i + 1] == '\0'))
+		{	
+			//printf ("str = \'%s\'\n", s + i);
 			wordcount++;
-		i++;
+			i++;
+		}
+		
+		else
+			i++;
 	}
+	//printf ("count = %d\n", wordcount);
 	return (wordcount);
 }
-
+/*
+"export ""  et unset """*/
 int	len_field(char *s, char c)
 {
 	int	i;
@@ -45,7 +57,8 @@ int	len_field(char *s, char c)
 		{
 			i += find_end_quote(s + i, s[i]);
 		}
-		i++;
+		else
+			i++;
 	}
 	return (i);
 }
@@ -63,6 +76,11 @@ char	**field_splitter(char *s, char c)
 	if (!res)
 		return (NULL);
 	res[wnum] = 0;
+	if (wnum == 1)
+	{
+		res[0] = ft_strdup(s);
+		return (res);
+	}
 	wnum = 0;
 	while (wnum < field_counter(s, c))
 	{

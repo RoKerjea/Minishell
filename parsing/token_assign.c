@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 19:41:55 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/24 20:02:43 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/24 23:00:41 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ void	add_token_arg(t_temp *temp, t_tok_link *link)
 		temp->cmd_list_first = link;
 	if (temp->cmd_list_last != NULL)
 		temp->cmd_list_last->next = link;/* 
-	printf("inputin sorter = \n");//tg
-	print_char_tab(link->str);//g */
+	printf("inputin sorter = \n");
+	print_char_tab(link->str);*/
 	temp->cmd_list_last = link;
 	temp->cmd_list_last->next = NULL;
 }

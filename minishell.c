@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/22 19:44:03 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/25 20:41:36 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_input(char *input)
 	while (input[i] != '\0')
 	{
 		if (input[i] == '\'' || input[i] == '\"' )
-			i += find_end_quote(input + i, input[i]);
+			i += find_end_quote(input + i, input[i]) - 1;
 		if (i > len + 1)
 		{
 			write(2, "unclosed quotes!\n", 17);
@@ -101,6 +101,7 @@ int	input(t_env *local_env)
 		if (input == NULL)
 		{
 			write(STDERR_FILENO, "exit\n", 5);
+			//rl_clear_history ??
 			exit(local_env->lst_exit);
 		}
 		if (input[0] == '\0')

@@ -77,7 +77,7 @@ function exec_test()
 }
 
 #Wut?
-#exec_test "rien"
+exec_test "rien"
 
 #Exit builtins
 exec_test "exit 42"

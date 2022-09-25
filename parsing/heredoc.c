@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 23:16:11 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/24 20:01:27 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/24 22:51:15 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,14 @@ char	*heredoc(t_tok_link *link, t_env *local_env)
 
 	filepath = findnewname(link->str[0]);
 	filefd = open(filepath, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	//protect
 	input = readline ("> ");
 	while (strcmp(input, link->str[0]) != 0)
 	{
 		if (link->meta == HEREDOC && ft_strchr(input, '$'))
 		{
 			expanded = str_expander(input, local_env, 0);
+			//protect
 			free (input);
 			input = expanded;
 		}

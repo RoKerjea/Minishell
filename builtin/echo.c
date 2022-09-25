@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 20:47:48 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/21 00:10:40 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/25 21:28:18 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	isflag_newline(char *str)
 	int	i;
 
 	i = 0;
-	if (!str || str[0] == '\0')
+	if (!str)
 		return (1);
 	if (str[0] != '-')
 		return (0);
@@ -43,7 +43,7 @@ int	echo(char **cmd, t_env *local_env)
 	(void)local_env;
 	i = 1;
 	newline = 0;
-	while (cmd[i] != NULL && cmd[i][0] != '\0')
+	while (cmd[i] != NULL)
 	{		
 		if (isflag_newline(cmd[i]) == 1)
 			newline = 1;

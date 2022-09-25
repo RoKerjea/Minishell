@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/24 16:49:53 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/25 21:28:35 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,28 @@ t_parsed	*parser(char *input, t_env *local_env)
 	list = tokenizerstart(input);//this step should be locked and perfect!!
 	if (list == NULL)
 		return (NULL);
-	//print_token(list);
-	//bash: $TEST: ambiguous redirect if TEST="file1 file2", in, redirection step in parser probably
+	/* print_token(list); */
+
 	token_expander(list, local_env); //this step should be locked and perfect!!
-/* 	print_token(list);
+	
+/*  	print_token(list);
 	printf ("\033[1;31mgate before splitter\n\033[0m"); */
+	
 	if (token_splitter(list) == NO)
 	{
 		destroy_token_list(list);
 		return (NULL);
 	}
-/* 	printf ("\033[1;31mgate before unquoter\n\033[0m");
-	print_token(list); */
-	//etape split check au cas ou des redirections aurait plus de 1 char* ds leur char**
+	
+/* 	print_token(list);
+  	printf ("\033[1;31mgate before unquoter\n\033[0m"); */
+	
 	unquoter_loop(list);
 	temp = token_sorter(list, local_env);
 	free (list);
 	parsed_list = list_parser(temp);
 	//destroy_token_list(list);
-	//return (parsed_list); //or NULL if malloc error
+	//print_parsed_list(parsed_list->first);
 	return (parsed_list);
 }
 
@@ -127,7 +130,7 @@ t_parsed_cmd	*make_parsed_link(t_temp *temp)
 	link = malloc(sizeof(t_parsed_cmd));
 	//prot
 	//memset (link, 0, sizeof(t_parsed_cmd))
-	if (temp->cmd_list_first == NULL)
+	if (temp->cmd_list_first == NULL || temp->type == 0)
 	{
 		link->cmd_args = NULL;
 		link->exec_type = FAIL;
@@ -158,9 +161,9 @@ t_parsed_cmd	*make_parsed_link(t_temp *temp)
 			link->redir_append = ft_strdup(temp->redir_out->str[0]);
 		destroy_token(temp->redir_out);
 	}
-	link->next = NULL;
-	if (temp->type == 0)
-		link->exec_type = 0;
+	link->next = NULL;/* 
+	if (temp->type == 0)//do i needthat ifget type work correctly?
+		link->exec_type = 0; */
 	return (link);
 }
 
@@ -221,10 +224,10 @@ char	**get_args(t_tok_link *token)
 		//res[i] = ft_strdup(token->str[0]);
 		//protect
 		res = char_tab_fuser(res, token->str);
+		//protect
 		i++;
 		destroy_token(token);
 		token = token_next;
-		//del previous token here ?
 	}
 	return (res);
 }
@@ -241,7 +244,3 @@ int	token_count(t_tok_link *token)
 	}
 	return(i);
 }
-/*
-how to deal with exterior quotes? "str" => str
-' ' are str separators
-*/

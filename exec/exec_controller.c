@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 13:42:18 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/16 06:03:02 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/24 23:59:44 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	execute(t_parsed_cmd *cmd, t_list_info *info, t_env *local_env)
 		status = exec_builtin(cmd, local_env);
 	else
 		exec_subshell(cmd, info, envp);
-	return (exit(status), status);
+	return (exit(127), status);
 }
 
 int	exec_controller(t_list_info *list_info, t_env *local_env)
