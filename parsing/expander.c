@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/25 00:08:04 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/26 14:24:10 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*str_expander(char *str, t_env *local_env, int expand)
 			i += find_end_quote(str + i, '\'');//si les ' sont entre des "" actifs, ils ne comptent pas!
 		else if (str[i] == '$')
 		{
-			if (str[i + 1] == ' ' || str[i + 1] == '\0')
+			if (str[i + 1] == ' ' || str[i + 1] == '\0' || str[i + 1] == '+' || str[i + 1] == '=')
 				i++;
 			else
 			{
@@ -253,7 +253,7 @@ int	wordlen(char *str)
 	int	i;
 
 	i = 1;
-	while (str[i] != 36 && str[i] != '\0' && ft_isspace(str[i]) == NO && str[i] != '\"' && str[i] != '\'')
+	while (str[i] != 36 && str[i] != '\0' && ft_isspace(str[i]) == NO && str[i] != '\"' && str[i] != '\'')//to add isdigit
 		i++;
 	return (i);
 }

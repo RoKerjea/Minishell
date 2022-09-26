@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:35:17 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/25 21:25:31 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/25 22:05:00 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	field_counter(char *s, char c)
 			//printf ("str before quote = \'%s\'\n", s + i);
 			i += find_end_quote(s + i, s[i]);
 			//printf ("str after quote = \'%s\'\n", s + i);
-			if (s[i] == c || s[i] == '\0')
+			if (s[i] == c || s[i + 1] == '\0')
 				wordcount++;
 		}
 		else if (s[i] != c && s[i] != '\'' && s[i] != '\"' && (s[i + 1] == c || s[i + 1] == '\0'))
