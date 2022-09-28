@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 20:49:51 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/24 23:05:39 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/28 16:01:13 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	is_not_num(char *str)
 
 	valid_num = "+-0123456789";
 	i = 0;
-	while (str[i])
+	while (str[i] != '\0')
 	{
 		j = 0;
 		while (valid_num[j] != str[i] && j < 12)
@@ -90,6 +90,8 @@ int	check_overflow(const char *str)
 			return (1);
 		i++;
 	}
+	if (str[i] != '\0')
+		return (1);
 	return (0);
 }
 
@@ -100,7 +102,7 @@ int	final_exit(t_parsed_cmd *cmd_struct, t_env *local_env)
 
 	cmd = cmd_struct->cmd_args;
 	status = local_env->lst_exit;
-	if (str_table_counter(cmd) == 2)
+	if (str_table_counter(cmd) >= 2)
 	{
 		status = ft_atoll(cmd[1]);
 		if (is_not_num(cmd[1]) || check_overflow(cmd[1]) == 1)

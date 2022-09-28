@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 14:22:26 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/11 21:24:50 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/28 15:01:24 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	update_envdir(char *name, char *content, t_env *env_list)
 	link = find_link(name, env_list);
 	free (link->variable);
 	link->variable = strdup(content);
+	//printf ("str of update path = %s\n", content);
 }
 
 int	change_dir(char *str, t_env *env_list)
@@ -27,6 +28,7 @@ int	change_dir(char *str, t_env *env_list)
 	char	new_path[PATH_MAX];
 	char	*path_cmd;
 
+	//printf ("str of path = %s\n", str);
 	if (!str)
 		path_cmd = get_env_var("HOME", env_list);
 	else
@@ -43,15 +45,18 @@ int	change_dir(char *str, t_env *env_list)
 		getcwd(new_path, PATH_MAX);
 		update_envdir("OLDPWD", get_env_var("PWD", env_list), env_list);//TO FINISH
 		update_envdir("PWD", new_path, env_list);
+		//printf ("str of path = %s\n", path_cmd);
+		if (ft_strncmp("//", path_cmd, 3) == 0)
+			update_envdir("PWD", path_cmd, env_list);
 	}
 	return (0);
 }
 
-void	printpath(void)
+void	printpath(t_env *env_list)
 {
-	char	cur_path[PATH_MAX];
+	char	*cur_path;
 
-	getcwd(cur_path, PATH_MAX);
+	cur_path = get_env_var("PWD", env_list);
 	printf("%s\n", cur_path);
 }
 

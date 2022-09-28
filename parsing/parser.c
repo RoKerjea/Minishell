@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/25 22:06:44 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/28 16:15:01 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ t_parsed	*parser(char *input, t_env *local_env)
 
 	token_expander(list, local_env); //this step should be locked and perfect!!
 	
-/*  	print_token(list);
-	printf ("\033[1;31mgate before splitter\n\033[0m"); */
+  /*  	print_token(list);
+	printf ("\033[1;31mgate before splitter after expander\n\033[0m"); */
 	
 	if (token_splitter(list) == NO)
 	{
@@ -56,8 +56,8 @@ t_parsed	*parser(char *input, t_env *local_env)
 		return (NULL);
 	}
 	
-/* 	print_token(list);
-  	printf ("\033[1;31mgate before unquoter\n\033[0m"); */
+  	/* print_token(list);
+  	printf ("\033[1;31mgate before unquoter after splitter\n\033[0m"); */
 	
 	unquoter_loop(list);
 	temp = token_sorter(list, local_env);
@@ -181,19 +181,19 @@ int	get_type(char **cmd_args)
 //can probably use a lookup table here too
 int	is_builtins(char *cmd)
 {
-	if (ft_strncmp(cmd, "echo", 4) == 0 && (cmd[4] == ' ' || cmd[4] == '\0'))
+	if (ft_strncmp(cmd, "echo", 5) == 0 && (cmd[4] == ' ' || cmd[4] == '\0'))
 		return (YES);
-	if (ft_strncmp(cmd, "exit", 4) == 0 && (cmd[4] == ' ' || cmd[4] == '\0'))
+	if (ft_strncmp(cmd, "exit", 5) == 0 && (cmd[4] == ' ' || cmd[4] == '\0'))
 		return (YES);
-	if (ft_strncmp(cmd, "env", 3) == 0 && (cmd[3] == ' ' || cmd[3] == '\0'))
+	if (ft_strncmp(cmd, "env", 4) == 0 && (cmd[3] == ' ' || cmd[3] == '\0'))
 		return (YES);
-	if (ft_strncmp(cmd, "pwd", 3) == 0 && (cmd[3] == ' ' || cmd[3] == '\0'))
+	if (ft_strncmp(cmd, "pwd", 4) == 0 && (cmd[3] == ' ' || cmd[3] == '\0'))
 		return (YES);
-	if (ft_strncmp(cmd, "cd", 2) == 0 && (cmd[2] == ' ' || cmd[2] == '\0'))
+	if (ft_strncmp(cmd, "cd", 3) == 0 && (cmd[2] == ' ' || cmd[2] == '\0'))
 		return (YES);
-	if (ft_strncmp(cmd, "export", 6) == 0 && (cmd[7] != ' ' || cmd[7] != '\0'))
+	if (ft_strncmp(cmd, "export", 7) == 0 && (cmd[7] != ' ' || cmd[7] != '\0'))
 		return (YES);
-	if (ft_strncmp(cmd, "unset", 5) == 0 && (cmd[6] != ' ' || cmd[6] != '\0'))
+	if (ft_strncmp(cmd, "unset", 6) == 0 && (cmd[6] != ' ' || cmd[6] != '\0'))
 		return (YES);
 	return (NO);
 }

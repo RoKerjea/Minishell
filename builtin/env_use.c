@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 22:10:02 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/24 20:16:01 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/28 15:44:52 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	printenv(t_env *env)
 	now = env->first;
 	while (now)
 	{
-		printf("%s=%s\n", now->name, now->variable);
+		if (now->variable != NULL)
+			printf("%s=%s\n", now->name, now->variable);
 		now = now->next;
 		i++;
 	}
@@ -104,6 +105,14 @@ void	update_variable(char *str, t_env *env_list)
 	char		*name;
 
 	strvar = ft_strchr(str, '=');//if str doesnt have '=', return error because input = "export name =var"
+	if (strvar == 0)
+	{
+		link = create_link(str);
+		forgelink(env_list->last, link);
+		env_list->last = link;
+		env_list->len++;
+		return ;
+	}
 	name = ft_strndup(str, (strvar - &str[0]));
 	link = find_link(name, env_list);
 	free (name);

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 21:07:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/22 19:45:24 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/28 15:42:32 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,11 @@ void	split_env(char *str, t_env_link *link)
 	char	*tmp;
 
 	tmp = ft_strchr(str, '=');
+	if (tmp == 0)
+	{
+		link->name = ft_strdup(str);
+		return ;
+	}
 	link->name = ft_strndup(str, (tmp - &str[0]));
 	if (link->name == NULL)
 		return ;

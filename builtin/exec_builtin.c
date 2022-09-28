@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:17:15 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/24 23:11:56 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/28 15:34:46 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,12 @@ int	env(char **cmd, t_env *local_env)
 
 int	pwd(char **cmd, t_env *local_env)
 {
+	char	new_path[PATH_MAX];
+	
 	(void)cmd;
-	(void)local_env;
-	printpath();
+	if (getcwd(new_path, PATH_MAX) == 0)
+		return (1);
+	printpath(local_env);
 	return (0);
 }
 

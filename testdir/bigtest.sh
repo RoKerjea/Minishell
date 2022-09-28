@@ -377,10 +377,10 @@ if [ "$1" == "env" ] || [ "$1" == "all" ]; then
   exec_test 'echo "$USER"'
   exec_test 'echo "'$USER'"'
   exec_test 'echo '"$USER"''
-  exec_test 'echo $USER"'"'
+  exec_test 'echo $USER"''"'
   exec_test 'echo $USER""'
   exec_test 'echo ''$USER'
-  exec_test 'echo $'USER'$"USER"'$USER'"$USER""'$USER'"'"$USER"'$USER"'"$USER""''$USER'
+  exec_test 'echo $'USER'$"USER"'$USER'"$USER""'$USER'"'"$USER"'$USER"'"$USER""''$USER'"
   exec_test 'echo $?$USER'
   exec_test 'export 'USER'=YO'
   exec_test 'echo $'USER''

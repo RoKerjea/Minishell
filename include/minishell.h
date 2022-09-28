@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/20 20:53:41 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/28 14:49:08 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ t_env_link		*find_link(char *var_name, t_env *env_list);
 char			*get_env_var(char *name, t_env *env_list);
 
 //DIR.C
-void			printpath(void);
+void	printpath(t_env *env_list);
 int				change_dir(char *str, t_env *env_list);
 
 //PARSER.C
