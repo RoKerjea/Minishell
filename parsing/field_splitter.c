@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:35:17 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/28 16:15:12 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:24:19 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ int	field_counter(char *s, char c)
 	//printf ("count = %d\n", wordcount);
 	return (wordcount);
 }
-/*
-"export ""  et unset """*/
+
 int	len_field(char *s, char c)
 {
 	int	i;
@@ -124,18 +123,7 @@ int	token_splitter(t_tok_list	*list)
 	}
 	return (YES);
 }
-/*
-int	str_table_counter(char **str_table)
-{
-	int	res;
-	
-	res = 0;
-	while (str_table[res] != NULL)
-		res++;
-	return (res);
-}*/
 
-//une ligne a enlever, probablement un i++ qqpart suffira
 char	**char_tab_fuser(char **str1, char **str2)
 {
 	char	**res;
