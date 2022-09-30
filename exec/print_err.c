@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_err.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:33:22 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/09 18:35:01 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/30 04:34:08 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,20 @@ void	print_err_open(int errnum, char *path)
 
 void	print_err(int errnum, char *str, int line)
 {
-	ft_putstr_fd("minishell ", STDERR_FILENO);
-	if (errnum == -1 || errno == ENOENT)
-		ft_putstr_fd(strerror(ENOENT), STDERR_FILENO);
-	else
-		ft_putstr_fd("command not found", STDERR_FILENO);
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	if (str)
 	{
-		ft_putstr_fd(": ", STDERR_FILENO);
 		ft_putstr_fd(str, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
 	}
 	if (line)
 	{
-		ft_putstr_fd(":", STDERR_FILENO);
 		ft_putnbr_fd(line, STDERR_FILENO);
+		ft_putstr_fd(":", STDERR_FILENO);
 	}
+	if (errnum == -1)
+		ft_putstr_fd("command not found", STDERR_FILENO);
+	else
+		ft_putstr_fd(strerror(errnum), STDERR_FILENO);
 	ft_putchar_fd('\n', STDERR_FILENO);
 }
