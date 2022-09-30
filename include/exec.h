@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 02:12:12 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/09 21:24:16 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/29 21:59:03 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void		print_err(int errnum, char *str, int line);
 char		**get_paths(char *const envp[]); // to be replaced by t_env
 void		free_err_join(char *path, char *tmp, char **paths);
 void		free_tab(char **tab);
-void		exec_subshell(t_parsed_cmd *cmd, t_list_info *info, char **envp);
+int			exec_subshell(t_parsed_cmd *cmd, t_list_info *info, t_env *local_env);
 void		exec_pipeline(t_parsed_cmd *cmd, t_list_info *info);
 int			execute(t_parsed_cmd *cmd, t_list_info *info, t_env *local_env);
 

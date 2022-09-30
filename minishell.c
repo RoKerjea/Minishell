@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/25 20:41:36 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/29 21:33:38 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	input(t_env *local_env)
 	t_parsed	*cmd_list;
 	t_list_info	*list_info;
 	//  int			old_fd;
-	
+
 	while (1)
 	{
 		rl_catch_signals = 0;
@@ -86,8 +86,11 @@ int	input(t_env *local_env)
 		// if (fd > 0)
 		// 	dup2(fd, 0);
 		// old_fd = dup(STDIN_FILENO);
-		write(STDERR_FILENO, "minishell >", 11);
-		input = readline (" ");//history should use this
+		signal(SIGINT, sigint_handler);
+		signal(SIGQUIT, SIG_IGN);
+		input = readline ("minishell > ");//history should use this
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
 		// printf("input[0] = %s\n", input[0]);
 		// if (global_var == 130)
 		// {
@@ -98,6 +101,8 @@ int	input(t_env *local_env)
 		// 	continue;
 		// }
 		rl_outstream = stdout;
+		if (errno == EINTR)
+			local_env->lst_exit = 128 + SIGINT;
 		if (input == NULL)
 		{
 			write(STDERR_FILENO, "exit\n", 5);
@@ -143,7 +148,7 @@ void	update_shlvl(t_env *local_env)
 	char	*level;
 	char	*newlevel;
 	int		lvl;
-	
+
 	level = get_env_var("SHLVL", local_env);
 	lvl = ft_atoi(level);
 	lvl++;
@@ -159,7 +164,6 @@ int	main(int argc, char **argv, char **env)
 {
 	int					status;
 	t_env				*local_env;
-	struct sigaction	action;
 
 	if (!argc || !argv)
 		return (0);
@@ -173,19 +177,8 @@ int	main(int argc, char **argv, char **env)
 	if (!local_env)
 		return (0);
 	//to extract out
-	
-	sigemptyset(&action.sa_mask);
-	action.sa_flags = SA_SIGINFO;
-	action.sa_sigaction = signal_handler;
-	if (sigaction(SIGUSR2, &action, NULL) == -1)
-		dprintf(2, "sigaction error\n");
-	//kill(0, SIGUSR2);
-	if (sigaction(SIGUSR1, &action, NULL) == -1)
-		dprintf(2, "sigaction error\n");
-	if (sigaction(SIGINT, &action, NULL) == -1)
-		dprintf(2, "sigaction error\n");
-	if (sigaction(SIGQUIT, &action, NULL) == -1)
-		dprintf(2, "sigaction error\n");
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	status = input(local_env);
 	return (status);
 }

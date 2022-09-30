@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/17 01:57:05 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/14 23:48:04 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/09/29 21:25:43 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,6 @@ typedef struct s_cmd_list
 
 extern int global_var;
 
-void	signal_handler(int signo, siginfo_t *siginfo, void *ucontext);
+void	sigint_handler(int sig);
 
 #endif
