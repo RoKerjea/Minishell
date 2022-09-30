@@ -6,7 +6,11 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/09/30 06:05:14 by nvasilev         ###   ########.fr       */
+=======
+/*   Updated: 2022/09/29 18:38:57 by rokerjea         ###   ########.fr       */
+>>>>>>> b6a1defdc58d206bc021cd81f7ed6add388e49af
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +55,7 @@ t_list_info	*cmd_list_info2(t_parsed *cmd_list)
 	info->size = cmd_list->len;
 	info->head = cmd_list->first;
 	info->tail = cmd_list->last;
+	free (cmd_list);
 	info->cpid = NULL;
 	info->cpid = (pid_t *)malloc(sizeof(pid_t) * info->size);
 	if (!info->cpid)
@@ -105,7 +110,7 @@ int	input(t_env *local_env)
 		free(input);
 		//function that call exec_controller need to create list_info for now, with cmd_list as base
 		list_info = cmd_list_info2(cmd_list);
-		free (cmd_list);
+		//free (cmd_list);
 		local_env->lst_exit = exec_controller(list_info, local_env);
 		//destroy_final_list(cmd_list);
 		//clear history to deal with readline leaks

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 19:41:55 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/24 23:00:41 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:12:15 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ t_temp	*token_sorter(t_tok_list *list, t_env *local_env)
 			temp = temp->next;
 			destroy_token (link);
 		}
+		else
+			destroy_token (link);
 		link = nextlink;
 	}
 	return (tempfirst);

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/28 16:15:01 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:38:46 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ t_parsed	*parser(char *input, t_env *local_env)
 	temp = token_sorter(list, local_env);
 	free (list);
 	parsed_list = list_parser(temp);
-	//destroy_token_list(list);
 	//print_parsed_list(parsed_list->first);
 	return (parsed_list);
 }
@@ -103,13 +102,11 @@ t_parsed	*list_parser(t_temp *temp)
 	parsed_list->len = 1;
 	parsed_list->first = make_parsed_link(temp);
 	parsed_list->last = parsed_list->first;
-	//destroy temp struct
 	free (temp);
 	temp = temp_next;
 	while (temp != NULL)
 	{
 		temp_next = temp->next;
-		//printf ("gate one more cmd\n");
 		parsed_list->last->next = make_parsed_link(temp);
 		parsed_list->last = parsed_list->last->next;
 		parsed_list->len++;
@@ -161,9 +158,7 @@ t_parsed_cmd	*make_parsed_link(t_temp *temp)
 			link->redir_append = ft_strdup(temp->redir_out->str[0]);
 		destroy_token(temp->redir_out);
 	}
-	link->next = NULL;/* 
-	if (temp->type == 0)//do i needthat ifget type work correctly?
-		link->exec_type = 0; */
+	link->next = NULL;
 	return (link);
 }
 
@@ -221,8 +216,6 @@ char	**get_args(t_tok_link *token)
 	while (token != NULL && token->str[0] != NULL)
 	{
 		token_next = token->next;
-		//res[i] = ft_strdup(token->str[0]);
-		//protect
 		res = char_tab_fuser(res, token->str);
 		//protect
 		i++;

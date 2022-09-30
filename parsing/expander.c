@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/28 16:25:13 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/29 13:36:48 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	token_expander(t_tok_list *list, t_env *local_env)
 	}
 }
 
-//str$var1 str$var2 str"$var3" 'str$var4'
 char	*str_expander(char *str, t_env *local_env, int expand)
 {
 	int		quote;
@@ -98,127 +97,6 @@ char	*get_right_str(char	*str)
 	return (ft_strdup(str));	
 }
 
-/*si split(str, '$')
-then, expand first word after *str[0]
-replace,
-rejoin all??
-*/
-/* char	*prototype(char *str, t_env *local_env)//need to norme this shiiiit!!
-{
-	char	*res;
-	long unsigned int		i;
-	long unsigned int	j;
-	t_word	*wordlink;
-	t_word	*firstword;
-	int		quote;
-
-	quote = -1;
-	i = 0;
-	j = 0;
-	wordlink = make_word_link("", 1);
-	firstword = wordlink;
-	while (i <= ft_strlen(str))
-	{
-		if (str[i] == '\"')
-			quote *= -1;//pas tres beau, mais ca signale si on est a l'interieur de "" ou non (-1 exterieur, 1 interieur)
-		if (str[i] == '\'' && quote == -1)
-			i += find_end_quote(str + i, '\'');//si les ' sont entre des "" actifs, ils ne comptent pas!
-		else if (str[i] == '$')
-		{
-			if (i > j && j > 0)
-				wordlink = make_add_wordlink(str + (j - 1), i - j + 1, wordlink);
-			else if (i > j)
-				wordlink = make_add_wordlink(str + j, i - j, wordlink);
-			wordlink = make_add_wordlink(str + i, wordlen(str + i), wordlink);
-			i += wordlen(str + i) + 1;
-			j = i;
-		}
-		else
-			i++;
-	}
-	if (j != i)
-		wordlink = make_add_wordlink(str + (j - 1), i - j + 1, wordlink);
-	res = fuse_and_clean(firstword, local_env);
-	return (res);
-} */
-/* 
-void	wordlink_destroyer(struct s_word *firstword)
-{
-	struct	s_word	*tempword;
-	struct	s_word	*wordlink;
-	
-	wordlink = firstword;
- 	while (wordlink != NULL)//loop of destroy, starting from first;
-	{
-		tempword = wordlink->next;
-		free (wordlink->word);
-		free (wordlink);
-		wordlink = tempword;
-	}	
-	return ;
-}
-
-char	*fuse_and_clean(struct	s_word *wordlink, t_env *local_env)
-{
-	struct s_word	*firstword;
-	char			*temp;
-	char			*res;
-
-	res = malloc(1);
-	res[0] = '\0';
-	firstword = wordlink;
-	while (wordlink != NULL)
-		wordlink = wordlink->next;
-	wordlink = firstword->next;
-	while (wordlink != NULL)//loop of expander, should be external function
-	{
-		if (wordlink->word[0] == '$')
-		{
-			temp = get_var_content(wordlink->word, local_env);
-			free (wordlink->word);
-			wordlink->word = temp;
-			if (wordlink->word == NULL)
-			{
-				wordlink->word = malloc(1);
-				wordlink->word[0] = '\0';
-			}
-		}
-		wordlink = wordlink->next;
-	}
-	wordlink = firstword;
-	while (wordlink != NULL)
-		wordlink = wordlink->next;
-	wordlink = firstword->next;
-	while (wordlink != NULL)//res = loop of fuse, starting from second, can be external function
-	{
-		temp = ft_strjoin(res, wordlink->word);
-		free (res);
-		res = temp;
-		wordlink = wordlink->next;
-	}
-	wordlink_destroyer(firstword);
-	return (res);
-}
-
-struct	s_word	*make_word_link(char *str, int len)
-{
-	struct s_word	*wordlink;
-
-	wordlink = malloc(sizeof(struct s_word));
-	wordlink->word = strndup(str, len);
-	wordlink->next = NULL;
-	return (wordlink);
-}
-
-struct	s_word	*make_add_wordlink(char *str, int len, struct	s_word *prevword)
-{
-	struct s_word	*now_word;
-
-	now_word = make_word_link(str, len);
-	prevword->next = now_word;
-	return (now_word);
-}
- */
 char	*get_var_content(char *str, t_env *local_env)
 {
 	char		*res;
@@ -231,7 +109,6 @@ char	*get_var_content(char *str, t_env *local_env)
 		free (name);
 		return(ft_itoa(local_env->lst_exit));
 	}
-	//what if name start by $ or other metachar?(error)	
 	link = find_link(name, local_env);
 	free (name);
 	if (link == NULL)
