@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/17 01:57:05 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/29 21:25:43 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/09/30 07:48:00 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,6 @@
 # define COMMON_H
 
 #include <signal.h>
-
-/*
-enum e_type
-{
-	BUILTIN,
-	CMD,
-	FAIL
-};*/
-/*
-typedef struct s_env_link
-{
-	char				*name;
-	char				*variable;
-	struct s_env_link	*next;
-	struct s_env_link	*prev;
-}	t_env_link;
-
-typedef struct s_env
-{
-	unsigned int		len;
-	unsigned int		lst_exit;
-	struct s_env_link	*first;
-	struct s_env_link	*last;
-}	t_env;*/
 
 typedef struct s_cmd_list
 {
@@ -50,8 +26,7 @@ typedef struct s_cmd_list
 	struct s_cmd_list	*next;
 }	t_cmd_list;
 
-extern int global_var;
-
 void	sigint_handler(int sig);
+void	sigint_hd_handler(int sig);
 
 #endif
