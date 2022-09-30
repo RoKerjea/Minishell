@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 20:00:53 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/09 18:39:57 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/30 06:09:21 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,17 @@
 #include "../include/exec.h"
 #include "../include/utils.h"
 
-void exec_pipeline(t_parsed_cmd *cmd, t_list_info *info)
+void	exec_pipeline(t_parsed_cmd *cmd, t_list_info *info)
 {
 	if ((!cmd->redir_in || !ft_strlen(cmd->redir_in))
 		&& (!cmd->redir_append || !ft_strlen(cmd->redir_append))
 		&& (!cmd->redir_out || !ft_strlen(cmd->redir_out)))
 	{
-		 if (dup2(info->pfds[TEMP_READ_END], STDIN_FILENO) < 0)
-		 	exit(EXIT_FAILURE);
+		if (info->cmd_num == 0)
+			close(info->pfds[TEMP_READ_END]);
+		else
+			if (dup2(info->pfds[TEMP_READ_END], STDIN_FILENO) < 0)
+				exit(EXIT_FAILURE);
 		if (cmd->next)
 		{
 			if (dup2(info->pfds[WRITE_END], STDOUT_FILENO) < 0)
@@ -39,7 +42,7 @@ void exec_pipeline(t_parsed_cmd *cmd, t_list_info *info)
 		close(info->pfds[READ_END]);
 	}
 	else if ((cmd->redir_append && ft_strlen(cmd->redir_append))
-			|| (cmd->redir_out && ft_strlen(cmd->redir_out)))
+		|| (cmd->redir_out && ft_strlen(cmd->redir_out)))
 	{
 		if (dup2(info->pfds[TEMP_READ_END], STDIN_FILENO) < 0)
 			exit(EXIT_FAILURE);
