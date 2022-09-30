@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/29 21:33:38 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/09/30 06:05:14 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-
-int global_var = 0;
 
 int	check_input(char *input)
 {
@@ -74,32 +72,16 @@ int	input(t_env *local_env)
 	char		*input;
 	t_parsed	*cmd_list;
 	t_list_info	*list_info;
-	//  int			old_fd;
 
 	while (1)
 	{
 		rl_catch_signals = 0;
 		rl_outstream = stderr;
-		/* input[0] = ft_strdup("exit 25"); */
-		//close(0);
-		// fd = open("/dev/stdin", O_RDWR);
-		// if (fd > 0)
-		// 	dup2(fd, 0);
-		// old_fd = dup(STDIN_FILENO);
 		signal(SIGINT, sigint_handler);
 		signal(SIGQUIT, SIG_IGN);
-		input = readline ("minishell > ");//history should use this
+		input = readline ("minishell$ ");//history should use this
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
-		// printf("input[0] = %s\n", input[0]);
-		// if (global_var == 130)
-		// {
-		// 	global_var = 0;
-		// 	dup2(old_fd, STDIN_FILENO);
-		// 	write(STDERR_FILENO, "\n", 1);
-		// 	// old_fd = open("/dev/stdin", O_RDWR);
-		// 	continue;
-		// }
 		rl_outstream = stdout;
 		if (errno == EINTR)
 			local_env->lst_exit = 128 + SIGINT;
@@ -111,18 +93,6 @@ int	input(t_env *local_env)
 		}
 		if (input[0] == '\0')
 			continue;
-		// if (input[0] == NULL || input[0][0] == '\0')//J'aime pas :/
-		// {
-		// 	//global_var = 0
-		// 	if (input[0][0] == EOF)
-		// 	{
-		// 		printf("EOF\n");
-		// 		local_env->lst_exit = 130;
-		// 	}
-		// 	// dup2(old_fd, STDIN_FILENO);
-		// 	// write(STDERR_FILENO, "\n", 1);
-		// 	continue ;//peux virer les continue si je fais une fonction check input qui fait les deux if avec des returns!!
-		// }
 		add_history (input);
 		if (check_input(input) == NO)//can put next steps inside actions of that if?
 			continue ;
@@ -176,7 +146,6 @@ int	main(int argc, char **argv, char **env)
 	}
 	if (!local_env)
 		return (0);
-	//to extract out
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	status = input(local_env);
