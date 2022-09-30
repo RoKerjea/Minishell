@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 13:42:18 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/29 21:57:57 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/09/30 06:06:55 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,26 +59,13 @@ int	exit_status(int status)
 	return (0);
 }
 
-// int	execute(t_parsed_cmd *cmd, t_list_info *info, t_env *local_env)
-// {
-// 	int	status;
-// 	char	**envp;
-
-// 	envp = make_env_tab(local_env);//to make char **env for execve
-// 	status = 0;
-// 	if (cmd->exec_type == BUILT)
-// 		status = exec_builtin(cmd, local_env);
-// 	else
-// 		exec_subshell(cmd, info, envp);
-// 	return (exit(127), status);
-// }
-
 int	exec_controller(t_list_info *list_info, t_env *local_env)
 {
-	ssize_t		i;
+	ssize_t			i;
 	t_parsed_cmd	*cmd_list;
 
 	cmd_list = list_info->head;
+	list_info->cmd_num = 0;
 	i = 0;
 	while (i < list_info->size)
 	{
@@ -94,12 +81,10 @@ int	exec_controller(t_list_info *list_info, t_env *local_env)
 		{
 			signal(SIGQUIT, SIG_DFL);
 			signal(SIGINT, SIG_DFL);
-			// signal(SIGQUIT, sigquit_handler);
-			// signal(SIGINT, sigint_handler);
-			// signal(SIGQUIT, SIG_DFL);
-			list_info->status = exec_subshell(cmd_list, list_info, local_env);
+			exec_subshell(cmd_list, list_info, local_env);
 		}
 		cmd_list = cmd_list->next;
+		list_info->cmd_num++;
 		i++;
 		close(list_info->pfds[WRITE_END]);
 		if (list_info->pfds[TEMP_READ_END] > 0)
@@ -111,6 +96,5 @@ int	exec_controller(t_list_info *list_info, t_env *local_env)
 		close(list_info->pfds[TEMP_READ_END]);
 	close(list_info->pfds[READ_END]);
 	list_info->status = wait_for_child(list_info->cpid, list_info->size);
-	//kill(0, SIGUSR1);
 	return (exit_status(list_info->status));
 }
