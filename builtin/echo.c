@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 20:47:48 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/29 18:02:45 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/01 23:47:20 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ int	echo(char **cmd, t_env *local_env)
 	}
 	while (cmd[i] != NULL)
 	{		
-	/* 	if (isflag_newline(cmd[i]) == 1)
-			newline = 1;
-		else */
 		ft_putstr_fd(cmd[i], STDOUT_FILENO);
 		if (cmd[i + 1] != NULL)
-			ft_putstr_fd(" ", STDOUT_FILENO);
+		{
+			//if (cmd[i + 1][0] != '\0')
+				ft_putstr_fd(" ", STDOUT_FILENO);
+		}
 		i++;
 	}
 	if (newline == 0)

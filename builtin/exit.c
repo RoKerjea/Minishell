@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 20:49:51 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/28 16:01:13 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/09/29 21:01:19 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,16 +110,17 @@ int	final_exit(t_parsed_cmd *cmd_struct, t_env *local_env)
 			ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 			ft_putstr_fd(cmd[1], STDERR_FILENO);
 			ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
-			exit (2);
+			exit (2);//should change status before exit so we can still free args before exiting
 		}
 	}
 	if (str_table_counter(cmd) > 2)
 	{
 		write(2, "minishell: exit: too many arguments\n", 37);
-		return (1);
+		return (1);//do i still need to free?? probably!
 	}
 	//free all local_env and cmd_link
 	env_destroy_list(local_env);
+	//need to extract cmd destructor in another function
 	ft_freetab(cmd_struct->cmd_args);
 	if (cmd_struct->redir_in)
 		free(cmd_struct->redir_in);
@@ -130,6 +131,6 @@ int	final_exit(t_parsed_cmd *cmd_struct, t_env *local_env)
 	if (cmd_struct->redir_append)
 		free(cmd_struct->redir_append);
 	free (cmd_struct);
-	//rl_clear_histoy
+	//rl_clear_histoy??
 	exit (status % 256);
 }

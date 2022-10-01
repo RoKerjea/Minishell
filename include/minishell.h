@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/28 14:49:08 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/02 00:54:56 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ typedef struct s_env
 {
 	unsigned int		len;
 	unsigned int		lst_exit;
-	//harcoded $PATH in case of env -i?  /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 	struct s_env_link	*first;
 	struct s_env_link	*last;
 }		t_env;
@@ -75,13 +74,16 @@ char			*ft_itoa(int num);
 void			*memset_alloc(int c, size_t len);
 char			*ft_strtrim(char const *s1, char const *set);
 
+//ENV_DESTROY
+int				env_destroy_list(t_env *env_list);
+int				env_destroy_link(t_env_link *link);
+
 //ENV_MAKE.C
-int	env_destroy_list(t_env *env_list);
-int	env_destroy_link(t_env_link *link);
 t_env			*minimal_env(void);
 t_env			*env_list(char **env);
-t_env_link		*create_link(char *envstr);
-void			split_env(char *str, t_env_link *link);
+//t_env_link		*create_link(char *envstr);
+t_env_link	*create_link(char *envstr);
+void	update_shlvl(t_env *local_env);
 void			forgelink(t_env_link *prev, t_env_link *now);
 
 //ENV_USE.C

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 15:04:12 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/30 07:55:06 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/02 00:11:22 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,5 @@ void	sigint_hd_handler(int sig)
 {
 	(void)sig;
 	write(STDERR_FILENO, "^C\n", 3);
-	write(STDIN_FILENO, NULL, 1);
+	write(STDIN_FILENO, "", 1);
 }

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/29 18:38:46 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/01 22:42:31 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,9 @@
 /*
 BUT : Fournir une liste chainee avec des cmds fixes pour les commandes et un type en int defini en macro pour builtin or exec
 list of tokens with type and *str separe, les espaces ignores si ils sont a l'exterieur de quotes,
-les metachars dans leurs str* a part(si pas inside quotes)
+les metachars dans leurs str* a part(si pas inside quotes)*/
 
-maybe split spaces for args of cmd(optional for now)
-temp struct to store various variable?
-until | or NULL
-if 3 or 4, in fdin redir
-if 5 or 6 , in fdout redir
-if 1, to cmd, one by one
-once finished, find builtins for types
-if a field cmd is empty, errors
-if redir empty, either pipe or stdandartfd, depending if first/last link(prev ==NULL) or not
-need to test redir of multiple args if args come from $VAR(var="arg1 arg2")
-expander cycle on every str, then split for cmd args?
-what if cmd is in $VAR? then expand first and then char *cmd and char **args(but what if VAR should be splitted in redir? ignore, multi redir?)
-*/
-
-//after parser is finished, only ennv, parsed list, parsedlinks and
+//after parser is finished, only env, parsed list, parsedlinks and
 t_parsed	*parser(char *input, t_env *local_env)
 {
 	t_temp		*temp;
@@ -67,7 +53,7 @@ t_parsed	*parser(char *input, t_env *local_env)
 	return (parsed_list);
 }
 
-void	destroy_final_list(t_parsed *parsed_list)
+void	destroy_final_list(t_parsed *parsed_list)//to use in exec actually
 {
 	t_parsed_cmd *cmd;
 	t_parsed_cmd *cmd_next;

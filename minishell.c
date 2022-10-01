@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/30 08:17:35 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/02 00:47:39 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int	input(t_env *local_env)
 		{
 			write(STDERR_FILENO, "exit\n", 5);
 			//rl_clear_history ??
+			//destroy env and free input here? need function anyway
 			exit(local_env->lst_exit);
 		}
 		if (input[0] == '\0')
@@ -100,7 +101,7 @@ int	input(t_env *local_env)
 		cmd_list = parser(input, local_env);
 		if (cmd_list == NULL)
 		{
-			local_env->lst_exit = 2;
+			local_env->lst_exit = 2;//source de status = 2 instead of 1 for some errors
 			continue;
 		}
 		free(input);
@@ -114,23 +115,8 @@ int	input(t_env *local_env)
 	return (local_env->lst_exit);
 }
 
-void	update_shlvl(t_env *local_env)
-{
-	char	*level;
-	char	*newlevel;
-	int		lvl;
-
-	level = get_env_var("SHLVL", local_env);
-	lvl = ft_atoi(level);
-	lvl++;
-	level = ft_itoa(lvl);
-	newlevel = ft_strjoin("SHLVL=", level);
-	update_variable(newlevel, local_env);
-	free (level);
-	free (newlevel);
-}
-
-//start of process, get env and ignore args, make internal env and launch input loop
+//start of process, get env and ignore args
+//make internal env and launch input loop
 int	main(int argc, char **argv, char **env)
 {
 	int					status;
@@ -141,10 +127,7 @@ int	main(int argc, char **argv, char **env)
 	if (!env[0])
 		local_env = minimal_env();
 	else
-	{
 		local_env = env_list(env);
-		update_shlvl(local_env);
-	}
 	if (!local_env)
 		return (0);
 	signal(SIGINT, SIG_IGN);

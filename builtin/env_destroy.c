@@ -1,40 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   env_destroy.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/14 17:30:26 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/01 23:59:54 by rokerjea         ###   ########.fr       */
+/*   Created: 2022/10/01 23:47:43 by rokerjea          #+#    #+#             */
+/*   Updated: 2022/10/01 23:52:04 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
+#include "../include/minishell.h"
 
-void	*ft_memset(void *b, int c, size_t len)
+int	env_destroy_link(t_env_link *link)
 {
-	unsigned long	i;
-	unsigned char	*str;
-
-	i = 0;
-	str = (unsigned char *)b;
-	while (i < len)
-	{
-		str[i] = c;
-		i++;
-	}
-	return (b);
+	free (link->name);
+	free (link->variable);
+	free (link);
+	return (0);
 }
 
-void	*memset_alloc(int c, size_t len)
+int	env_destroy_list(t_env *env_list)
 {
-	void	*point;
+	t_env_link	*link;
+	t_env_link	*nextlink;
 
-	point = malloc(len);
-	if (!point)
-		return (NULL);
-	point = ft_memset(point, c, len);
-	return (point);
+	link = env_list->first;
+	while (link != NULL)
+	{
+		nextlink = link->next;
+		env_destroy_link (link);
+		link = nextlink;
+	}
+	free (env_list);
+	return (0);
 }

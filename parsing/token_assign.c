@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 19:41:55 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/29 18:12:15 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/01 20:13:57 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	add_token_in(t_temp *temp, t_tok_link *link, t_env *local_env)
 		printerror(link->str[0]);
 		return (FAIL);
 	}
-	if (access(link->str[0], R_OK))
+	if (access(link->str[0], R_OK))//need W_OK too?
 	{
 		printerror(link->str[0]);
 		return (FAIL);

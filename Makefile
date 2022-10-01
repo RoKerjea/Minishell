@@ -51,6 +51,7 @@ SRCS		=	${addprefix common/, \
 				builtins.c \
 				directories.c \
 				env_make.c \
+				env_destroy.c \
 				env_use.c} \
 				${addprefix exec/, \
 				exec_controller.c \

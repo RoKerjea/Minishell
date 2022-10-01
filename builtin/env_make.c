@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 21:07:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/28 15:42:32 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/02 01:22:06 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,28 @@
 //FILE: everything needed to create and assign internal env of minishell
 //really need to think about protection from malloc in links!!
 
-int	env_destroy_link(t_env_link *link)
+t_env	*check_env(t_env *env)
 {
-	free (link->name);
-	free (link->variable);
-	free (link);
-	return (0);
-}
+	t_env_link	*now_link;
+	int			fail;
 
-int	env_destroy_list(t_env *env_list)
-{
-	t_env_link	*link;
-	t_env_link	*nextlink;
-
-	link = env_list->first;
-	while (link != NULL)
+	fail = 0;
+	now_link = env->first;
+	while (now_link != NULL)
 	{
-		nextlink = link->next;
-		env_destroy_link (link);
-		link = nextlink;
+		if (!now_link->name || !now_link->variable)
+			fail = 1;
+		now_link = now_link->next;
 	}
-	free (env_list);
-	return (0);
+	if (fail == 1)
+	{
+		env_destroy_list(env);
+		return (NULL);
+	}
+	return (env);
 }
 
-t_env	*minimal_env(void)//need protection
+t_env	*minimal_env(void)
 {
 	t_env		*env_list;
 	char		cur_path[PATH_MAX];
@@ -47,6 +44,8 @@ t_env	*minimal_env(void)//need protection
 	t_env_link	*temp;
 
 	env_list = malloc(sizeof(env_list));
+	if (!env_list)
+		return (NULL);
 	getcwd(cur_path, PATH_MAX);
 	env_list->first = create_link("_=/usr/bin/env");
 	forgelink(env_list->first, create_link("SHLVL=1"));
@@ -54,14 +53,15 @@ t_env	*minimal_env(void)//need protection
 	env_list->last = create_link(path);
 	forgelink(env_list->first->next, env_list->last);
 	free (path);
-	path = ft_strjoin("PATH=", "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
+	path = ft_strjoin("PATH=",
+			"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
 	temp = create_link(path);
 	free (path);
 	forgelink(env_list->last, temp);
 	env_list->last = temp;
 	env_list->lst_exit = 0;
 	env_list->len = 4;
-	return (env_list);
+	return (check_env(env_list));
 }
 
 //create list, use create_link to assign and create one link by line of env and
@@ -74,6 +74,8 @@ t_env	*env_list(char **env)//need protection
 	t_env_link	*prev;
 
 	env_list = malloc(sizeof(t_env));
+	if (!env_list)
+		return (NULL);
 	i = 0;
 	env_list->first = create_link(env[i]);
 	i++;
@@ -89,21 +91,38 @@ t_env	*env_list(char **env)//need protection
 	env_list->len = i;
 	env_list->last = now;
 	env_list->lst_exit = 0;
-	return (env_list);
+	update_shlvl(env_list);
+	return (check_env(env_list));
+}
+
+void	update_shlvl(t_env *local_env)
+{
+	char	*level;
+	char	*newlevel;
+	int		lvl;
+
+	level = get_env_var("SHLVL", local_env);
+	lvl = ft_atoi(level);
+	lvl++;
+	level = ft_itoa(lvl);
+	newlevel = ft_strjoin("SHLVL=", level);
+	update_variable(newlevel, local_env);
+	free (level);
+	free (newlevel);
 }
 
 //create single link of env_list, use split_env to assign variables
-t_env_link	*create_link(char *envstr)
+/* t_env_link	*create_link(char *envstr)
 {
 	t_env_link	*reslink;
 
-	reslink = malloc (sizeof(t_env_link));
+	reslink = memset_alloc(0, sizeof(t_env_link));
+	if (!reslink)
+		return (NULL);
 	split_env(envstr, reslink);
-	reslink->next = NULL;
-	reslink->prev = NULL;
 	return (reslink);
-}
-
+} */
+/*
 //split and assign name and content of variables from env to current link
 void	split_env(char *str, t_env_link *link)
 {
@@ -122,6 +141,28 @@ void	split_env(char *str, t_env_link *link)
 	if (link->variable == NULL)
 		return ;
 	return ;
+} */
+
+//split and assign name and content of variables from env to current link
+t_env_link	*create_link(char *envstr)
+{
+	char		*tmp;
+	t_env_link	*reslink;
+
+	if (!envstr)
+		return (NULL);
+	reslink = memset_alloc(0, sizeof(t_env_link));
+	if (!reslink)
+		return (NULL);
+	tmp = ft_strchr(envstr, '=');
+	if (tmp == 0)
+		reslink->name = ft_strdup(envstr);
+	else
+	{	
+		reslink->name = ft_strndup(envstr, (tmp - &envstr[0]));
+		reslink->variable = ft_strdup(&tmp[1]);
+	}
+	return (reslink);
 }
 
 //bond two links to each others
@@ -130,7 +171,3 @@ void	forgelink(t_env_link *prev, t_env_link *now)
 	prev->next = now;
 	now->prev = prev;
 }
-
-//gerer SHLVL: +1 si il existe, = 1 sinon
-//utiliser getcwd pour etre sur du pwd actuel
-// C'est quoi $_ ??? last singular cmd executed?
