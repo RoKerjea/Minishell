@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/02 18:07:50 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/02 19:09:29 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,17 @@ int	input(t_env *local_env)
 		{
 			write(STDERR_FILENO, "exit\n", 5);
 			//rl_clear_history ??
-			//destroy env and free input here? need function anyway
-			exit(local_env->lst_exit);
+			free(input);
+			exit(env_destroy_list (local_env));
 		}
-		if (input[0] == '\0' || is_only_space(input))
+		if (input[0] == '\0' || is_only_space(input) || check_input(input) == NO)
+		{
+			free(input);
 			continue;
+		}
 		add_history (input);
-		if (check_input(input) == NO)//can put next steps inside actions of that if?
-			continue ;
 		cmd_list = parser(input, local_env);
+		free(input);
 		if (cmd_list == NULL)
 		{
 			local_env->lst_exit = 2;//source de status = 2 instead of 1 for some errors
@@ -110,13 +112,9 @@ int	input(t_env *local_env)
 			free (cmd_list);
 			continue;
 		}
-		free(input);
 		//function that call exec_controller need to create list_info for now, with cmd_list as base
 		list_info = cmd_list_info2(cmd_list);
-		//free (cmd_list);
 		local_env->lst_exit = exec_controller(list_info, local_env);
-		//destroy_final_list(cmd_list);
-		//clear history to deal with readline leaks
 	}
 	return (local_env->lst_exit);
 }

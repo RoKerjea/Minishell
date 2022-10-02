@@ -78,6 +78,7 @@ function exec_test()
 
 #Wut?
 exec_test "rien"
+#exec_test "\ls"
 exec_test "\$FALSE"
 
 #Exit builtins

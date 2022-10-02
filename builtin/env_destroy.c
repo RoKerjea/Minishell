@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 23:47:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/01 23:52:04 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/02 18:52:17 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ int	env_destroy_list(t_env *env_list)
 {
 	t_env_link	*link;
 	t_env_link	*nextlink;
+	int			status;
 
+	status = env_list->lst_exit;
 	link = env_list->first;
 	while (link != NULL)
 	{
@@ -33,5 +35,5 @@ int	env_destroy_list(t_env *env_list)
 		link = nextlink;
 	}
 	free (env_list);
-	return (0);
+	return (status);
 }

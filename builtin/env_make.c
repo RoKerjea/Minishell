@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 21:07:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/02 01:22:06 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/02 19:34:55 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,38 +110,6 @@ void	update_shlvl(t_env *local_env)
 	free (level);
 	free (newlevel);
 }
-
-//create single link of env_list, use split_env to assign variables
-/* t_env_link	*create_link(char *envstr)
-{
-	t_env_link	*reslink;
-
-	reslink = memset_alloc(0, sizeof(t_env_link));
-	if (!reslink)
-		return (NULL);
-	split_env(envstr, reslink);
-	return (reslink);
-} */
-/*
-//split and assign name and content of variables from env to current link
-void	split_env(char *str, t_env_link *link)
-{
-	char	*tmp;
-
-	tmp = ft_strchr(str, '=');
-	if (tmp == 0)
-	{
-		link->name = ft_strdup(str);
-		return ;
-	}
-	link->name = ft_strndup(str, (tmp - &str[0]));
-	if (link->name == NULL)
-		return ;
-	link->variable = ft_strdup(&tmp[1]);
-	if (link->variable == NULL)
-		return ;
-	return ;
-} */
 
 //split and assign name and content of variables from env to current link
 t_env_link	*create_link(char *envstr)

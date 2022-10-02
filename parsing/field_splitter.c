@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:35:17 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/29 18:24:19 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/02 18:19:09 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,17 +140,23 @@ char	**char_tab_fuser(char **str1, char **str2)
 	while (str1[i] != NULL)
 	{
 		res[i] = ft_strdup(str1[i]);
+		if (!res[i])
+		{
+			ft_freetab(str1);
+			return (ft_freetab(res));
+		}
 		i++;
 	}
+	ft_freetab(str1);
 	while (str2[j] != NULL)
 	{
 		res[i] = ft_strdup(str2[j]);
+		if (!res[i])
+			return (ft_freetab(res));
 		i++;
 		j++;
 	}
 	res[i] = NULL;
-	ft_freetab(str1);
-	//ft_freetab(str2);
 	return (res);
 }
 

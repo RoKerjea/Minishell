@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 23:16:11 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/02 17:30:50 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/02 19:08:29 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*findnewname(char *name)
 		res = find_free_name(temp);
 	}
 	free (rand);
-	printf ("name = %s\n", res);
+	//printf ("name = %s\n", res);
 	return (res);
 }
 
@@ -79,7 +79,7 @@ char	*heredoc(t_tok_link *link, t_env *local_env)
 		write(filefd, input, strlen(input));
 		free (input);
 		input = readline ("> ");
-		if (errno == EINTR || EBADF)
+		if (errno == EINTR || EBADF)//EBADF cause probleme et interrompt heredoc a la deuxieme ligne dans tt les cas!!
 		{
 			free (input);
 			input = NULL;
@@ -87,8 +87,6 @@ char	*heredoc(t_tok_link *link, t_env *local_env)
 		}
 		write(filefd, "\n", 1);
 	}
-	if (errno == EINTR)
-		unlink (filepath);
 	close (filefd);
 	signal(SIGINT, SIG_IGN);
 	dup2(old_fd, STDIN_FILENO);

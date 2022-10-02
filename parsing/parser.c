@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/02 18:07:30 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/02 19:31:43 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_parsed	*parser(char *input, t_env *local_env)
 		return (NULL);
 	/* print_token(list); */
 
-	token_expander(list, local_env); //this step should be locked and perfect!!
+	token_expander(list, local_env); //this step should be done(except protection...)
 	
   /*  	print_token(list);
 	printf ("\033[1;31mgate before splitter after expander\n\033[0m"); */
@@ -66,7 +66,8 @@ int	check_parsed_cmd(t_parsed *parsed_list)
 	while (cmd != NULL)
 	{
 		cmd_next = cmd->next;
-		if (cmd->cmd_args == NULL || cmd->cmd_args[0] == NULL || cmd->cmd_args[0][0] == '\0')
+		if (cmd->cmd_args == NULL || cmd->cmd_args[0] == NULL
+			|| cmd->cmd_args[0][0] == '\0')
 			return (NO);
 		if (cmd->exec_type == FAIL)
 			return (NO);
@@ -175,6 +176,8 @@ int	get_type(char **cmd_args)
 	int	res;
 
 	res = CMD;
+	if (!cmd_args)
+		return (FAIL);
 	if (is_builtins(cmd_args[0]) == YES)
 		res = BUILT;
 	return (res);
@@ -204,8 +207,10 @@ int	is_builtins(char *cmd)
 char	**empty_tab(void)
 {
 	char	**res;
+
 	res = malloc(sizeof(char*) * 1);
-	//protect
+	if (!res)
+		return (res);
 	res[0] = NULL;
 	return(res);
 }
@@ -221,11 +226,14 @@ char	**get_args(t_tok_link *token)
 	
 	i = 0;
 	res = empty_tab();
+	if (!res)
+		return (NULL);
 	while (token != NULL && token->str[0] != NULL)
 	{
 		token_next = token->next;
 		res = char_tab_fuser(res, token->str);
-		//protect
+/* 		if (!res)
+			return (NULL); */ //can probably let while continue to destroy tokens and still return NULL in the end
 		i++;
 		destroy_token(token);
 		token = token_next;

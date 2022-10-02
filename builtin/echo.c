@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 20:47:48 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/01 23:47:20 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/02 19:09:04 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	echo(char **cmd, t_env *local_env)
 	newline = 0;
 	while (isflag_newline(cmd[i]) == 1)
 	{
-		//printf ("str %s est un -n\n", cmd[i]);
 		newline = 1;
 		i++;
 	}
