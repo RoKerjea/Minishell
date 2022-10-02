@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/02 00:47:39 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/02 16:18:34 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	input(t_env *local_env)
 			//destroy env and free input here? need function anyway
 			exit(local_env->lst_exit);
 		}
-		if (input[0] == '\0')
+		if (input[0] == '\0' || is_only_space(input))
 			continue;
 		add_history (input);
 		if (check_input(input) == NO)//can put next steps inside actions of that if?
