@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/02 20:11:52 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/03 00:34:51 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int	main(int argc, char **argv, char **env)
 
 	if (!argc || !argv)
 		return (0);
-	if (!env[0])
+	if (!env || !env[0])
 		local_env = minimal_env();
 	else
 		local_env = env_list(env);

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:17:15 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/02 23:46:52 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/03 00:09:28 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,5 +133,6 @@ int	builtin_main(t_list_info *list_info, t_env *local_env)
 	free (list_info->cpid);
 	free (list_info);
 	exit_status = exec_builtin(cmd_list, local_env);
+	destroy_all_cmd (cmd_list);
 	return (exit_status);
 }

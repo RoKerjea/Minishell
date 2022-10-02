@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 13:42:18 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/02 23:47:16 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/03 00:04:25 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	destroy_list_info(t_list_info *list_info)
 	free (list_info);	
 }
 
-void	destroy_all_cmd(t_parsed_cmd *cmd)//to use in exec actually
+void	destroy_all_cmd(t_parsed_cmd *cmd)
 {
 	t_parsed_cmd *cmd_next;
 	

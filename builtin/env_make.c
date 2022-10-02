@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 21:07:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/02 19:34:55 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/03 00:36:07 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ void	update_shlvl(t_env *local_env)
 	int		lvl;
 
 	level = get_env_var("SHLVL", local_env);
+	if (!level)
+		return ;
 	lvl = ft_atoi(level);
 	lvl++;
 	level = ft_itoa(lvl);

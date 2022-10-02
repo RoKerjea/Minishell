@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 22:10:02 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/28 15:44:52 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/03 00:29:11 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	printenv(t_env *env)
 
 	i = 0;
 	now = env->first;
-	while (now)
+	while (now != NULL)
 	{
 		if (now->variable != NULL)
 			printf("%s=%s\n", now->name, now->variable);
@@ -83,15 +83,20 @@ void	remove_variable(char *str, t_env *env_list)
 			forgelink (linkprev, linknext);
 		env_destroy_link(link);
 		env_list->len--;
-		if (linkprev == NULL)
+		if (linkprev == NULL && linknext)
 		{
 			env_list->first = linknext;
 			linknext->prev = NULL;
 		}
-		if (linknext == NULL)
+		if (linknext == NULL && linkprev)
 		{
 			env_list->last = linkprev;
 			linkprev->next = NULL;
+		}
+		if (linknext == NULL && linkprev == NULL)
+		{
+			env_list->first = NULL;
+			env_list->last = NULL;
 		}
 	}
 }
