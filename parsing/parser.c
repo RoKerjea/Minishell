@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/02 21:52:12 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/03 00:00:01 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_parsed	*parser(char *input, t_env *local_env)
 	list = tokenizerstart(input);//this step should be locked and perfect!!
 	if (list == NULL)
 		return (NULL);
-	/* print_token(list); */
+	//print_token(list);
 
 	token_expander(list, local_env); //this step should be done(except protection...)
 	

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:17:15 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/28 15:34:46 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/02 23:46:52 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,4 +122,16 @@ int	exec_builtin(t_parsed_cmd *cmd, t_env *local_env)
 	else if (ft_strncmp(cmd->cmd_args[0], "unset", 5) == 0)
 		return (env_unset(cmd->cmd_args, local_env));
 	return (1);
+}
+
+int	builtin_main(t_list_info *list_info, t_env *local_env)
+{
+	int				exit_status;
+	t_parsed_cmd	*cmd_list;
+
+	cmd_list = list_info->head;
+	free (list_info->cpid);
+	free (list_info);
+	exit_status = exec_builtin(cmd_list, local_env);
+	return (exit_status);
 }

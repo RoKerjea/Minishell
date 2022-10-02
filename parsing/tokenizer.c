@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/20 21:07:00 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/02 23:59:47 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_tok_list	*tokenizerstart(char *input)
 	if (token_list == NULL)
 		return (NULL);
 	sep_token(input, token_list);
+	
 	if (token_list->last->meta == FAIL
 		|| token_list->len == 0 || syntax_checker(token_list) == NO)
 	{
@@ -141,6 +142,8 @@ char	*ft_strtrim_replace(char *str, char *totrim)
 	char	*temp;
 
 	if (str == NULL)
+		return (str);
+	if (ft_strchr(str, ' ') == 0 && ft_strchr(str, '<') == 0 && ft_strchr(str, '>') == 0)
 		return (str);
 	temp = ft_strtrim(str, totrim);
 	free (str);

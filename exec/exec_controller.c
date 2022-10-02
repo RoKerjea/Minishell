@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_controller.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 13:42:18 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/02 20:35:10 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/02 23:47:16 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	exec_controller(t_list_info *list_info, t_env *local_env)
 			if (pipe(list_info->pfds) == -1)
 				return (EXIT_FAILURE); //to protect (free heap + close pfds + errno)
  		if (list_info->size == 1 && cmd_list->exec_type == BUILT)
-			return (exec_builtin(cmd_list, local_env));
+			return (builtin_main(list_info, local_env));
 		list_info->cpid[i] = fork();
 		if (list_info->cpid[i] == -1)
 			return (EXIT_FAILURE); //to protect (free heap + close pfds + errno)
@@ -99,5 +99,36 @@ int	exec_controller(t_list_info *list_info, t_env *local_env)
 	if (list_info->pfds[READ_END] > 0)
 		close(list_info->pfds[READ_END]);
 	list_info->status = wait_for_child(list_info->cpid, list_info->size);
-	return (exit_status(list_info->status));
+	int end_status = list_info->status;
+	destroy_list_info (list_info);
+	return (exit_status(end_status));
+}
+
+void	destroy_list_info(t_list_info *list_info)
+{
+	destroy_all_cmd(list_info->head);
+	free (list_info->cpid);
+	free (list_info);	
+}
+
+void	destroy_all_cmd(t_parsed_cmd *cmd)//to use in exec actually
+{
+	t_parsed_cmd *cmd_next;
+	
+	while (cmd != NULL)
+	{
+		cmd_next = cmd->next;
+		ft_freetab(cmd->cmd_args);
+		if (cmd->redir_in)
+			free(cmd->redir_in);
+		if (cmd->heredoc)
+			free(cmd->heredoc);
+		if (cmd->redir_out)
+			free(cmd->redir_out);
+		if (cmd->redir_append)
+			free(cmd->redir_append);
+		free (cmd);
+		cmd = cmd_next;
+	}
+	return;
 }
