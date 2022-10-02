@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 23:16:11 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/02 19:08:29 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/02 20:14:29 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*heredoc(t_tok_link *link, t_env *local_env)
 		write(filefd, input, strlen(input));
 		free (input);
 		input = readline ("> ");
-		if (errno == EINTR || EBADF)//EBADF cause probleme et interrompt heredoc a la deuxieme ligne dans tt les cas!!
+		if (errno == EINTR || errno == EBADF)//EBADF cause probleme et interrompt heredoc a la deuxieme ligne dans tt les cas!!
 		{
 			free (input);
 			input = NULL;
