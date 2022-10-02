@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:33:22 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/30 04:34:08 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/02 22:38:59 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,15 @@
 #include <string.h>
 #include <errno.h>
 #include "../include/utils.h"
+
+void	fake_timer(void)
+{
+	int	i;
+
+	i = 0;
+	while (i < 100000000)
+		i++;
+}
 
 void	print_err_open(int errnum, char *path)
 {
@@ -26,6 +35,7 @@ void	print_err_open(int errnum, char *path)
 
 void	print_err(int errnum, char *str, int line)
 {
+	fake_timer();
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	if (str)
 	{
