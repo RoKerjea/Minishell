@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/02 19:31:43 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/02 21:52:12 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ t_parsed	*parser(char *input, t_env *local_env)
 	//print_parsed_list(parsed_list->first);
 	if (check_parsed_cmd(parsed_list) == NO)
 		destroy_final_list(parsed_list);
+	//print_parsed_list(parsed_list->first);
 	return (parsed_list);
 }
 
@@ -63,12 +64,12 @@ int	check_parsed_cmd(t_parsed *parsed_list)
 	if (!parsed_list)
 		return (NO);
 	cmd = parsed_list->first;
+	if ((cmd->cmd_args == NULL || cmd->cmd_args[0] == NULL
+		|| cmd->cmd_args[0][0] == '\0') && cmd->next == NULL)
+		return (NO);
 	while (cmd != NULL)
 	{
 		cmd_next = cmd->next;
-		if (cmd->cmd_args == NULL || cmd->cmd_args[0] == NULL
-			|| cmd->cmd_args[0][0] == '\0')
-			return (NO);
 		if (cmd->exec_type == FAIL)
 			return (NO);
 		cmd = cmd_next;

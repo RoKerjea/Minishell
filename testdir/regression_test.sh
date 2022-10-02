@@ -80,6 +80,7 @@ function exec_test()
 exec_test "rien"
 #exec_test "\ls"
 exec_test "\$FALSE"
+exec_test ' "" | "" '
 
 #Exit builtins
 exec_test "exit 42"
