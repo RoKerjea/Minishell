@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 23:16:11 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/02 16:05:02 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/02 16:33:47 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ char	*heredoc(t_tok_link *link, t_env *local_env)
 	filepath = findnewname(link->str[0]);
 	filefd = open(filepath, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	//protect
-	input = readline ("> ");
 	signal(SIGINT, sigint_hd_handler);
+	input = readline ("> ");
 	while (input && strcmp(input, link->str[0]) != 0 && errno != EINTR)
 	{
 		if (link->meta == HEREDOC && ft_strchr(input, '$'))
