@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 20:49:51 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/29 21:01:19 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/02 20:58:59 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,27 +110,34 @@ int	final_exit(t_parsed_cmd *cmd_struct, t_env *local_env)
 			ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 			ft_putstr_fd(cmd[1], STDERR_FILENO);
 			ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
+			env_destroy_list(local_env);
+			destroy_cmd_link(cmd_struct);
 			exit (2);//should change status before exit so we can still free args before exiting
 		}
 	}
 	if (str_table_counter(cmd) > 2)
 	{
 		write(2, "minishell: exit: too many arguments\n", 37);
+		destroy_cmd_link(cmd_struct);
 		return (1);//do i still need to free?? probably!
 	}
 	//free all local_env and cmd_link
 	env_destroy_list(local_env);
-	//need to extract cmd destructor in another function
-	ft_freetab(cmd_struct->cmd_args);
-	if (cmd_struct->redir_in)
-		free(cmd_struct->redir_in);
-	if (cmd_struct->heredoc)
-		free(cmd_struct->heredoc);
-	if (cmd_struct->redir_out)
-		free(cmd_struct->redir_out);
-	if (cmd_struct->redir_append)
-		free(cmd_struct->redir_append);
-	free (cmd_struct);
-	//rl_clear_histoy??
+	destroy_cmd_link(cmd_struct);
 	exit (status % 256);
+}
+
+void	destroy_cmd_link(t_parsed_cmd* link)
+{
+	if (link->cmd_args)
+		ft_freetab(link->cmd_args);
+	if (link->redir_in)
+		free(link->redir_in);
+	if (link->heredoc)
+		free(link->heredoc);
+	if (link->redir_out)
+		free(link->redir_out);
+	if (link->redir_append)
+		free(link->redir_append);
+	free (link);
 }

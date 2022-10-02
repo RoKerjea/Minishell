@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 22:19:13 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/18 20:44:27 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/02 20:54:30 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ int	pwd(char **cmd, t_env *local_env);
 int	cd(char **cmd, t_env *local_env);
 int	env_export(char **cmd, t_env *local_env);
 int	env_unset(char **cmd, t_env *local_env);
+void	destroy_cmd_link(t_parsed_cmd* link);
 
 #endif
