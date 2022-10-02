@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/01 22:42:31 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/02 18:07:30 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,29 @@ t_parsed	*parser(char *input, t_env *local_env)
 	free (list);
 	parsed_list = list_parser(temp);
 	//print_parsed_list(parsed_list->first);
+	if (check_parsed_cmd(parsed_list) == NO)
+		destroy_final_list(parsed_list);
 	return (parsed_list);
+}
+
+int	check_parsed_cmd(t_parsed *parsed_list)
+{
+	t_parsed_cmd	*cmd;
+	t_parsed_cmd	*cmd_next;
+	
+	if (!parsed_list)
+		return (NO);
+	cmd = parsed_list->first;
+	while (cmd != NULL)
+	{
+		cmd_next = cmd->next;
+		if (cmd->cmd_args == NULL || cmd->cmd_args[0] == NULL || cmd->cmd_args[0][0] == '\0')
+			return (NO);
+		if (cmd->exec_type == FAIL)
+			return (NO);
+		cmd = cmd_next;
+	}	
+	return (YES);
 }
 
 void	destroy_final_list(t_parsed *parsed_list)//to use in exec actually
@@ -74,7 +96,7 @@ void	destroy_final_list(t_parsed *parsed_list)//to use in exec actually
 		free (cmd);
 		cmd = cmd_next;
 	}
-	free (parsed_list);
+	parsed_list->len = 0;
 	return;
 }
 

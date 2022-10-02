@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/02 16:18:34 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/02 18:07:50 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,12 @@ int	input(t_env *local_env)
 		if (cmd_list == NULL)
 		{
 			local_env->lst_exit = 2;//source de status = 2 instead of 1 for some errors
+			continue;
+		}
+		if (cmd_list->len == 0)
+		{
+			local_env->lst_exit = 0;
+			free (cmd_list);
 			continue;
 		}
 		free(input);

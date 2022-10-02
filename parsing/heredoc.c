@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 23:16:11 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/02 16:33:47 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/02 17:30:50 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ char	*heredoc(t_tok_link *link, t_env *local_env)
 		}
 		write(filefd, "\n", 1);
 	}
+	if (errno == EINTR)
+		unlink (filepath);
 	close (filefd);
 	signal(SIGINT, SIG_IGN);
 	dup2(old_fd, STDIN_FILENO);
