@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_freetab.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 17:08:59 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/08/30 17:44:28 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/02 20:14:46 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	**ft_freetab(char **tab)
 	int	i;
 
 	i = 0;
+	if (!tab)
+		return (NULL);
 	while (tab[i] != NULL)
 		i++;
 	while (i >= 0)
