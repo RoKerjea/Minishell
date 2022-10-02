@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/02 19:09:29 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/02 20:11:52 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,8 @@ int	input(t_env *local_env)
 		}
 		if (cmd_list->len == 0)
 		{
-			local_env->lst_exit = 0;
+			if (!(local_env->lst_exit > 128))
+				local_env->lst_exit = 0;
 			free (cmd_list);
 			continue;
 		}
