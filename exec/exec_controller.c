@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_controller.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 13:42:18 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/01 17:33:20 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/02 20:35:10 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,15 +86,18 @@ int	exec_controller(t_list_info *list_info, t_env *local_env)
 		cmd_list = cmd_list->next;
 		list_info->cmd_num++;
 		i++;
-		close(list_info->pfds[WRITE_END]);
+		if (list_info->pfds[WRITE_END] > 0)
+			close(list_info->pfds[WRITE_END]);
 		if (list_info->pfds[TEMP_READ_END] > 0)
 			close(list_info->pfds[TEMP_READ_END]);
 		list_info->pfds[TEMP_READ_END] = list_info->pfds[READ_END];
 	}
-	close(list_info->pfds[WRITE_END]);
+	if (list_info->pfds[WRITE_END] > 0)
+		close(list_info->pfds[WRITE_END]);
 	if (list_info->pfds[TEMP_READ_END] > 0)
 		close(list_info->pfds[TEMP_READ_END]);
-	close(list_info->pfds[READ_END]);
+	if (list_info->pfds[READ_END] > 0)
+		close(list_info->pfds[READ_END]);
 	list_info->status = wait_for_child(list_info->cpid, list_info->size);
 	return (exit_status(list_info->status));
 }
