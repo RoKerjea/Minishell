@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 23:16:11 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/02 20:17:34 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/02 20:26:57 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ char	*heredoc(t_tok_link *link, t_env *local_env)
 		write(filefd, input, strlen(input));
 		free (input);
 		input = readline ("> ");
+		if (!input && errno != EINTR && errno != EBADF)
+			write(STDERR_FILENO, "\n", 1);
 		if (errno == EINTR || errno == EBADF)//EBADF cause probleme et interrompt heredoc a la deuxieme ligne dans tt les cas!!
 		{
 			free (input);
