@@ -43,7 +43,8 @@ SRCS		=	${addprefix common/, \
 				ft_putstr_fd.c \
 				ft_substr.c \
 				get_next_line.c \
-				ft_strncmp.c} \
+				ft_strncmp.c \
+				ft_isspace.c} \
 				${addprefix builtin/, \
 				exec_builtin.c \
 				echo.c \

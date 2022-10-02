@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 23:53:56 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/07/17 02:24:32 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/02 16:23:50 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *s1);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strchr(const char *s, int c);
+int		ft_isspace_lib(int c);
+int		is_only_space(char *str);
 
 // Get line
 char	*get_next_line(int fd);
