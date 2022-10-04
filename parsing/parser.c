@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/03 00:13:45 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/04 23:57:11 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_parsed	*parser(char *input, t_env *local_env)
 
 	token_expander(list, local_env); //this step should be done(except protection...)
 	
-  /*  	print_token(list);
+   	/* print_token(list);
 	printf ("\033[1;31mgate before splitter after expander\n\033[0m"); */
 	
 	if (token_splitter(list) == NO)
@@ -236,7 +236,7 @@ char	**get_args(t_tok_link *token)
 /* 		if (!res)
 			return (NULL); */ //can probably let while continue to destroy tokens and still return NULL in the end
 		i++;
-		destroy_token(token);
+		//destroy_token(token);
 		token = token_next;
 	}
 	return (res);

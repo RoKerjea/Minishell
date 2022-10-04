@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 20:49:51 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/02 20:58:59 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/04 23:38:38 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	final_exit(t_parsed_cmd *cmd_struct, t_env *local_env)
 	if (str_table_counter(cmd) > 2)
 	{
 		write(2, "minishell: exit: too many arguments\n", 37);
-		destroy_cmd_link(cmd_struct);
+		//destroy_cmd_link(cmd_struct);
 		return (1);//do i still need to free?? probably!
 	}
 	//free all local_env and cmd_link
