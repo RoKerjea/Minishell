@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 02:12:12 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/02 23:47:48 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/05 22:31:03 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void		free_cmd_list(t_parsed_cmd *cmd_list);
 void	destroy_list_info(t_list_info *list_info);
 void	destroy_all_cmd(t_parsed_cmd *cmd);
 int	builtin_main(t_list_info *list_info, t_env *local_env);
-int			exec_controller(t_list_info *list_info, t_env *local_env);
+int			exec_controller(t_parsed *cmd_list, t_env *local_env);
 int			exec_builtin(t_parsed_cmd *cmd, t_env *local_env);
 int			exec_redirect(t_parsed_cmd *cmd_list, t_list_info *list_info);
 void		exec_cmd(char **cmd, char **envp);

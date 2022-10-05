@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 21:07:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/03 00:36:07 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/05 23:40:39 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,8 @@ t_env_link	*create_link(char *envstr)
 //bond two links to each others
 void	forgelink(t_env_link *prev, t_env_link *now)
 {
-	prev->next = now;
-	now->prev = prev;
+	if (prev)
+		prev->next = now;
+	if (now)
+		now->prev = prev;
 }

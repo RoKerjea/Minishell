@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/05 22:07:56 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/05 23:24:50 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,43 +41,7 @@ int	check_input(char *input)
 	return (YES);
 }
 
-void	setup_fds_to_info(t_list_info *info)
-{
-	int	i;
-
-	i = 0;
-	while (i < 2)
-	{
-		info->pfds[i] = -1;
-		info->rfds[i] = -1;
-		i++;
-	}
-	info->pfds[i] = -1;
-	info->status = 0;
-}
-
-t_list_info	*cmd_list_info2(t_parsed *cmd_list)
-{
-	t_list_info	*info;
-
-	info = (t_list_info *)malloc(sizeof(t_list_info));
-	if (info == NULL)
-		return (NULL);
-	info->size = cmd_list->len;
-	info->head = cmd_list->first;
-	info->tail = cmd_list->last;
-	free (cmd_list);
-	info->cpid = (pid_t *)malloc(sizeof(pid_t) * info->size);
-	if (!info->cpid)
-	{
-		free(info);
-		return (NULL);
-	}
-	setup_fds_to_info(info);
-	return (info);
-}
-
-char	*read_input(void)
+char	*read_input(t_env *local_env)
 {
 	char	*input;
 
@@ -89,7 +53,26 @@ char	*read_input(void)
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	rl_outstream = stdout;
+	if (errno == EINTR)
+		local_env->lst_exit = 128 + SIGINT;
 	return (input);
+}
+
+int	check_valid_cmd(t_parsed *cmd_list, t_env *local_env)
+{
+	if (cmd_list == NULL)
+	{
+		local_env->lst_exit = 2;
+		return (NO);
+	}
+	if (cmd_list->len == 0)
+	{
+		if (!(local_env->lst_exit > 128))
+			local_env->lst_exit = 0;
+		free (cmd_list);
+		return (NO);
+	}
+	return (YES);
 }
 
 //start of input loop, should add to history
@@ -97,13 +80,10 @@ int	input(t_env *local_env)
 {
 	char		*input;
 	t_parsed	*cmd_list;
-	t_list_info	*list_info;
 
 	while (1)
 	{
-		input = read_input();
-		if (errno == EINTR)
-			local_env->lst_exit = 128 + SIGINT;
+		input = read_input(local_env);
 		if (input == NULL)
 		{
 			write(STDERR_FILENO, "exit\n", 5);
@@ -118,20 +98,9 @@ int	input(t_env *local_env)
 		add_history (input);
 		cmd_list = parser(input, local_env);
 		free(input);
-		if (cmd_list == NULL)
-		{
-			local_env->lst_exit = 2;
+		if (check_valid_cmd(cmd_list, local_env) == NO)
 			continue ;
-		}
-		if (cmd_list->len == 0)
-		{
-			if (!(local_env->lst_exit > 128))
-				local_env->lst_exit = 0;
-			free (cmd_list);
-			continue ;
-		}
-		list_info = cmd_list_info2(cmd_list);
-		local_env->lst_exit = exec_controller(list_info, local_env);
+		local_env->lst_exit = exec_controller(cmd_list, local_env);
 	}
 	return (local_env->lst_exit);
 }

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 13:42:18 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/04 23:40:53 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/05 22:37:00 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,50 @@ int	exit_status(int status)
 	return (0);
 }
 
-int	exec_controller(t_list_info *list_info, t_env *local_env)
+void	setup_fds_to_info(t_list_info *info)
 {
-	ssize_t			i;
-	t_parsed_cmd	*cmd_list;
+	int	i;
 
-	cmd_list = list_info->head;
+	i = 0;
+	while (i < 2)
+	{
+		info->pfds[i] = -1;
+		info->rfds[i] = -1;
+		i++;
+	}
+	info->pfds[i] = -1;
+	info->status = 0;
+}
+
+t_list_info	*cmd_list_info2(t_parsed *cmd_list)
+{
+	t_list_info	*info;
+
+	info = (t_list_info *)malloc(sizeof(t_list_info));
+	if (info == NULL)
+		return (NULL);
+	info->size = cmd_list->len;
+	info->head = cmd_list->first;
+	info->tail = cmd_list->last;
+	free (cmd_list);
+	info->cpid = (pid_t *)malloc(sizeof(pid_t) * info->size);
+	if (!info->cpid)
+	{
+		free(info);
+		return (NULL);
+	}
+	setup_fds_to_info(info);
+	return (info);
+}
+
+int	exec_controller(t_parsed *cmd_list, t_env *local_env)
+{
+	ssize_t		i;
+	t_list_info	*list_info;
+	t_parsed_cmd	*parsed_cmd;
+
+	list_info = cmd_list_info2(cmd_list);
+	parsed_cmd = list_info->head;
 	list_info->cmd_num = 0;
 	i = 0;
 	while (i < list_info->size)
@@ -72,7 +110,7 @@ int	exec_controller(t_list_info *list_info, t_env *local_env)
 		if (list_info->size > 1)
 			if (pipe(list_info->pfds) == -1)
 				return (EXIT_FAILURE); //to protect (free heap + close pfds + errno)
- 		if (list_info->size == 1 && cmd_list->exec_type == BUILT)
+ 		if (list_info->size == 1 && parsed_cmd->exec_type == BUILT)
 			return (builtin_main(list_info, local_env));
 		list_info->cpid[i] = fork();
 		if (list_info->cpid[i] == -1)
@@ -81,9 +119,9 @@ int	exec_controller(t_list_info *list_info, t_env *local_env)
 		{
 			signal(SIGQUIT, SIG_DFL);
 			signal(SIGINT, SIG_DFL);
-			exec_subshell(cmd_list, list_info, local_env);
+			exec_subshell(parsed_cmd, list_info, local_env);
 		}
-		cmd_list = cmd_list->next;
+		parsed_cmd = parsed_cmd->next;
 		list_info->cmd_num++;
 		i++;
 		if (list_info->pfds[WRITE_END] > 0)

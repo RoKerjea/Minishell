@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 22:10:02 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/03 00:29:11 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/05 23:51:47 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,25 +79,13 @@ void	remove_variable(char *str, t_env *env_list)
 	{
 		linkprev = link->prev;
 		linknext = link->next;
-		if (linknext != NULL && linkprev != NULL)
-			forgelink (linkprev, linknext);
+		forgelink (linkprev, linknext);
 		env_destroy_link(link);
 		env_list->len--;
-		if (linkprev == NULL && linknext)
-		{
+		if (linkprev == NULL)
 			env_list->first = linknext;
-			linknext->prev = NULL;
-		}
-		if (linknext == NULL && linkprev)
-		{
+		if (linknext == NULL)
 			env_list->last = linkprev;
-			linkprev->next = NULL;
-		}
-		if (linknext == NULL && linkprev == NULL)
-		{
-			env_list->first = NULL;
-			env_list->last = NULL;
-		}
 	}
 }
 
@@ -109,19 +97,14 @@ void	update_variable(char *str, t_env *env_list)
 	char		*strvar;
 	char		*name;
 
-	strvar = ft_strchr(str, '=');//if str doesnt have '=', return error because input = "export name =var"
+	strvar = ft_strchr(str, '=');
 	if (strvar == 0)
-	{
-		link = create_link(str);
-		forgelink(env_list->last, link);
-		env_list->last = link;
-		env_list->len++;
-		return ;
-	}
-	name = ft_strndup(str, (strvar - &str[0]));
+		name = ft_strndup (str, ft_strlen(str));
+	else
+		name = ft_strndup(str, (strvar - &str[0]));
 	link = find_link(name, env_list);
 	free (name);
-	if (link != NULL)
+	if (link != NULL && strvar != 0)
 	{
 		free(link->variable);
 		link->variable = ft_strdup(&strvar[1]);
@@ -131,6 +114,8 @@ void	update_variable(char *str, t_env *env_list)
 		link = create_link(str);
 		forgelink(env_list->last, link);
 		env_list->last = link;
+		if (env_list->first == NULL)
+			env_list->first = link;
 		env_list->len++;
 	}
 }
