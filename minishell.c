@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/04 23:47:19 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/05 22:07:56 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,21 @@ int	check_input(char *input)
 	return (YES);
 }
 
+void	setup_fds_to_info(t_list_info *info)
+{
+	int	i;
+
+	i = 0;
+	while (i < 2)
+	{
+		info->pfds[i] = -1;
+		info->rfds[i] = -1;
+		i++;
+	}
+	info->pfds[i] = -1;
+	info->status = 0;
+}
+
 t_list_info	*cmd_list_info2(t_parsed *cmd_list)
 {
 	t_list_info	*info;
@@ -52,22 +67,32 @@ t_list_info	*cmd_list_info2(t_parsed *cmd_list)
 	info->head = cmd_list->first;
 	info->tail = cmd_list->last;
 	free (cmd_list);
-	info->cpid = NULL;
 	info->cpid = (pid_t *)malloc(sizeof(pid_t) * info->size);
 	if (!info->cpid)
 	{
 		free(info);
 		return (NULL);
 	}
-	for (size_t i = 0; i < 3; i++)
-		info->pfds[i] = -1;
-	for (size_t i = 0; i < 2; i++)
-		info->rfds[i] = -1;
-	info->status = 0;
+	setup_fds_to_info(info);
 	return (info);
 }
 
-//start of input loop, should add to history, tokenize->parse->expand->send to exec
+char	*read_input(void)
+{
+	char	*input;
+
+	rl_catch_signals = 0;
+	rl_outstream = stderr;
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
+	input = readline ("minishell$ ");
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	rl_outstream = stdout;
+	return (input);
+}
+
+//start of input loop, should add to history
 int	input(t_env *local_env)
 {
 	char		*input;
@@ -76,44 +101,35 @@ int	input(t_env *local_env)
 
 	while (1)
 	{
-		rl_catch_signals = 0;
-		rl_outstream = stderr;
-		signal(SIGINT, sigint_handler);
-		signal(SIGQUIT, SIG_IGN);
-		input = readline ("minishell$ ");//history should use this
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
-		rl_outstream = stdout;
+		input = read_input();
 		if (errno == EINTR)
 			local_env->lst_exit = 128 + SIGINT;
 		if (input == NULL)
 		{
 			write(STDERR_FILENO, "exit\n", 5);
-			//rl_clear_history ??
 			free(input);
 			exit(env_destroy_list (local_env));
 		}
-		if (input[0] == '\0' || is_only_space(input) || check_input(input) == NO)
+		if (input[0] == '\0' || is_only_space(input) || !check_input(input))
 		{
 			free(input);
-			continue;
+			continue ;
 		}
 		add_history (input);
 		cmd_list = parser(input, local_env);
 		free(input);
 		if (cmd_list == NULL)
 		{
-			local_env->lst_exit = 2;//source de status = 2 instead of 1 for some errors
-			continue;
+			local_env->lst_exit = 2;
+			continue ;
 		}
 		if (cmd_list->len == 0)
 		{
 			if (!(local_env->lst_exit > 128))
 				local_env->lst_exit = 0;
 			free (cmd_list);
-			continue;
+			continue ;
 		}
-		//function that call exec_controller need to create list_info for now, with cmd_list as base
 		list_info = cmd_list_info2(cmd_list);
 		local_env->lst_exit = exec_controller(list_info, local_env);
 	}

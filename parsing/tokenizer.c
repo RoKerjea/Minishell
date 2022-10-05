@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/05 18:03:24 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/05 18:41:18 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ t_tok_list	*tokenizerstart(char *input)
 	token_list = make_list();
 	if (token_list == NULL)
 		return (NULL);
-	sep_token(input, token_list);
-	
+	sep_token(input, token_list);	
 	if (token_list->last->meta == FAIL
 		|| token_list->len == 0 || syntax_checker(token_list) == NO)
 	{

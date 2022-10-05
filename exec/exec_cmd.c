@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:28:44 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/30 01:43:31 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/05 18:53:35 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	exec_cmd(char **cmd, char **envp)
 				return (print_err(errno, __FILE__, __LINE__ - 2));
 			ret_access = access(abs_cmd, F_OK | X_OK | R_OK);
 			if (!ret_access && !is_dir(abs_cmd))
-				execve(abs_cmd, cmd, envp);
+				execve(abs_cmd, cmd, envp);//re get path from envp if fail until path[i] == NULL
 			free(abs_cmd);
 		}
 	}

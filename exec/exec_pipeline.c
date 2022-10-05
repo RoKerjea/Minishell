@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 20:00:53 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/30 06:09:21 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/05 19:58:06 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@
 #include "../include/exec.h"
 #include "../include/utils.h"
 
+static void	close_if_open(int fd)
+{
+	if (fd > -1)
+		close(fd);
+}
+
 void	exec_pipeline(t_parsed_cmd *cmd, t_list_info *info)
 {
 	if ((!cmd->redir_in || !ft_strlen(cmd->redir_in))
@@ -24,7 +30,7 @@ void	exec_pipeline(t_parsed_cmd *cmd, t_list_info *info)
 		&& (!cmd->redir_out || !ft_strlen(cmd->redir_out)))
 	{
 		if (info->cmd_num == 0)
-			close(info->pfds[TEMP_READ_END]);
+			close_if_open(info->pfds[TEMP_READ_END]);
 		else
 			if (dup2(info->pfds[TEMP_READ_END], STDIN_FILENO) < 0)
 				exit(EXIT_FAILURE);
@@ -33,20 +39,20 @@ void	exec_pipeline(t_parsed_cmd *cmd, t_list_info *info)
 			if (dup2(info->pfds[WRITE_END], STDOUT_FILENO) < 0)
 				exit(EXIT_FAILURE);
 		}
-		close(info->pfds[READ_END]);
+		close_if_open(info->pfds[READ_END]);
 	}
 	else if (cmd->redir_in && ft_strlen(cmd->redir_in))
 	{
 		if (dup2(info->pfds[WRITE_END], STDOUT_FILENO) < 0)
 			exit(EXIT_FAILURE);
-		close(info->pfds[READ_END]);
+		close_if_open(info->pfds[READ_END]);
 	}
 	else if ((cmd->redir_append && ft_strlen(cmd->redir_append))
 		|| (cmd->redir_out && ft_strlen(cmd->redir_out)))
 	{
 		if (dup2(info->pfds[TEMP_READ_END], STDIN_FILENO) < 0)
 			exit(EXIT_FAILURE);
-		close(info->pfds[READ_END]);
-		close(info->pfds[WRITE_END]);
+		close_if_open(info->pfds[READ_END]);
+		close_if_open(info->pfds[WRITE_END]);
 	}
 }
