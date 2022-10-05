@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/04 23:57:11 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/05 17:52:12 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,7 +236,7 @@ char	**get_args(t_tok_link *token)
 /* 		if (!res)
 			return (NULL); */ //can probably let while continue to destroy tokens and still return NULL in the end
 		i++;
-		//destroy_token(token);
+		destroy_token(token);
 		token = token_next;
 	}
 	return (res);
