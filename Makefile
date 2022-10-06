@@ -26,6 +26,7 @@ SRCS		=	${addprefix common/, \
 				token_parser.c \
 				unquoter.c \
 				parser.c \
+				token_to_cmd.c \
 				token_struct.c} \
 				${addprefix libft/, \
 				ft_strlen.c \

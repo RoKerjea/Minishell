@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:41:23 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/02 17:54:36 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/06 17:09:07 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,19 @@ int	metachar_parser(char *str);
 int	meta_and_arg_size(char *str);
 
 //PARSER
-int	check_parsed_cmd(t_parsed *parsed_list);
+int		check_parsed_cmd(t_parsed *parsed_list);
 void	destroy_final_list(t_parsed *parsed_list);
-t_parsed	*list_parser(t_temp *temp);
-t_parsed_cmd	*make_parsed_link(t_temp *temp);
-int	get_type(char **cmd_args);
-int	is_builtins(char *cmd);
-char	**get_args(t_tok_link *token);
-int	token_count(t_tok_link *token);
 
+//TOKEN_TO_CMD.C
+t_parsed		*list_parser(t_temp *temp);
+t_parsed_cmd	*make_parsed_link(t_temp *temp);
+int				get_type(char **cmd_args);
+int				is_builtins(char *cmd);
+char			**empty_tab(void);
+char			**get_args(t_tok_link *token);
+int				token_count(t_tok_link *token);
+
+//TOKEN ASSIGN
 t_temp	*mktemplist(void);
 t_temp	*token_sorter(t_tok_list *list, t_env *local_env);
 void	add_token_arg(t_temp *temp, t_tok_link *link);
@@ -98,6 +102,7 @@ char	*fuse_and_clean(struct	s_word *wordlink, t_env *local_env);
 char	*prototype(char *str, t_env *local_env);
 int	token_splitter(t_tok_list	*list);
 char	**char_tab_fuser(char **str1, char **str2);
+
 //UNQUOTER.C
 int	unquoter_loop(t_tok_list *list);
 int	unquote_link(t_tok_link *link);
