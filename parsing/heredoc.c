@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 23:16:11 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/02 20:26:57 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/06 20:15:15 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*find_free_name(char *str)
 	x = ft_strlen(str);
 	x--;
 	str[x] = 'a';
-	while(str[x] <= 'z' && access(str, F_OK) == 0)
+	while (str[x] <= 'z' && access(str, F_OK) == 0)
 	{
 		str[x]++;
 	}
@@ -48,7 +48,6 @@ char	*findnewname(char *name)
 		res = find_free_name(temp);
 	}
 	free (rand);
-	//printf ("name = %s\n", res);
 	return (res);
 }
 
@@ -81,7 +80,7 @@ char	*heredoc(t_tok_link *link, t_env *local_env)
 		input = readline ("> ");
 		if (!input && errno != EINTR && errno != EBADF)
 			write(STDERR_FILENO, "\n", 1);
-		if (errno == EINTR || errno == EBADF)//EBADF cause probleme et interrompt heredoc a la deuxieme ligne dans tt les cas!!
+		if (errno == EINTR || errno == EBADF)
 		{
 			free (input);
 			input = NULL;

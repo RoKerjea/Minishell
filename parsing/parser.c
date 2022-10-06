@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/06 17:48:22 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/06 19:13:19 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_parsed	*parser(char *input, t_env *local_env)
 	/*print_token(list);
   	printf ("\033[1;31mgate before unquoter after splitter\n\033[0m"); */
 	unquoter_loop(list);
-	temp = token_sorter(list, local_env);
+	temp = temp_sorter(list, local_env);
 	free (list);
 	parsed_list = list_parser(temp);
 	//print_parsed_list(parsed_list->first);

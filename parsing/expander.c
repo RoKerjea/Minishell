@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/05 00:09:04 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/06 20:25:46 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include "../include/macro.h"
 #include "../include/parsing.h"
 
-// CONTENT OF FILE: what's needed to expand content of tokenlink->str[0], correspondning to env variable
+// CONTENT OF FILE: what's needed to expand content of tokenlink->str[0]
+// correspondning to env variable
 // INPUT: linked list of token
 // OUTPUT: same list but with expander step executed on str
 
@@ -32,13 +33,27 @@ void	token_expander(t_tok_list *list, t_env *local_env)
 			&& token->meta != HEREDOC_NOEXPAND)
 		{
 			expanded = str_expander(token->str[0], local_env, 1);
-			//protect
+			if (!expanded)
+			{
+				free (token->str[0]);
+				return ;
+			}			
 			if (expanded != token->str[0])
 				free (token->str[0]);
 			token->str[0] = expanded;
 		}
 		token = token->next;
 	}
+}
+
+int	is_to_expand(int quote, int i, char *str)
+{
+	if (quote == 1 && (str[i + 1] == ' ' || str[i + 1] == '\"'))
+		return (NO);
+	else if (str[i + 1] == ' ' || str[i + 1] == '\0'
+		|| str[i + 1] == '+' || str[i + 1] == '=')
+		return (NO);
+	return (YES);
 }
 
 char	*str_expander(char *str, t_env *local_env, int expand)
@@ -51,14 +66,12 @@ char	*str_expander(char *str, t_env *local_env, int expand)
 	while (str[i])
 	{
 		if (str[i] == '\"')
-			quote *= -1;//pas tres beau, mais ca signale si on est a l'interieur de "" ou non (-1 exterieur, 1 interieur)
+			quote *= -1;
 		if (str[i] == '\'' && quote == -1 && expand == 1)
-			i += find_end_quote(str + i, '\'');//si les ' sont entre des "" actifs, ils ne comptent pas!
+			i += find_end_quote(str + i, '\'');
 		else if (str[i] == '$')
 		{
-			if (quote == 1 && (str[i + 1] == ' ' || str[i + 1] == '\"'))
-				i++;
-			else if (str[i + 1] == ' ' || str[i + 1] == '\0' || str[i + 1] == '+' || str[i + 1] == '=')
+			if (!is_to_expand(quote, i, str))
 				i++;
 			else
 			{
@@ -95,7 +108,7 @@ char	*smartass(char *str, int i, t_env *local_env)
 char	*get_right_str(char	*str)
 {
 	str += wordlen(str);
-	return (ft_strdup(str));	
+	return (ft_strdup(str));
 }
 
 char	*get_var_content(char *str, t_env *local_env)
@@ -108,7 +121,7 @@ char	*get_var_content(char *str, t_env *local_env)
 	if (!strncmp(name, "?", 3))
 	{
 		free (name);
-		return(ft_itoa(local_env->lst_exit));
+		return (ft_itoa(local_env->lst_exit));
 	}
 	link = find_link(name, local_env);
 	free (name);
@@ -142,57 +155,9 @@ int	wordlen(char *str)
 	i = 1;
 	if (ft_isdigit(str[i]))
 		return (i + 1);
-	while (str[i] != 36 && str[i] != '\0' && ft_isspace(str[i]) == NO && str[i] != '\"' && str[i] != '\'' && str[i] != '/' && str[i] != '=' && str[i - 1] != '?')
+	while (str[i] != 36 && str[i] != '\0' && ft_isspace(str[i]) == NO
+		&& str[i] != '\"' && str[i] != '\'' && str[i] != '/' && str[i] != '='
+		&& str[i - 1] != '?')
 		i++;
 	return (i);
 }
-/*
-from left to right, until $, stdup(str, i), when $, find variable, stdup var, join str1 and str2,
-same from end of $var in original string, repeat, until '\0'...
-*/
-
-/*Parcourir les str de gauche a droite, suivant les cas de $x(et quotes), translate from env ou delete/ignore
-can go through str while str[i] != '\0'
-and just i+= endquote if str[i] == '\'' and not already inside '\"'?
-so, just one expand cycle before removing exterior quotes?
-*/
-//$VAR FILE.c -> make an expander ft to be called from everywhere? no, just before parser, once
-//need mini parser step after tokenizer? why?? in case of errors? syntax error?
-//syntax check happen BEFORE var expansion!
-/*
-if $VAR$VAR$VAR, can i separate them in tokens?
-if "ste $VAR str " can i tokenized to then expand and still remake the str original between ""?
-can i just split in three, expand 2, and then rejoin?
-could i tokenize a full string and only then expand it?
-what if $VAR doesn't exist? $"$VAR", 
-!! if $VAR doesn't exist, $VAR is deleted, can just parse from left to right then?
-*/
-/*3 cas de "$x" a parser:
-x = EXIST -> content
-x = WRONG -> "" (empty)
-x = ' || x == " -> $ is deleted (and then, quotes will be deleted)
-
-echo $"rfrgrg"
-rfrgrg
-
-same as :
-
-echo $'rfrgrg'
-rfrgrg
-
-but diff from
-
-echo $rfrgrg
-(print rien "")"
-
-is managed in field splitting + quote remover
-	"$foo" make a SINGLE str, even with spaces inside
-	while
-	$foo make AS MANY str as spaces separator +1 (foo="arg1 arg2" give two separate str)
-	(it's just the space as str sep in normal cases and quotes are single str rules!)
-
-! TO TEST: "$ "; "$"
-
-is $$ an env variable? NON, donc pas a gerer, et a transformer en ""! (delete)
-expansion happen BEFORE wildcards patternization and substitution(for '*' bonus)
-*/

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:41:23 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/06 17:09:07 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/06 19:13:11 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int				token_count(t_tok_link *token);
 
 //TOKEN ASSIGN
 t_temp	*mktemplist(void);
-t_temp	*token_sorter(t_tok_list *list, t_env *local_env);
+t_temp	*temp_sorter(t_tok_list *list, t_env *local_env);
 void	add_token_arg(t_temp *temp, t_tok_link *link);
 int	add_token_in(t_temp *temp, t_tok_link *link, t_env *local_env);
 int		add_token_out(t_temp *temp, t_tok_link *link);
