@@ -158,5 +158,7 @@ exec_test "wc |"
 exec_test "wc | |"
 exec_test "wc |||"
 
+exec_test "ls <non | wc"
+
 rm -rf minishell out1 test2
 #rm lol ls test

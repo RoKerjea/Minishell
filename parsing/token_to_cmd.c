@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 16:51:10 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/06 17:47:34 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/07 18:39:13 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,8 @@ t_parsed_cmd	*make_parsed_link(t_temp *temp)
 	link = memset_alloc(0, sizeof(t_parsed_cmd));
 	if (!link)
 		return (NULL);
-	if (temp->cmd_list_first == NULL || temp->type == 0)
+	if (temp->cmd_list_first == NULL)
 	{
-		link->cmd_args = NULL;
 		link->exec_type = FAIL;
 	}
 	else
