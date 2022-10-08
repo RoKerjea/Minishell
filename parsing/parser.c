@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/08 19:49:30 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/08 20:01:32 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,10 @@ void	destroy_final_list(t_parsed *parsed_list)//to use in exec actuall y
 		if (cmd->redir_in)
 			free(cmd->redir_in);
 		if (cmd->heredoc)
+		{
+			unlink(cmd->heredoc);
 			free(cmd->heredoc);
+		}
 		if (cmd->redir_out)
 			free(cmd->redir_out);
 		if (cmd->redir_append)
