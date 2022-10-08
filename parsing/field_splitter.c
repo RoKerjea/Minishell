@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:35:17 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/08 20:16:01 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/08 23:02:12 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	**field_splitter(char *s, char c)
 {
 	char	**res;
 	int		wnum;
-	
+
 	wnum = field_counter(s, c);
 	res = (char **)malloc(sizeof(char *) * (wnum + 1));
 	if (!res)
@@ -125,30 +125,52 @@ int	token_splitter(t_tok_list	*list)
 	return (YES);
 }
 
-char	**char_tab_fuser(char **str1, char **str2)
+char	**new_char_tab(char **str1, char **str2)
 {
 	char	**res;
-	int		i;
-	int		j;
 	int		count;
 
-	count = str_table_counter(str1) + str_table_counter(str2);
-	res = malloc (sizeof(char *) * (count + 1));
+	count = str_table_counter(str1) + str_table_counter(str2) + 1;
+	count *= sizeof(char *);
+	res = memset_alloc(0, count);
 	if (!res)
 		return (NULL);
+	return (res);
+}
+
+int	first_tab(char	**res, char **str1)
+{
+	int	i;
+
 	i = 0;
-	j = 0;
 	while (str1[i] != NULL)
 	{
 		res[i] = ft_strdup(str1[i]);
 		if (!res[i])
 		{
 			ft_freetab(str1);
-			return (ft_freetab(res));
+			ft_freetab(res);
+			return (-1);
 		}
 		i++;
 	}
 	ft_freetab(str1);
+	return (i);
+}
+
+char	**char_tab_fuser(char **str1, char **str2)
+{
+	char	**res;
+	int		i;
+	int		j;
+
+	res = new_char_tab(str1, str2);
+	if (!res)
+		return (NULL);
+	i = first_tab(res, str1);
+	if (i == -1)
+		return (NULL);
+	j = 0;
 	while (str2[j] != NULL)
 	{
 		res[i] = ft_strdup(str2[j]);
