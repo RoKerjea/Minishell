@@ -124,6 +124,7 @@ exec_test "pwd ; cd false ; pwd"
 exec_test "env truc"
 exec_test "env -n truc"
 exec_test "env truc machin"
+exec_test "cd oui non"
 
 exec_test "export TRUC=machin ; echo \$TRUC"
 exec_test "export TRUC=machin  CHOSE=chouette ; echo \$TRUC ; echo \$CHOSE"

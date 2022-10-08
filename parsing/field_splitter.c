@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:35:17 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/07 22:39:07 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/08 17:20:53 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ int	field_counter(char *s, char c)
 			if (s[i] == c || s[i] == '\0')
 				wordcount++;
 		}
-		else if ((s[i] != c && s[i] != '\'' && s[i] != '\"' && (s[i + 1] == c || s[i + 1] == '\0')) || (s[i] == c && s[i + 1] == '\0'))
+		else if ((s[i] != c && s[i] != '\'' && s[i] != '\"' && (s[i + 1] == c
+					|| s[i + 1] == '\0')) || (s[i] == c && s[i + 1] == '\0'))
 		{	
 			wordcount++;
 			i++;
@@ -48,14 +49,17 @@ int	len_field(char *s, char c)
 	while (s[i] != c && s[i] != '\0')
 	{
 		if (s[i] == '\'' || s[i] == '\"')
-		{
 			i += find_end_quote(s + i, s[i]);
-		}
 		else
 			i++;
 	}
 	return (i);
 }
+
+/* char	*make_new_str(char *s, char c, int wnum)
+{
+
+} */
 
 char	**field_splitter(char *s, char c)
 {
@@ -69,7 +73,7 @@ char	**field_splitter(char *s, char c)
 	res = (char **)malloc(sizeof(char *) * (wnum + 1));
 	if (!res)
 		return (NULL);
-	res[wnum] = 0;
+	res[wnum] = NULL;
 	if (wnum == 1)
 	{
 		res[0] = ft_strdup(s);
@@ -101,7 +105,8 @@ int	token_splitter(t_tok_list	*list)
 		if (ft_strchr(token->str[0], ' ') != 0)
 		{
 			splitted = field_splitter(token->str[0], ' ');
-			if (token->meta == IN || token->meta == OUT || token->meta == APPEND)
+			if (token->meta == IN || token->meta == OUT
+				|| token->meta == APPEND)
 			{
 				if (splitted[1] != NULL)
 				{
