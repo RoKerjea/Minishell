@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 13:42:18 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/08 02:29:11 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/09 01:40:38 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <stdbool.h>
 
 int	wait_for_child(pid_t *cpid, unsigned int max_proc)
 {
@@ -95,10 +96,70 @@ t_list_info	*cmd_list_info2(t_parsed *cmd_list)
 	return (info);
 }
 
+// static int	dispatcher(t_list_info *info, t_parsed_cmd *cmd, t_env *env, int i)
+// {
+// 	if (info->size > 1)
+// 		if (pipe(info->pfds) == -1)
+// 			return (EXIT_FAILURE);
+// 	if (info->size == 1 && cmd->exec_type == BUILT)
+// 		return (builtin_main(info, env));
+// 	info->cpid[i] = fork();
+// 	if (info->cpid[i] == -1)
+// 		return (EXIT_FAILURE);
+// 	if (info->cpid[i] == 0)
+// 	{
+// 		signal(SIGQUIT, SIG_DFL);
+// 		signal(SIGINT, SIG_DFL);
+// 		exec_subshell(cmd, info, env);
+// 	}
+// 	return (EXIT_SUCCESS);
+// }
+
+static void	close_pfds(t_list_info *info, bool is_in_loop)
+{
+	if (info->pfds[WRITE_END] > 0)
+		close(info->pfds[WRITE_END]);
+	if (info->pfds[TEMP_READ_END] > 0)
+		close(info->pfds[TEMP_READ_END]);
+	if (!is_in_loop)
+		if (info->pfds[READ_END] > 0)
+			close(info->pfds[READ_END]);
+}
+
+// static int dispatcher_loop(t_list_info *info, t_parsed_cmd *cmd, t_env *env)
+// {
+// 	ssize_t	i;
+
+// 	i = 0;
+// 	while (i < info->size)
+// 	{
+// 		if (info->size > 1)
+// 			if (pipe(info->pfds) == -1)
+// 				return (EXIT_FAILURE);
+// 		if (info->size == 1 && cmd->exec_type == BUILT)
+// 			return (builtin_main(info, env));
+// 		info->cpid[i] = fork();
+// 		if (info->cpid[i] == -1)
+// 			return (EXIT_FAILURE);
+// 		if (info->cpid[i] == 0)
+// 		{
+// 			signal(SIGQUIT, SIG_DFL);
+// 			signal(SIGINT, SIG_DFL);
+// 			exec_subshell(cmd, info, env);
+// 		}
+// 		cmd = cmd->next;
+// 		info->cmd_num++;
+// 		i++;
+// 		close_pfds(info, true);
+// 		info->pfds[TEMP_READ_END] = info->pfds[READ_END];
+// 	}
+// 	return (EXIT_SUCCESS);
+// }
+
 int	exec_controller(t_parsed *cmd_list, t_env *local_env)
 {
-	ssize_t		i;
-	t_list_info	*list_info;
+	ssize_t			i;
+	t_list_info		*list_info;
 	t_parsed_cmd	*parsed_cmd;
 
 	list_info = cmd_list_info2(cmd_list);
@@ -109,12 +170,12 @@ int	exec_controller(t_parsed *cmd_list, t_env *local_env)
 	{
 		if (list_info->size > 1)
 			if (pipe(list_info->pfds) == -1)
-				return (EXIT_FAILURE); //to protect (free heap + close pfds + errno)
- 		if (list_info->size == 1 && parsed_cmd->exec_type == BUILT)
+				return (EXIT_FAILURE);
+		if (list_info->size == 1 && parsed_cmd->exec_type == BUILT)
 			return (builtin_main(list_info, local_env));
 		list_info->cpid[i] = fork();
 		if (list_info->cpid[i] == -1)
-			return (EXIT_FAILURE); //to protect (free heap + close pfds + errno)
+			return (EXIT_FAILURE);
 		if (list_info->cpid[i] == 0)
 		{
 			signal(SIGQUIT, SIG_DFL);
@@ -124,22 +185,13 @@ int	exec_controller(t_parsed *cmd_list, t_env *local_env)
 		parsed_cmd = parsed_cmd->next;
 		list_info->cmd_num++;
 		i++;
-		if (list_info->pfds[WRITE_END] > 0)
-			close(list_info->pfds[WRITE_END]);
-		if (list_info->pfds[TEMP_READ_END] > 0)
-			close(list_info->pfds[TEMP_READ_END]);
+		close_pfds(list_info, true);
 		list_info->pfds[TEMP_READ_END] = list_info->pfds[READ_END];
 	}
-	if (list_info->pfds[WRITE_END] > 0)
-		close(list_info->pfds[WRITE_END]);
-	if (list_info->pfds[TEMP_READ_END] > 0)
-		close(list_info->pfds[TEMP_READ_END]);
-	if (list_info->pfds[READ_END] > 0)
-		close(list_info->pfds[READ_END]);
+	close_pfds(list_info, false);
 	list_info->status = wait_for_child(list_info->cpid, list_info->size);
-	int end_status = list_info->status;
 	destroy_list_info (list_info);
-	return (exit_status(end_status));
+	return (exit_status(list_info->status));
 }
 
 void	destroy_list_info(t_list_info *list_info)
@@ -151,7 +203,7 @@ void	destroy_list_info(t_list_info *list_info)
 
 void	destroy_all_cmd(t_parsed_cmd *cmd)
 {
-	t_parsed_cmd *cmd_next;
+	t_parsed_cmd	*cmd_next;
 
 	while (cmd != NULL)
 	{
@@ -168,5 +220,4 @@ void	destroy_all_cmd(t_parsed_cmd *cmd)
 		free (cmd);
 		cmd = cmd_next;
 	}
-	return;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_subshell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 00:08:30 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/05 19:32:30 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/08 21:57:11 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	**str_tab_dup(char **src)
 {
 	char	**res;
 	int		i;
-	
+
 	i = 0;
 	while (src[i] != NULL)
 		i++;
@@ -60,7 +60,7 @@ void	exec_subshell(t_parsed_cmd *cmd, t_list_info *info, t_env *local_env)
 	if (info->size > 1)
 		exec_pipeline(cmd, info);
 	if (exec_redirect(cmd, info))
-		exit(EXIT_FAILURE); // handle errno + err_status	
+		exit(EXIT_FAILURE);
 	if (cmd->exec_type == BUILT)
 		exit(exec_builtin(cmd, local_env));
 	else
