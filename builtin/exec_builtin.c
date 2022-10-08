@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:17:15 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/08 02:55:23 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/08 19:45:00 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,10 @@ int	builtin_main(t_list_info *list_info, t_env *local_env)
 	int				cpy_stdout;
 
 	cmd_list = list_info->head;
-	cpy_stdout = dup(STDOUT_FILENO);
+	if (ft_strncmp(cmd_list->cmd_args[0], "exit", 4) == 0)
+		return (final_exit(cmd_list, local_env));
+	if (cmd_list->redir_out || cmd_list->redir_append)
+		cpy_stdout = dup(STDOUT_FILENO);
 	if (exec_redirect(cmd_list, list_info))
 	{
 		free (list_info->cpid);
@@ -142,8 +145,11 @@ int	builtin_main(t_list_info *list_info, t_env *local_env)
 	free (list_info->cpid);
 	free (list_info);
 	exit_status = exec_builtin(cmd_list, local_env);
-	dup2(cpy_stdout, STDOUT_FILENO);
-	close(cpy_stdout);
+	if (cmd_list->redir_out || cmd_list->redir_append)
+	{
+		dup2(cpy_stdout, STDOUT_FILENO);
+		close(cpy_stdout);
+	}
 	destroy_all_cmd (cmd_list);
 	return (exit_status);
 }
