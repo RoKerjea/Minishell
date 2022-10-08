@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redirect.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 19:32:27 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/16 23:39:31 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/08 02:55:31 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 int	exec_redirect(t_parsed_cmd *cmd_list, t_list_info *list_info)
 {
-	if (cmd_list->redir_in  && ft_strlen(cmd_list->redir_in))
+	if (cmd_list->redir_in && ft_strlen(cmd_list->redir_in))
 	{
 		list_info->rfds[IN] = open(cmd_list->redir_in, O_RDONLY);
 		if (list_info->rfds[IN] == -1)
@@ -32,7 +32,7 @@ int	exec_redirect(t_parsed_cmd *cmd_list, t_list_info *list_info)
 			exit(EXIT_FAILURE);
 		close(list_info->rfds[IN]);
 	}
-	if (cmd_list->heredoc  && ft_strlen(cmd_list->heredoc))
+	if (cmd_list->heredoc && ft_strlen(cmd_list->heredoc))
 	{
 		list_info->rfds[IN] = open(cmd_list->heredoc, O_RDONLY);
 		if (list_info->rfds[IN] == -1)
@@ -47,6 +47,7 @@ int	exec_redirect(t_parsed_cmd *cmd_list, t_list_info *list_info)
 		list_info->rfds[OUT] = open(cmd_list->redir_out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (list_info->rfds[OUT] == -1)
 			return (print_err_open(errno, cmd_list->redir_out), EXIT_FAILURE);
+
 		if (dup2(list_info->rfds[OUT], STDOUT_FILENO) < 0)
 			exit(EXIT_FAILURE);
 		close(list_info->rfds[OUT]);

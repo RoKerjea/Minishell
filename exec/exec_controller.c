@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_controller.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 13:42:18 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/05 22:37:00 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/08 02:29:11 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,13 +146,13 @@ void	destroy_list_info(t_list_info *list_info)
 {
 	destroy_all_cmd(list_info->head);
 	free (list_info->cpid);
-	free (list_info);	
+	free (list_info);
 }
 
 void	destroy_all_cmd(t_parsed_cmd *cmd)
 {
 	t_parsed_cmd *cmd_next;
-	
+
 	while (cmd != NULL)
 	{
 		cmd_next = cmd->next;

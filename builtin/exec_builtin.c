@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:17:15 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/04 23:46:19 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/08 02:55:23 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	env(char **cmd, t_env *local_env)
 int	pwd(char **cmd, t_env *local_env)
 {
 	char	new_path[PATH_MAX];
-	
+
 	(void)cmd;
 	if (getcwd(new_path, PATH_MAX) == 0)
 		return (1);
@@ -128,11 +128,22 @@ int	builtin_main(t_list_info *list_info, t_env *local_env)
 {
 	int				exit_status;
 	t_parsed_cmd	*cmd_list;
+	int				cpy_stdout;
 
 	cmd_list = list_info->head;
+	cpy_stdout = dup(STDOUT_FILENO);
+	if (exec_redirect(cmd_list, list_info))
+	{
+		free (list_info->cpid);
+		free (list_info);
+		destroy_all_cmd (cmd_list);
+		exit(EXIT_FAILURE);
+	}
 	free (list_info->cpid);
 	free (list_info);
 	exit_status = exec_builtin(cmd_list, local_env);
+	dup2(cpy_stdout, STDOUT_FILENO);
+	close(cpy_stdout);
 	destroy_all_cmd (cmd_list);
 	return (exit_status);
 }
