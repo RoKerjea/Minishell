@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:35:17 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/08 17:20:53 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/08 20:16:01 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,30 +56,12 @@ int	len_field(char *s, char c)
 	return (i);
 }
 
-/* char	*make_new_str(char *s, char c, int wnum)
+char	**make_new_str(char *s, char c, int wnum, char **res)
 {
-
-} */
-
-char	**field_splitter(char *s, char c)
-{
-	char	**res;
-	int		wnum;
-	int		lenfield;
-	int		i;
+	int	i;
+	int	lenfield;
 
 	i = 0;
-	wnum = field_counter(s, c);
-	res = (char **)malloc(sizeof(char *) * (wnum + 1));
-	if (!res)
-		return (NULL);
-	res[wnum] = NULL;
-	if (wnum == 1)
-	{
-		res[0] = ft_strdup(s);
-		return (res);
-	}
-	wnum = 0;
 	while (wnum < field_counter(s, c))
 	{
 		while (s[i] == c)
@@ -91,6 +73,26 @@ char	**field_splitter(char *s, char c)
 		i += lenfield;
 		wnum++;
 	}
+	return (res);
+}
+
+char	**field_splitter(char *s, char c)
+{
+	char	**res;
+	int		wnum;
+	
+	wnum = field_counter(s, c);
+	res = (char **)malloc(sizeof(char *) * (wnum + 1));
+	if (!res)
+		return (NULL);
+	res[wnum] = NULL;
+	if (wnum == 1)
+	{
+		res[0] = ft_strdup(s);
+		return (res);
+	}
+	wnum = 0;
+	res = make_new_str (s, c, wnum, res);
 	return (res);
 }
 
