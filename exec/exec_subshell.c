@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 00:08:30 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/08 21:57:11 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/09 19:26:16 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	purge_cmd(t_parsed_cmd *cmd, t_list_info *info, t_env *local_env)
 	curr_cmd = str_tab_dup(cmd->cmd_args);
 	free (info->cpid);
 	free (info);
-	destroy_all_cmd (cmd);
+	destroy_all_cmd(cmd);
 	exec_cmd(curr_cmd, envp);
 	return (0);
 }
