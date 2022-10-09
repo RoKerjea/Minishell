@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 19:42:10 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/08 22:35:13 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/09 20:36:13 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,19 @@ enum	e_type	meta_type(char *str)
 {
 	if (!str)
 		return (FAIL);
-	if (strncmp(str, "<<", 2) == 0)
+	if (ft_strncmp(str, "<<", 2) == 0)
 	{
 		if (ft_strchr(str, '\'') || ft_strchr(str, '\"'))
 			return (HEREDOC_NOEXPAND);
 		return (HEREDOC);
 	}
-	if (strncmp(str, "<", 1) == 0)
+	if (ft_strncmp(str, "<", 1) == 0)
 		return (IN);
-	if (strncmp(str, ">>", 2) == 0)
+	if (ft_strncmp(str, ">>", 2) == 0)
 		return (APPEND);
-	if (strncmp(str, ">", 1) == 0)
+	if (ft_strncmp(str, ">", 1) == 0)
 		return (OUT);
-	if (strncmp(str, "|", 1) == 0)
+	if (ft_strncmp(str, "|", 1) == 0)
 		return (PIPE);
 	else
 		return (CMD);
@@ -50,11 +50,11 @@ enum	e_type	meta_type(char *str)
 // to the end of it's arg, if any
 int	metachar_parser(char *str)
 {
-	if (strncmp(str, "<<", 2) == 0 || strncmp(str, ">>", 2) == 0)
+	if (ft_strncmp(str, "<<", 2) == 0 || ft_strncmp(str, ">>", 2) == 0)
 		return (meta_and_arg_size(str + 2) + 2);
-	if (strncmp(str, "<", 1) == 0 || strncmp(str, ">", 1) == 0)
+	if (ft_strncmp(str, "<", 1) == 0 || ft_strncmp(str, ">", 1) == 0)
 		return (meta_and_arg_size(str + 1) + 1);
-	if (strncmp(str, "|", 1) == 0)
+	if (ft_strncmp(str, "|", 1) == 0)
 		return (1);
 	else
 		return (0);

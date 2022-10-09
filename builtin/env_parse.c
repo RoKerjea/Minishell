@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 16:47:03 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/09 16:51:19 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/09 20:34:13 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ t_env_link	*find_link(char *var_name, t_env *env_list)
 	link = env_list->first;
 	while (link != NULL)
 	{
-		if (strncmp(var_name, link->name, ft_strlen(var_name)) == 0
-			&& strncmp(var_name, link->name, ft_strlen(link->name)) == 0)
+		if (ft_strncmp(var_name, link->name, ft_strlen(var_name)) == 0
+			&& ft_strncmp(var_name, link->name, ft_strlen(link->name)) == 0)
 			return (link);
 		link = link->next;
 	}

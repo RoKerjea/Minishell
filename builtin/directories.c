@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 14:22:26 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/09 19:38:39 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/09 20:39:03 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	update_envdir(char *name, char *content, t_env *env_list)
 
 	link = find_link(name, env_list);
 	free (link->variable);
-	link->variable = strdup(content);
+	link->variable = ft_strdup(content);
 }
 
 int	cd_error(char *str)

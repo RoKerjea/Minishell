@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/05 23:24:50 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/09 20:31:12 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	check_input(char *input)
 	int	len;
 	int	i;
 
-	len = strlen(input);
+	len = ft_strlen(input);
 	i = 0;
 	while (input[i] != '\0')
 	{
