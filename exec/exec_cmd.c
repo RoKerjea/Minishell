@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:28:44 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/09 21:23:29 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/09 21:53:41 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	exec_cmd(char **cmd, char **envp)
 	{
 		if (cmd[0][0] && search_path_loop(paths, cmd, envp))
 		{
+			print_err(errno, cmd[0], 0);
 			ft_freetab(paths);
 			ft_freetab(cmd);
 			ft_freetab(envp);
