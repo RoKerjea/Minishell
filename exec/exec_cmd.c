@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:28:44 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/09 19:49:04 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/09 21:23:29 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	search_path_loop(char **paths, char **cmd, char **envp)
 	return (EXIT_FAILURE);
 }
 
-void	exec_cmd(char **cmd, char **envp)
+int	exec_cmd(char **cmd, char **envp)
 {
 	int		ret_access;
 	char	**paths;
@@ -68,17 +68,18 @@ void	exec_cmd(char **cmd, char **envp)
 	ret_access = access(cmd[0], F_OK | X_OK | R_OK);
 	if (ret_access && !ft_strchr(cmd[0], '/'))
 	{
-		if (search_path_loop(paths, cmd, envp))
+		if (cmd[0][0] && search_path_loop(paths, cmd, envp))
 		{
 			ft_freetab(paths);
 			ft_freetab(cmd);
 			ft_freetab(envp);
-			return ;
+			return (EXIT_FAILURE);
 		}
 	}
 	if (!ret_access && !is_dir(cmd[0]))
 		execve(cmd[0], cmd, envp);
 	if (!ft_strchr(cmd[0], '/'))
 		errno = -1;
-	print_err(errno, cmd[0], 0);
+	return (ft_freetab(envp), ft_freetab(paths), print_err(errno, cmd[0], 0),
+		EXIT_SUCCESS);
 }
