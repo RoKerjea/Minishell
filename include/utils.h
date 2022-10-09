@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 23:53:56 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/02 16:23:50 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/09 18:32:37 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,8 @@ int		is_only_space(char *str);
 
 // Get line
 char	*get_next_line(int fd);
+
+// Pause
+void	delay(void);
 
 #endif
