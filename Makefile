@@ -49,10 +49,12 @@ SRCS		=	${addprefix common/, \
 				${addprefix builtin/, \
 				exec_builtin.c \
 				echo.c \
+				env.c \
 				exit.c \
-				builtins.c \
+				exit_parser.c \
 				directories.c \
 				env_make.c \
+				env_parse.c \
 				env_destroy.c \
 				env_use.c} \
 				${addprefix exec/, \

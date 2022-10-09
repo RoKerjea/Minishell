@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 20:47:48 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/02 19:09:04 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/08 23:09:32 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 //doit uniquement etre utilise pour echo
 int	isflag_newline(char *str)
 {
-	//printf("Checking str \'%s\'\n", str);
 	int	i;
 
 	i = 0;
@@ -54,8 +53,7 @@ int	echo(char **cmd, t_env *local_env)
 		ft_putstr_fd(cmd[i], STDOUT_FILENO);
 		if (cmd[i + 1] != NULL)
 		{
-			//if (cmd[i + 1][0] != '\0')
-				ft_putstr_fd(" ", STDOUT_FILENO);
+			ft_putstr_fd(" ", STDOUT_FILENO);
 		}
 		i++;
 	}

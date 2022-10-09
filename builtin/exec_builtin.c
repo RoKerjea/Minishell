@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:17:15 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/08 19:45:00 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/09 16:02:54 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,6 @@ int	str_table_counter(char **str_table)
 	while (str_table[res] != NULL)
 		res++;
 	return (res);
-}
-
-int	env(char **cmd, t_env *local_env)
-{
-	if (str_table_counter(cmd) > 1)
-	{
-		ft_putstr_fd("env: \'", STDERR_FILENO);
-		ft_putstr_fd(cmd[1], STDERR_FILENO);
-		ft_putstr_fd("\': No such file or directory\n", STDERR_FILENO);
-		return (125);
-	}
-	else
-		printenv(local_env);
-	return (0);
 }
 
 int	pwd(char **cmd, t_env *local_env)
@@ -124,6 +110,18 @@ int	exec_builtin(t_parsed_cmd *cmd, t_env *local_env)
 	return (1);
 }
 
+void	clean_exit(t_list_info *list_info, t_env *local_env)
+{
+	t_parsed_cmd	*cmd_list;
+
+	cmd_list = list_info->head;
+	free (list_info->cpid);
+	free (list_info);
+	destroy_all_cmd (cmd_list);
+	env_destroy_list(local_env);
+	exit(EXIT_FAILURE);
+}
+
 int	builtin_main(t_list_info *list_info, t_env *local_env)
 {
 	int				exit_status;
@@ -136,12 +134,7 @@ int	builtin_main(t_list_info *list_info, t_env *local_env)
 	if (cmd_list->redir_out || cmd_list->redir_append)
 		cpy_stdout = dup(STDOUT_FILENO);
 	if (exec_redirect(cmd_list, list_info))
-	{
-		free (list_info->cpid);
-		free (list_info);
-		destroy_all_cmd (cmd_list);
-		exit(EXIT_FAILURE);
-	}
+		clean_exit (list_info, local_env);
 	free (list_info->cpid);
 	free (list_info);
 	exit_status = exec_builtin(cmd_list, local_env);

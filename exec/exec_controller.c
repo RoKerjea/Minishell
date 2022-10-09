@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_controller.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 13:42:18 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/09 01:40:38 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/09 16:51:02 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	wait_for_child(pid_t *cpid, unsigned int max_proc)
 	int		last_cmd_status;
 
 	i = 0;
+	status = 0;
 	while (i < max_proc)
 	{
 		waitpid(cpid[i], &status, 0);
@@ -57,7 +58,7 @@ int	exit_status(int status)
 		return (128 + WTERMSIG(status));
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
-	return (0);
+	return (status);
 }
 
 void	setup_fds_to_info(t_list_info *info)

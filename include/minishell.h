@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/02 00:54:56 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/09 16:48:46 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,15 @@ int				env_destroy_link(t_env_link *link);
 //ENV_MAKE.C
 t_env			*minimal_env(void);
 t_env			*env_list(char **env);
+
+//ENV_PARSE_C
+
+t_env_link		*find_link(char *var_name, t_env *env_list);
+t_env			*check_env(t_env *env);
+
 //t_env_link		*create_link(char *envstr);
-t_env_link	*create_link(char *envstr);
-void	update_shlvl(t_env *local_env);
+t_env_link		*create_link(char *envstr);
+void			update_shlvl(t_env *local_env);
 void			forgelink(t_env_link *prev, t_env_link *now);
 
 //ENV_USE.C
@@ -91,24 +97,23 @@ char			**make_env_tab(t_env *env);
 void			printenv(t_env *env);
 void			update_variable(char *str, t_env *env_list);
 void			remove_variable(char *str, t_env *env_list);
-t_env_link		*find_link(char *var_name, t_env *env_list);
 char			*get_env_var(char *name, t_env *env_list);
 
 //DIR.C
-void	printpath(t_env *env_list);
+void			printpath(t_env *env_list);
 int				change_dir(char *str, t_env *env_list);
 
 //PARSER.C
-t_parsed	*parser(char *input, t_env *local_env);
+t_parsed		*parser(char *input, t_env *local_env);
 
 //BUILTINS.C
-int	builtin_parser(char **input, t_env *local_env);
+int				builtin_parser(char **input, t_env *local_env);
 
 
-int	find_end_quote(char *str, char c);
+int				find_end_quote(char *str, char c);
 
 
 //TODELETE
-void	print_parsed_list(t_parsed_cmd *final_link);
-void	destroy_final_list(t_parsed *parsed_list);
+void			print_parsed_list(t_parsed_cmd *final_link);
+void			destroy_final_list(t_parsed *parsed_list);
 #endif

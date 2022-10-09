@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 21:07:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/05 23:40:39 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/09 16:47:45 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,6 @@
 
 //FILE: everything needed to create and assign internal env of minishell
 //really need to think about protection from malloc in links!!
-
-t_env	*check_env(t_env *env)
-{
-	t_env_link	*now_link;
-	int			fail;
-
-	fail = 0;
-	now_link = env->first;
-	while (now_link != NULL)
-	{
-		if (!now_link->name || !now_link->variable)
-			fail = 1;
-		now_link = now_link->next;
-	}
-	if (fail == 1)
-	{
-		env_destroy_list(env);
-		return (NULL);
-	}
-	return (env);
-}
 
 t_env	*minimal_env(void)
 {
@@ -66,7 +45,7 @@ t_env	*minimal_env(void)
 
 //create list, use create_link to assign and create one link by line of env and
 //return a struct with variable count and a pointer to the first and last link
-t_env	*env_list(char **env)//need protection
+t_env	*env_list(char **env)
 {
 	int			i;
 	t_env		*env_list;

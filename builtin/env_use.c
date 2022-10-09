@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 22:10:02 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/05 23:51:47 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/09 16:47:18 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,57 +14,42 @@
 
 //FILE: everything that use env AFTER it had been created at process startup
 
-char	*function(t_env_link *env_link)
+char	*join_var_in_str(t_env_link *env_link)
 {
 	char	*res;
 	char	*temp;
 
 	temp = ft_strjoin(env_link->name, "=");
-	//protect
+	if (!temp)
+		return (NULL);
 	res = ft_strjoin(temp, env_link->variable);
-	//protect
 	free (temp);
+	if (!res)
+		return (NULL);
 	return (res);
 }
 
 char	**make_env_tab(t_env *env)
 {
-	char			**res;
 	unsigned int	i;
+	char			**res;
 	t_env_link		*env_link;
 
 	i = 0;
 	res = (char **)malloc(sizeof(char *) * (env->len + 1));
-	//protect
+	if (!res)
+		return (NULL);
 	env_link = env->first;
 	while (i < env->len)
 	{
-		res[i] = function(env_link);
-		//protect
+		res[i] = join_var_in_str(env_link);
+		if (!res[i])
+			return (ft_freetab(res));
 		env_link = env_link->next;
 		i++;
 	}
 	res[i] = 0;
 	return (res);
-}
-
-//print the env line by line, without formating,
-//in the order it was received, with new variables at the bottom
-//used for "env" builtin
-void	printenv(t_env *env)
-{
-	int			i;
-	t_env_link	*now;
-
-	i = 0;
-	now = env->first;
-	while (now != NULL)
-	{
-		if (now->variable != NULL)
-			printf("%s=%s\n", now->name, now->variable);
-		now = now->next;
-		i++;
-	}
 }
 
 //delete a variable from env_list, for "unset" builtin
@@ -130,22 +115,4 @@ char	*get_env_var(char *name, t_env *env_list)
 	if (link == NULL)
 		return (NULL);
 	return (link->variable);
-}
-
-//find the env_link with the name given in input, and return the address of the
-//link itself, or NULL if there is no var with that name in env
-//for env_update, export, expand, cd, pwd, etc
-t_env_link	*find_link(char *var_name, t_env *env_list)
-{
-	t_env_link		*link;
-
-	link = env_list->first;
-	while (link != NULL)
-	{
-		if (strncmp(var_name, link->name, ft_strlen(var_name)) == 0
-			&& strncmp(var_name, link->name, ft_strlen(link->name)) == 0)
-			return (link);
-		link = link->next;
-	}
-	return (NULL);
 }
