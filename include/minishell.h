@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/09 16:48:46 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:50:34 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@
 # include <errno.h>
 # include <sys/stat.h>
 
-//only builtins and env maker need those structures
-//need next AND prev because if i remove one, i need to link next and prev to each other
 typedef struct s_env_link
 {
 	char				*name;
@@ -109,11 +107,6 @@ t_parsed		*parser(char *input, t_env *local_env);
 //BUILTINS.C
 int				builtin_parser(char **input, t_env *local_env);
 
-
 int				find_end_quote(char *str, char c);
 
-
-//TODELETE
-void			print_parsed_list(t_parsed_cmd *final_link);
-void			destroy_final_list(t_parsed *parsed_list);
 #endif

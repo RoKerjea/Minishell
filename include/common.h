@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   common.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/17 01:57:05 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/30 07:48:00 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:47:52 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COMMON_H
 # define COMMON_H
 
-#include <signal.h>
+# include <signal.h>
 
 typedef struct s_cmd_list
 {

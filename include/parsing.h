@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:41:23 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/09 17:39:46 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:47:03 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ typedef struct s_temp
 	struct s_temp	*next;
 }	t_temp;
 
-typedef	struct	s_word
+typedef struct s_word
 {
-	char	*word;
+	char			*word;
 	struct s_word	*next;
 }				t_word;
 
@@ -71,7 +71,6 @@ t_parsed_cmd	*make_parsed_link(t_temp *temp);
 char			**empty_tab(void);
 char			**get_args(t_tok_link *token);
 
-
 //TOKEN_TO_CMD_UTILS_C
 int				get_type(char **cmd_args);
 int				is_builtins(char *cmd);
@@ -89,9 +88,8 @@ int				is_not_pipe(t_tok_link *link);
 void			printerror(char *prob);
 int				delete_heredoc_file(t_temp *temp);
 
-
 //TOKEN_STRUCT.C
-t_tok_list		*make_list();
+t_tok_list		*make_list(void);
 t_tok_link		*make_add_link(t_tok_list *list);
 void			destroy_token(t_tok_link *link);
 void			destroy_token_list(t_tok_list *list);
@@ -108,8 +106,8 @@ char			*expand_res(char *str, int i, t_env *local_env, char *res);
 char			*get_var_content(char *str, t_env *local_env);
 char			*extract_name(char *str);
 int				wordlen(char *str);
-struct	s_word	*make_add_wordlink(char *str, int len, struct	s_word *prevword);
-struct	s_word	*make_word_link(char *str, int len);
+struct s_word	*make_add_wordlink(char *str, int len, struct s_word *prevword);
+struct s_word	*make_word_link(char *str, int len);
 char			*fuse_and_clean(struct	s_word *wordlink, t_env *local_env);
 char			*prototype(char *str, t_env *local_env);
 
@@ -126,12 +124,10 @@ int				unquote_link(t_tok_link *link);
 int				squash(char *str, int start);
 char			*unquoter(char *str);
 
-
 //BOOL_STR.C
 int				ft_isspace(char c);
 int				is_meta(char c);
-int 			syntax_checker(t_tok_list *list);
-
+int				syntax_checker(t_tok_list *list);
 
 int				str_table_counter(char **str_table);
 
@@ -139,13 +135,5 @@ int				str_table_counter(char **str_table);
 char			*heredoc(t_tok_link *link, t_env *local_env);
 char			*find_free_name(char *str);
 char			*findnewname(char *name);
-
-//TESTS.C
-void	print_temp_list(t_temp *temp);
-void	print_temp_link(t_temp *temp);
-void	print_token_list(t_tok_link *token);
-void	print_parsed_list(t_parsed_cmd *final_link);
-void	print_token(t_tok_list *list);
-void	print_char_tab(char **tab);
 
 #endif
