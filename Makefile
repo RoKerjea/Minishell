@@ -51,7 +51,8 @@ SRCS		=	${addprefix common/, \
 				ft_substr.c \
 				get_next_line.c \
 				ft_strncmp.c \
-				ft_isspace.c} \
+				ft_isspace.c \
+				delay.c} \
 				${addprefix builtin/, \
 				export_unset.c \
 				echo.c \
@@ -72,7 +73,11 @@ SRCS		=	${addprefix common/, \
 				free_args.c \
 				exec_redirect.c \
 				exec_subshell.c \
-				exec_builtin.c} \
+				exec_builtin.c \
+				wait.c \
+				exit_status.c \
+				init_info.c \
+				destroyer.c} \
 				minishell.c
 
 HEADER		= include/shell_parsing.h
@@ -84,7 +89,7 @@ CC			= gcc $(CFLAGS)
 OBJECTS = $(subst /,/build/,${SRCS:.c=.o})
 DEPEND	= ${OBJECTS:.o=.d}
 
-CFLAGS		= -Wall -Werror -Wextra -g3 #-fsanitize=address
+CFLAGS		= -Wall -Werror -Wextra -g #-fsanitize=address
 
 all:	$(NAME)
 
