@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 00:08:30 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/09 21:27:34 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/09 21:40:39 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,34 @@ char	**str_tab_dup(char **src)
 	return (res);
 }
 
+static void	close_pfds_on_error(int pfds[3])
+{
+	if (pfds[0] > 0)
+		close(pfds[0]);
+	if (pfds[1] > 0)
+		close(pfds[1]);
+	if (pfds[2] > 0)
+		close(pfds[2]);
+}
+
 int	purge_cmd(t_parsed_cmd *cmd, t_list_info *info, t_env *local_env)
 {
 	char	**curr_cmd;
 	char	**envp;
+	int		cpy_pfds[3];
 
 	envp = make_env_tab(local_env);
 	env_destroy_list(local_env);
 	curr_cmd = str_tab_dup(cmd->cmd_args);
+	cpy_pfds[0] = info->pfds[0];
+	cpy_pfds[1] = info->pfds[1];
+	cpy_pfds[2] = info->pfds[2];
 	free(info->cpid);
 	free(info);
 	destroy_all_cmd(cmd);
 	if (!exec_cmd(curr_cmd, envp))
 		ft_freetab(curr_cmd);
+	close_pfds_on_error(cpy_pfds);
 	return (0);
 }
 
@@ -75,5 +90,5 @@ void	exec_subshell(t_parsed_cmd *cmd, t_list_info *info, t_env *local_env)
 		exit(127);
 	if (errno == EACCES || errno == EISDIR
 		|| errno == EPERM || errno == ENOEXEC || errno == EINVAL)
-			exit(126);
+		exit(126);
 }
