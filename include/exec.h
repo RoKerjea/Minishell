@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 02:12:12 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/09 17:50:29 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/09 18:18:10 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ enum e_fd_dup_type
 typedef struct s_list_info
 {
 	unsigned int	size;
-	t_parsed_cmd		*head;
-	t_parsed_cmd		*tail;
+	t_parsed_cmd	*head;
+	t_parsed_cmd	*tail;
 	pid_t			*cpid;
 	int				rfds[2];
 	int				pfds[3];
@@ -52,5 +52,8 @@ void		free_err_join(char *path, char *tmp, char **paths);
 void		free_tab(char **tab);
 void		exec_subshell(t_parsed_cmd *cmd, t_list_info *info, t_env *l_env);
 void		exec_pipeline(t_parsed_cmd *cmd, t_list_info *info);
+int			wait_for_child(pid_t *cpid, unsigned int max_proc);
+int			exit_status(int status);
+t_list_info	*init_info(t_parsed *cmd_list);
 
 #endif
