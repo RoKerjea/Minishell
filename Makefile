@@ -73,9 +73,6 @@ SRCS		=	${addprefix common/, \
 				exec_redirect.c \
 				exec_subshell.c \
 				exec_builtin.c} \
-				${addprefix testdir/, \
-				print_parsed.c \
-				print_token.c} \
 				minishell.c
 
 HEADER		= include/shell_parsing.h
