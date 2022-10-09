@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:28:44 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/09 18:25:49 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/09 19:28:10 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	is_dir(char *path)
 	return (0);
 }
 
-static void	search_path_loop(char **paths, char **cmd, char **envp)
+static int	search_path_loop(char **paths, char **cmd, char **envp)
 {
 	ssize_t	i;
 	char	*abs_cmd;
@@ -50,12 +50,13 @@ static void	search_path_loop(char **paths, char **cmd, char **envp)
 	{
 		abs_cmd = ft_strjoin(paths[i], cmd[0]);
 		if (!abs_cmd)
-			return (print_err(errno, __FILE__, __LINE__ - 2));
+			return (print_err(errno, __FILE__, __LINE__ - 2), EXIT_FAILURE);
 		ret_access = access(abs_cmd, F_OK | X_OK | R_OK);
 		if (!ret_access && !is_dir(abs_cmd))
 			execve(abs_cmd, cmd, envp);
 		free(abs_cmd);
 	}
+	return (EXIT_SUCCESS);
 }
 
 void	exec_cmd(char **cmd, char **envp)
@@ -66,7 +67,15 @@ void	exec_cmd(char **cmd, char **envp)
 	paths = get_paths(envp);
 	ret_access = access(cmd[0], F_OK | X_OK | R_OK);
 	if (ret_access && !ft_strchr(cmd[0], '/'))
-		search_path_loop(paths, cmd, envp);
+	{
+		if (search_path_loop(paths, cmd, envp))
+		{
+			ft_freetab(paths);
+			ft_freetab(cmd);
+			ft_freetab(envp);
+			return ;
+		}
+	}
 	if (!ret_access && !is_dir(cmd[0]))
 		execve(cmd[0], cmd, envp);
 	if (!ft_strchr(cmd[0], '/'))
