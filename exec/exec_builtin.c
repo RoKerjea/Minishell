@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 17:44:29 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/09 18:43:05 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/09 19:58:45 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,6 @@ int	exec_builtin(t_parsed_cmd *cmd, t_env *local_env)
 	return (1);
 }
 
-void	clean_exit(t_list_info *list_info, t_env *local_env)
-{
-	t_parsed_cmd	*cmd_list;
-
-	cmd_list = list_info->head;
-	free (list_info->cpid);
-	free (list_info);
-	destroy_all_cmd (cmd_list);
-	env_destroy_list(local_env);
-	exit(EXIT_FAILURE);
-}
-
 void	is_exit_valid(t_list_info *list_info, t_parsed_cmd *cmd_struct)
 {
 	char	**cmd;
@@ -84,7 +72,7 @@ int	builtin_main(t_list_info *list_info, t_env *local_env)
 	if (cmd_list->redir_out || cmd_list->redir_append)
 		cpy_stdout = dup(STDOUT_FILENO);
 	if (exec_redirect(cmd_list, list_info))
-		clean_exit (list_info, local_env);
+		return (EXIT_FAILURE);
 	exit_status = exec_builtin(cmd_list, local_env);
 	if (cmd_list->redir_out || cmd_list->redir_append)
 	{
