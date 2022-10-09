@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 23:16:11 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/09 20:36:41 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/09 21:39:15 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ void	heredoc_input(t_tok_link *link, t_env *local_env, int filefd)
 	char	*input;
 
 	input = readline ("> ");
-	while (input && ft_strncmp(input, link->str[0], ft_strlen(input)) != 0 && errno != EINTR)
+	while (input && ft_strncmp(input, link->str[0], ft_strlen(input)) != 0
+		&& errno != EINTR)
 	{
 		if (link->meta == HEREDOC && ft_strchr(input, '$'))
 			input = heredoc_expand (input, local_env);

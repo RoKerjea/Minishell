@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/09 21:28:44 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/09 21:39:35 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ int	check_parsed_cmd(t_parsed *parsed_list)
 	{
 		cmd_next = cmd->next;
 		if ((cmd->cmd_args == NULL || cmd->cmd_args[0] == NULL
-			|| cmd->cmd_args[0][0] == '\0') && cmd->next == NULL)
-		return (NO);
+				|| cmd->cmd_args[0][0] == '\0') && cmd->next == NULL)
+			return (NO);
 		if (cmd->exec_type == FAIL)
 			return (NO);
 		cmd = cmd_next;

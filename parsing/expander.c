@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/09 20:34:23 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/09 21:36:57 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ char	*get_var_content(char *str, t_env *local_env)
 	t_env_link	*link;
 
 	name = extract_name(str);
-	if (!ft_strncmp(name, "?", 3))
+	if (!ft_strncmp(name, "?", 2))
 	{
 		free (name);
 		return (ft_itoa(local_env->lst_exit));
