@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 19:32:27 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/09 00:34:34 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/09 19:59:10 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	redir_in_handler(t_parsed_cmd *cmd, t_list_info *info)
 	if (info->rfds[IN] == -1)
 		return (print_err_open(errno, cmd->redir_in), EXIT_FAILURE);
 	if (dup2(info->rfds[IN], STDIN_FILENO) < 0)
-		exit(EXIT_FAILURE);
+		return (print_err_dup(errno), close(info->rfds[IN]), EXIT_FAILURE);
 	close(info->rfds[IN]);
 	return (EXIT_SUCCESS);
 }
@@ -38,7 +38,7 @@ static int	redir_out_handler(t_parsed_cmd *cmd, t_list_info *info)
 	if (info->rfds[OUT] == -1)
 		return (print_err_open(errno, cmd->redir_out), EXIT_FAILURE);
 	if (dup2(info->rfds[OUT], STDOUT_FILENO) < 0)
-		exit(EXIT_FAILURE);
+		return (print_err_dup(errno), close(info->rfds[OUT]), EXIT_FAILURE);
 	close(info->rfds[OUT]);
 	return (EXIT_SUCCESS);
 }
@@ -50,7 +50,7 @@ static int	redir_append_handler(t_parsed_cmd *cmd, t_list_info *info)
 	if (info->rfds[OUT] == -1)
 		return (print_err_open(errno, cmd->redir_append), EXIT_FAILURE);
 	if (dup2(info->rfds[OUT], STDOUT_FILENO) < 0)
-		exit(EXIT_FAILURE);
+		return (print_err_dup(errno), close(info->rfds[OUT]), EXIT_FAILURE);
 	close(info->rfds[OUT]);
 	return (EXIT_SUCCESS);
 }
@@ -61,7 +61,8 @@ static int	redir_heredoc_handler(t_parsed_cmd *cmd, t_list_info *info)
 	if (info->rfds[IN] == -1)
 		return (print_err_open(errno, cmd->heredoc), EXIT_FAILURE);
 	if (dup2(info->rfds[IN], STDIN_FILENO) < 0)
-		exit(EXIT_FAILURE);
+		return (print_err_dup(errno), unlink(cmd->heredoc),
+			close(info->rfds[IN]), EXIT_FAILURE);
 	unlink (cmd->heredoc);
 	close(info->rfds[IN]);
 	return (EXIT_SUCCESS);
