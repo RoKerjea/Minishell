@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 14:22:26 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/09 17:05:41 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/09 19:38:39 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,14 @@ void	update_envdir(char *name, char *content, t_env *env_list)
 	link->variable = strdup(content);
 }
 
+int	cd_error(char *str)
+{
+	ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
+	ft_putstr_fd(str, STDERR_FILENO);
+	ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+	return (1);
+}
+
 int	change_dir(char *str, t_env *env_list)
 {
 	char	new_path[PATH_MAX];
@@ -34,13 +42,13 @@ int	change_dir(char *str, t_env *env_list)
 		path_cmd = get_env_var("HOME", env_list);
 	else
 		path_cmd = str;
-	if (chdir(path_cmd) != 0)
+	if (!path_cmd)
 	{
-		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
-		ft_putstr_fd(str, STDERR_FILENO);
-		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+		ft_putstr_fd("minishell: cd: HOME not set\n", STDERR_FILENO);
 		return (1);
 	}
+	if (chdir(path_cmd) != 0)
+		return (cd_error (str));
 	else
 	{
 		getcwd(new_path, PATH_MAX);
@@ -49,25 +57,6 @@ int	change_dir(char *str, t_env *env_list)
 		if (ft_strncmp("//", path_cmd, 3) == 0)
 			update_envdir("PWD", path_cmd, env_list);
 	}
-	return (0);
-}
-
-void	printpath(t_env *env_list)
-{
-	char	*cur_path;
-
-	cur_path = get_env_var("PWD", env_list);
-	printf("%s\n", cur_path);
-}
-
-int	pwd(char **cmd, t_env *local_env)
-{
-	char	new_path[PATH_MAX];
-
-	(void)cmd;
-	if (getcwd(new_path, PATH_MAX) == 0)
-		return (1);
-	printpath(local_env);
 	return (0);
 }
 

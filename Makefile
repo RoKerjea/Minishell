@@ -60,6 +60,7 @@ SRCS		=	${addprefix common/, \
 				exit.c \
 				exit_parser.c \
 				directories.c \
+				pwd.c \
 				env_make.c \
 				env_parse.c \
 				env_destroy.c \
