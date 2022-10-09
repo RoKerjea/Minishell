@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 00:08:30 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/09 19:38:07 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/09 21:27:34 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ char	**str_tab_dup(char **src)
 	int		i;
 
 	i = 0;
+	if (!src)
+		return (NULL);
 	while (src[i] != NULL)
 		i++;
 	res = malloc(sizeof(char *) * (i + 1));
@@ -34,6 +36,8 @@ char	**str_tab_dup(char **src)
 	while (src[i] != NULL)
 	{
 		res[i] = ft_strdup(src[i]);
+		if (!res[i])
+			return (ft_freetab(res));
 		i++;
 	}
 	res[i] = NULL;
@@ -48,10 +52,11 @@ int	purge_cmd(t_parsed_cmd *cmd, t_list_info *info, t_env *local_env)
 	envp = make_env_tab(local_env);
 	env_destroy_list(local_env);
 	curr_cmd = str_tab_dup(cmd->cmd_args);
-	free (info->cpid);
-	free (info);
+	free(info->cpid);
+	free(info);
 	destroy_all_cmd(cmd);
-	exec_cmd(curr_cmd, envp);
+	if (!exec_cmd(curr_cmd, envp))
+		ft_freetab(curr_cmd);
 	return (0);
 }
 
@@ -70,5 +75,5 @@ void	exec_subshell(t_parsed_cmd *cmd, t_list_info *info, t_env *local_env)
 		exit(127);
 	if (errno == EACCES || errno == EISDIR
 		|| errno == EPERM || errno == ENOEXEC || errno == EINVAL)
-		exit(126);
+			exit(126);
 }

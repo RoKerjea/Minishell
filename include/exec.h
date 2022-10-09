@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 02:12:12 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/09 19:44:59 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/09 21:16:47 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int			builtin_main(t_list_info *list_info, t_env *local_env);
 int			exec_controller(t_parsed *cmd_list, t_env *local_env);
 int			exec_builtin(t_parsed_cmd *cmd, t_env *local_env);
 int			exec_redirect(t_parsed_cmd *cmd_list, t_list_info *list_info);
-void		exec_cmd(char **cmd, char **envp);
+int			exec_cmd(char **cmd, char **envp);
 void		print_err_open(int errnum, char *path);
 void		print_err_dup(int errnum);
 void		print_err(int errnum, char *str, int line);
