@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:28:44 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/09 19:28:10 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/09 19:49:04 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	search_path_loop(char **paths, char **cmd, char **envp)
 			execve(abs_cmd, cmd, envp);
 		free(abs_cmd);
 	}
-	return (EXIT_SUCCESS);
+	return (EXIT_FAILURE);
 }
 
 void	exec_cmd(char **cmd, char **envp)
