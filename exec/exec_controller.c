@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 13:42:18 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/09 18:21:26 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/09 19:07:43 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	dispatcher_loop(t_list_info *info, t_parsed_cmd *cmd, t_env *env)
 				return (EXIT_FAILURE);
 		info->cpid[info->cmd_num] = fork();
 		if (info->cpid[info->cmd_num] == -1)
-			return (EXIT_FAILURE);
+			return (close_pfds(info, false), EXIT_FAILURE);
 		if (info->cpid[info->cmd_num] == 0)
 		{
 			signal(SIGQUIT, SIG_DFL);
@@ -68,10 +68,9 @@ int	exec_controller(t_parsed *cmd_list, t_env *local_env)
 	list_info->cmd_num = 0;
 	res_dispatcher = dispatcher_loop(list_info, parsed_cmd, local_env);
 	if (list_info->size == 1 && parsed_cmd->exec_type == BUILT)
-	{
-		destroy_list_info(list_info);
-		return (res_dispatcher);
-	}
+		return (destroy_list_info(list_info), res_dispatcher);
+	if (res_dispatcher == EXIT_FAILURE)
+		return (destroy_list_info(list_info), EXIT_FAILURE);
 	close_pfds(list_info, false);
 	list_info->status = wait_for_child(list_info->cpid, list_info->size);
 	last_cmd_status = list_info->status;
