@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:43 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/06 18:44:57 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:30:10 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,6 @@ t_tok_list	*tokenizerstart(char *input)
 		return (NULL);
 	}
 	return (token_list);
-}
-
-void	make_last_token(t_tok_list *list)
-{
-	t_tok_link	*link;
-
-	link = make_add_link(list);
-	link->str = malloc(sizeof(char *) * 2);
-	if (link->str == NULL)
-	{
-		link->meta = FAIL;
-		return ;
-	}
-	link->str[0] = ft_strdup("newline");
-	link->str[1] = 0;
-	link->meta = END;
 }
 
 //determine type of token, send to appropriate function
@@ -134,19 +118,4 @@ int	meta_tokenizer(t_tok_list *list, char *str)
 	if (link->meta == PIPE)
 		return (i);
 	return (i);
-}
-
-char	*ft_strtrim_replace(char *str, char *totrim)
-{
-	char	*temp;
-
-	if (str == NULL)
-		return (str);
-	if (ft_strchr(str, ' ') == 0 && ft_strchr(str, '<') == 0
-		&& ft_strchr(str, '>') == 0)
-		return (str);
-	temp = ft_strtrim(str, totrim);
-	free (str);
-	str = temp;
-	return (str);
 }

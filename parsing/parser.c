@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/08 20:01:32 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:40:44 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,28 +25,21 @@ t_parsed	*parser(char *input, t_env *local_env)
 	t_parsed	*parsed_list;
 	t_tok_list	*list;
 
-	list = tokenizerstart(input);//this step should be locked and perfect!!
+	list = tokenizerstart(input);
 	if (list == NULL)
 		return (NULL);
-	//print_token(list);
-	token_expander(list, local_env); //this step done(except protection...)
-	/* print_token(list);
-	printf ("\033[1;31mgate before splitter after expander\n\033[0m"); */
+	token_expander(list, local_env);
 	if (token_splitter(list) == NO)
 	{
 		destroy_token_list(list);
 		return (NULL);
 	}
-	/*print_token(list);
-  	printf ("\033[1;31mgate before unquoter after splitter\n\033[0m"); */
 	unquoter_loop(list);
 	temp = temp_sorter(list, local_env);
 	free (list);
 	parsed_list = list_parser(temp);
-	//print_parsed_list(parsed_list->first);
 	if (check_parsed_cmd(parsed_list) == NO)
 		destroy_final_list(parsed_list);
-	//print_parsed_list(parsed_list->first);
 	return (parsed_list);
 }
 
@@ -58,7 +51,7 @@ int	check_parsed_cmd(t_parsed *parsed_list)
 	if (!parsed_list)
 		return (NO);
 	cmd = parsed_list->first;
-	if ((cmd->cmd_args == NULL || cmd->cmd_args[0] == NULL 
+	if ((cmd->cmd_args == NULL || cmd->cmd_args[0] == NULL
 			|| cmd->cmd_args[0][0] == '\0') && cmd->next == NULL)
 		return (NO);
 	while (cmd != NULL)
@@ -71,7 +64,7 @@ int	check_parsed_cmd(t_parsed *parsed_list)
 	return (YES);
 }
 
-void	destroy_final_list(t_parsed *parsed_list)//to use in exec actuall y
+void	destroy_final_list(t_parsed *parsed_list)
 {
 	t_parsed_cmd	*cmd;
 	t_parsed_cmd	*cmd_next;

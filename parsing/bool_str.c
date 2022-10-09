@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 19:21:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/05 17:59:34 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:17:38 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int	syntax_checker(t_tok_list *list)
 	link = list->first;
 	while (link != NULL)
 	{
-		//printf ("link str = %s\n", link->str[0]);
 		if (!syntax_error(link))
 			return (NO);
 		link = link->next;

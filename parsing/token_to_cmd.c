@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 16:51:10 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/07 18:39:13 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:35:01 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,39 +81,6 @@ t_parsed_cmd	*make_parsed_link(t_temp *temp)
 	return (link);
 }
 
-int	get_type(char **cmd_args)
-{
-	int	res;
-
-	res = CMD;
-	if (!cmd_args)
-		return (FAIL);
-	if (is_builtins(cmd_args[0]) == YES)
-		res = BUILT;
-	return (res);
-}
-
-//can transform cmd[x + 1] == sep with ft_isspace(cmd[x+1])??
-//can probably use a lookup table here too
-int	is_builtins(char *cmd)
-{
-	if (ft_strncmp(cmd, "echo", 5) == 0)
-		return (YES);
-	if (ft_strncmp(cmd, "exit", 5) == 0)
-		return (YES);
-	if (ft_strncmp(cmd, "env", 4) == 0)
-		return (YES);
-	if (ft_strncmp(cmd, "pwd", 4) == 0)
-		return (YES);
-	if (ft_strncmp(cmd, "cd", 3) == 0)
-		return (YES);
-	if (ft_strncmp(cmd, "export", 7) == 0)
-		return (YES);
-	if (ft_strncmp(cmd, "unset", 6) == 0)
-		return (YES);
-	return (NO);
-}
-
 char	**empty_tab(void)
 {
 	char	**res;
@@ -147,17 +114,4 @@ char	**get_args(t_tok_link *token)
 		token = token_next;
 	}
 	return (res);
-}
-
-int	token_count(t_tok_link *token)
-{
-	int	i;
-
-	i = 0;
-	while (token != NULL)
-	{
-		token = token->next;
-		i++;
-	}
-	return (i);
 }

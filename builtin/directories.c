@@ -6,12 +6,13 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 14:22:26 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/08 23:25:29 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:05:41 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../include/utils.h"
+#include "../include/builtins.h"
 
 //tout ce qui a a voir avec le dossier courant
 
@@ -57,4 +58,29 @@ void	printpath(t_env *env_list)
 
 	cur_path = get_env_var("PWD", env_list);
 	printf("%s\n", cur_path);
+}
+
+int	pwd(char **cmd, t_env *local_env)
+{
+	char	new_path[PATH_MAX];
+
+	(void)cmd;
+	if (getcwd(new_path, PATH_MAX) == 0)
+		return (1);
+	printpath(local_env);
+	return (0);
+}
+
+int	cd(char **cmd, t_env *local_env)
+{
+	if (str_table_counter(cmd) > 2)
+	{
+		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
+		return (1);
+	}
+	if (change_dir(cmd[1], local_env) && str_table_counter(cmd) > 1)
+	{
+		return (1);
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 18:13:48 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/20 20:57:23 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:25:06 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,20 @@ void	destroy_token_list(t_tok_list *list)
 		link = nextlink;
 	}
 	free (list);
+}
+
+void	make_last_token(t_tok_list *list)
+{
+	t_tok_link	*link;
+
+	link = make_add_link(list);
+	link->str = malloc(sizeof(char *) * 2);
+	if (link->str == NULL)
+	{
+		link->meta = FAIL;
+		return ;
+	}
+	link->str[0] = ft_strdup("newline");
+	link->str[1] = 0;
+	link->meta = END;
 }

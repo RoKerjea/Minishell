@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 19:37:22 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/09/28 14:16:52 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:22:45 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,14 @@ char	*unquoter(char *str)
 
 	i = 0;
 	mem = 0;
-	//printf ("str before unquote = %s\n", str);
 	while (str[i] != '\0')
 	{
 		if (str[i] == '\'' || str[i] == '\"')
 		{
 			mem = find_end_quote(str + i, str[i]);
-			//printf ("str before 1 unquote = %s, mem = %d\n", str + i, mem);
 			squash(str, i);
 			i += mem - 2;
 			squash(str, i);
-			//printf ("str after 1 unquote = %s\n", str);
 		}
 		else
 			i++;

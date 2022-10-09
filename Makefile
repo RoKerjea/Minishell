@@ -18,15 +18,21 @@ SRCS		=	${addprefix common/, \
 				signal_handler.c} \
 				${addprefix parsing/, \
 				bool_str.c \
+				ft_strtrim_replace.c \
 				tokenizer.c \
 				token_assign.c \
+				token_assign_utils.c \
 				field_splitter.c \
+				field_splitter_utils.c \
 				heredoc.c \
+				heredoc_utils.c \
 				expander.c \
+				expander_utils.c \
 				token_parser.c \
 				unquoter.c \
 				parser.c \
 				token_to_cmd.c \
+				token_to_cmd_utils.c \
 				token_struct.c} \
 				${addprefix libft/, \
 				ft_strlen.c \
@@ -48,6 +54,7 @@ SRCS		=	${addprefix common/, \
 				ft_isspace.c} \
 				${addprefix builtin/, \
 				exec_builtin.c \
+				export_unset.c \
 				echo.c \
 				env.c \
 				exit.c \

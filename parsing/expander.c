@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/06 20:25:46 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:10:13 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,6 @@ char	*smartass(char *str, int i, t_env *local_env)
 	return (temp);
 }
 
-char	*get_right_str(char	*str)
-{
-	str += wordlen(str);
-	return (ft_strdup(str));
-}
-
 char	*get_var_content(char *str, t_env *local_env)
 {
 	char		*res;
@@ -129,35 +123,4 @@ char	*get_var_content(char *str, t_env *local_env)
 		return (ft_strdup(""));
 	res = ft_strdup(link->variable);
 	return (res);
-}
-
-char	*extract_name(char *str)
-{
-	char	*name;
-	int		i;
-
-	i = wordlen(str);
-	name = ft_strndup(str + 1, i - 1);
-	return (name);
-}
-
-int	ft_isdigit(char c)
-{
-	if (c >= '0' && c <= '9')
-		return (YES);
-	return (NO);
-}
-
-int	wordlen(char *str)
-{
-	int	i;
-
-	i = 1;
-	if (ft_isdigit(str[i]))
-		return (i + 1);
-	while (str[i] != 36 && str[i] != '\0' && ft_isspace(str[i]) == NO
-		&& str[i] != '\"' && str[i] != '\'' && str[i] != '/' && str[i] != '='
-		&& str[i - 1] != '?')
-		i++;
-	return (i);
 }
