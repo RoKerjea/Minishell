@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_controller.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 13:42:18 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/09 16:51:02 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:42:38 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,25 +97,6 @@ t_list_info	*cmd_list_info2(t_parsed *cmd_list)
 	return (info);
 }
 
-// static int	dispatcher(t_list_info *info, t_parsed_cmd *cmd, t_env *env, int i)
-// {
-// 	if (info->size > 1)
-// 		if (pipe(info->pfds) == -1)
-// 			return (EXIT_FAILURE);
-// 	if (info->size == 1 && cmd->exec_type == BUILT)
-// 		return (builtin_main(info, env));
-// 	info->cpid[i] = fork();
-// 	if (info->cpid[i] == -1)
-// 		return (EXIT_FAILURE);
-// 	if (info->cpid[i] == 0)
-// 	{
-// 		signal(SIGQUIT, SIG_DFL);
-// 		signal(SIGINT, SIG_DFL);
-// 		exec_subshell(cmd, info, env);
-// 	}
-// 	return (EXIT_SUCCESS);
-// }
-
 static void	close_pfds(t_list_info *info, bool is_in_loop)
 {
 	if (info->pfds[WRITE_END] > 0)
@@ -127,72 +108,58 @@ static void	close_pfds(t_list_info *info, bool is_in_loop)
 			close(info->pfds[READ_END]);
 }
 
-// static int dispatcher_loop(t_list_info *info, t_parsed_cmd *cmd, t_env *env)
-// {
-// 	ssize_t	i;
-
-// 	i = 0;
-// 	while (i < info->size)
-// 	{
-// 		if (info->size > 1)
-// 			if (pipe(info->pfds) == -1)
-// 				return (EXIT_FAILURE);
-// 		if (info->size == 1 && cmd->exec_type == BUILT)
-// 			return (builtin_main(info, env));
-// 		info->cpid[i] = fork();
-// 		if (info->cpid[i] == -1)
-// 			return (EXIT_FAILURE);
-// 		if (info->cpid[i] == 0)
-// 		{
-// 			signal(SIGQUIT, SIG_DFL);
-// 			signal(SIGINT, SIG_DFL);
-// 			exec_subshell(cmd, info, env);
-// 		}
-// 		cmd = cmd->next;
-// 		info->cmd_num++;
-// 		i++;
-// 		close_pfds(info, true);
-// 		info->pfds[TEMP_READ_END] = info->pfds[READ_END];
-// 	}
-// 	return (EXIT_SUCCESS);
-// }
-
-int	exec_controller(t_parsed *cmd_list, t_env *local_env)
+static int	dispatcher_loop(t_list_info *info, t_parsed_cmd *cmd, t_env *env, int *is_single_builtin)
 {
-	ssize_t			i;
-	t_list_info		*list_info;
-	t_parsed_cmd	*parsed_cmd;
-
-	list_info = cmd_list_info2(cmd_list);
-	parsed_cmd = list_info->head;
-	list_info->cmd_num = 0;
-	i = 0;
-	while (i < list_info->size)
+	while (info->cmd_num < info->size)
 	{
-		if (list_info->size > 1)
-			if (pipe(list_info->pfds) == -1)
+		if (info->size == 1 && cmd->exec_type == BUILT)
+		{
+			*is_single_builtin = 1;
+			return (builtin_main(info, env));
+		}
+		if (info->size > 1)
+			if (pipe(info->pfds) == -1)
 				return (EXIT_FAILURE);
-		if (list_info->size == 1 && parsed_cmd->exec_type == BUILT)
-			return (builtin_main(list_info, local_env));
-		list_info->cpid[i] = fork();
-		if (list_info->cpid[i] == -1)
+		info->cpid[info->cmd_num] = fork();
+		if (info->cpid[info->cmd_num] == -1)
 			return (EXIT_FAILURE);
-		if (list_info->cpid[i] == 0)
+		if (info->cpid[info->cmd_num] == 0)
 		{
 			signal(SIGQUIT, SIG_DFL);
 			signal(SIGINT, SIG_DFL);
-			exec_subshell(parsed_cmd, list_info, local_env);
+			exec_subshell(cmd, info, env);
 		}
-		parsed_cmd = parsed_cmd->next;
-		list_info->cmd_num++;
-		i++;
-		close_pfds(list_info, true);
-		list_info->pfds[TEMP_READ_END] = list_info->pfds[READ_END];
+		cmd = cmd->next;
+		info->cmd_num++;
+		close_pfds(info, true);
+		info->pfds[TEMP_READ_END] = info->pfds[READ_END];
+	}
+	return (EXIT_SUCCESS);
+}
+
+int	exec_controller(t_parsed *cmd_list, t_env *local_env)
+{
+	t_list_info		*list_info;
+	t_parsed_cmd	*parsed_cmd;
+	int				is_single_builtin;
+	int				res_dispatcher;
+	int				last_cmd_status;
+
+	list_info = cmd_list_info2(cmd_list);
+	parsed_cmd = list_info->head;
+	is_single_builtin = 0;
+	list_info->cmd_num = 0;
+	res_dispatcher = dispatcher_loop(list_info, parsed_cmd, local_env, &is_single_builtin);
+	if (is_single_builtin)
+	{
+		destroy_list_info(list_info);
+		return (res_dispatcher);
 	}
 	close_pfds(list_info, false);
 	list_info->status = wait_for_child(list_info->cpid, list_info->size);
+	last_cmd_status = list_info->status;
 	destroy_list_info (list_info);
-	return (exit_status(list_info->status));
+	return (exit_status(last_cmd_status));
 }
 
 void	destroy_list_info(t_list_info *list_info)
