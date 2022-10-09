@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 17:44:29 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/09 18:33:56 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/09 18:43:05 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,18 @@ void	clean_exit(t_list_info *list_info, t_env *local_env)
 	exit(EXIT_FAILURE);
 }
 
+void	is_exit_valid(t_list_info *list_info, t_parsed_cmd *cmd_struct)
+{
+	char	**cmd;
+
+	cmd = cmd_struct->cmd_args;
+	if (str_table_counter(cmd) > 2
+		&& (!is_not_num(cmd[1]) || check_overflow(cmd[1]) == 0))
+		return ;
+	free (list_info->cpid);
+	free (list_info);
+}
+
 int	builtin_main(t_list_info *list_info, t_env *local_env)
 {
 	int				exit_status;
@@ -65,7 +77,10 @@ int	builtin_main(t_list_info *list_info, t_env *local_env)
 
 	cmd_list = list_info->head;
 	if (ft_strncmp(cmd_list->cmd_args[0], "exit", 4) == 0)
+	{
+		is_exit_valid(list_info, cmd_list);
 		return (final_exit(cmd_list, local_env));
+	}
 	if (cmd_list->redir_out || cmd_list->redir_append)
 		cpy_stdout = dup(STDOUT_FILENO);
 	if (exec_redirect(cmd_list, list_info))
