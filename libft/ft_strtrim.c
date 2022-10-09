@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 16:53:24 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/05 18:02:57 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/09 19:58:37 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	while (ft_isinstr(s1[i], set))
 		i++;
 	j--;
-	while (ft_isinstr(s1[j], set))
+	while (j >= 0 && ft_isinstr(s1[j], set))
 		j--;
 	if (j < i)
 		res = malloc(sizeof(char) * 1);
