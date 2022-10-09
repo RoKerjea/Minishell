@@ -53,7 +53,6 @@ SRCS		=	${addprefix common/, \
 				ft_strncmp.c \
 				ft_isspace.c} \
 				${addprefix builtin/, \
-				exec_builtin.c \
 				export_unset.c \
 				echo.c \
 				env.c \
@@ -72,7 +71,8 @@ SRCS		=	${addprefix common/, \
 				print_err.c \
 				free_args.c \
 				exec_redirect.c \
-				exec_subshell.c} \
+				exec_subshell.c \
+				exec_builtin.c} \
 				${addprefix testdir/, \
 				print_parsed.c \
 				print_token.c} \
