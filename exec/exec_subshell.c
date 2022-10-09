@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 00:08:30 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/09 19:26:16 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/09 19:38:07 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	exec_subshell(t_parsed_cmd *cmd, t_list_info *info, t_env *local_env)
 	if (info->size > 1)
 		exec_pipeline(cmd, info);
 	if (exec_redirect(cmd, info))
-		exit(EXIT_FAILURE);
+		return (destroy_list_info(info), env_destroy_list(local_env),
+			exit(EXIT_FAILURE));
 	if (cmd->exec_type == BUILT)
 		exit(exec_builtin(cmd, local_env));
 	else
