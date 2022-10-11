@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 20:40:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/09 17:50:34 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/11 13:36:10 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ int				ft_atoi(const char *str);
 char			*ft_itoa(int num);
 void			*memset_alloc(int c, size_t len);
 char			*ft_strtrim(char const *s1, char const *set);
+int				ft_isdigit(char c);
+int				ft_isalnum(int c);
 
 //ENV_DESTROY
 int				env_destroy_list(t_env *env_list);

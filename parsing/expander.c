@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/03 16:06:01 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/09 21:36:57 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/11 14:12:50 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,11 @@ char	*str_expander(char *str, t_env *local_env, int expand)
 			quote *= -1;
 		if (str[i] == '\'' && quote == -1 && expand == 1)
 			i += find_end_quote(str + i, '\'');
-		else if (str[i] == '$')
+		else if (str[i] == '$' && is_to_expand(quote, i, str))
 		{
-			if (!is_to_expand(quote, i, str))
-				i++;
-			else
-			{
-				str = smartass(str, i, local_env);
-				i = 0;
-			}
+			str = smartass(str, i, local_env);
+			quote = -1;
+			i = 0;
 		}
 		else
 			i++;

@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:35:17 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/09 17:14:22 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/11 12:49:38 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	**field_splitter(char *s, char c)
 	res[wnum] = NULL;
 	if (wnum == 1)
 	{
-		res[0] = ft_strdup(s);
+		res[0] = ft_strtrim(s, " ");
 		return (res);
 	}
 	wnum = 0;

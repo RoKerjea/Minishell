@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 21:07:57 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/09 16:47:45 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/11 13:55:32 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_env	*minimal_env(void)
 	char		*path;
 	t_env_link	*temp;
 
-	env_list = malloc(sizeof(env_list));
+	env_list = malloc(sizeof(t_env));
 	if (!env_list)
 		return (NULL);
 	getcwd(cur_path, PATH_MAX);
@@ -47,7 +47,6 @@ t_env	*minimal_env(void)
 //return a struct with variable count and a pointer to the first and last link
 t_env	*env_list(char **env)
 {
-	int			i;
 	t_env		*env_list;
 	t_env_link	*now;
 	t_env_link	*prev;
@@ -55,19 +54,19 @@ t_env	*env_list(char **env)
 	env_list = malloc(sizeof(t_env));
 	if (!env_list)
 		return (NULL);
-	i = 0;
-	env_list->first = create_link(env[i]);
-	i++;
-	prev = env_list->first;
-	while (env[i])
+	env_list->len = 0;
+	now = create_link(env[env_list->len]);
+	env_list->first = now;
+	env_list->len++;
+	prev = now;
+	while (env[env_list->len])
 	{
-		now = create_link(env[i]);
+		now = create_link(env[env_list->len]);
 		if (prev)
 			forgelink(prev, now);
-		i++;
+		env_list->len++;
 		prev = prev->next;
 	}
-	env_list->len = i;
 	env_list->last = now;
 	env_list->lst_exit = 0;
 	update_shlvl(env_list);

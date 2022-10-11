@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:28:44 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/09 21:23:29 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/11 13:15:57 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ static int	search_path_loop(char **paths, char **cmd, char **envp)
 	int		ret_access;
 
 	i = -1;
+	if (paths == NULL)
+		return (EXIT_FAILURE);
 	while (paths[++i] && cmd[0] && errno != -1)
 	{
 		abs_cmd = ft_strjoin(paths[i], cmd[0]);
@@ -66,10 +68,11 @@ int	exec_cmd(char **cmd, char **envp)
 
 	paths = get_paths(envp);
 	ret_access = access(cmd[0], F_OK | X_OK | R_OK);
-	if (ret_access && !ft_strchr(cmd[0], '/'))
+	if (!ft_strchr(cmd[0], '/'))
 	{
 		if (cmd[0][0] && search_path_loop(paths, cmd, envp))
 		{
+			print_err(errno, cmd[0], 0);
 			ft_freetab(paths);
 			ft_freetab(cmd);
 			ft_freetab(envp);

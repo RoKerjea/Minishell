@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 17:12:08 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/09 17:14:18 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/11 12:48:43 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,12 @@ int	field_counter(char *s, char c)
 				wordcount++;
 		}
 		else if ((s[i] != c && s[i] != '\'' && s[i] != '\"' && (s[i + 1] == c
-					|| s[i + 1] == '\0')) || (s[i] == c && s[i + 1] == '\0'))
+					|| s[i + 1] == '\0')))
 		{	
 			wordcount++;
 			i++;
+			while (s[i] == c)
+				i++;
 		}		
 		else
 			i++;

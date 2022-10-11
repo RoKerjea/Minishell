@@ -81,6 +81,9 @@ exec_test "rien"
 #exec_test "\ls"
 exec_test "\$FALSE"
 exec_test ' "" | "" '
+exec_test '>>truc2'
+exec_test "echo \$USER \"\$USER\" '\$USER'"
+exec_test 'export LOL="         truc machin     " ; cat $LOL'
 
 #Exit builtins
 exec_test "exit 42"
@@ -114,6 +117,8 @@ exec_test "echo -n truc"
 
 exec_test "pwd"
 exec_test "pwd truc"
+exec_test "pwd > testpwd ; cat testpwd"
+exec_test "pwd > testpwd"
 
 exec_test "pwd ; cd ; pwd"
 exec_test "pwd ; cd .. ; pwd"
@@ -151,6 +156,7 @@ exec_test "echo $"
 exec_test "echo $\"rfrgrg\""
 exec_test "echo $'rfrgrg'"
 exec_test 'echo $rfrgrg'
+exec_test "echo 'l"
 
 #syntax error tests
 exec_test "wc <"
@@ -161,5 +167,5 @@ exec_test "wc |||"
 
 exec_test "ls <non | wc"
 
-rm -rf minishell out1 test2
+rm -rf minishell out1 test2 testpwd truc2
 #rm lol ls test

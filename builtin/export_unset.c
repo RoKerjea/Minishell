@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 17:06:50 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/09 17:07:57 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/11 13:48:09 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,35 @@ void	print_export(t_env *local_env)
 	}
 }
 
+void	print_export_error(char *str)
+{
+	ft_putstr_fd("minishell: export: `", STDOUT_FILENO);
+	ft_putstr_fd(str, STDOUT_FILENO);
+	ft_putstr_fd("': not a valid identifier\n", STDOUT_FILENO);
+}
+
+int	check_export_name(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (ft_isdigit(str[i]) == 1)
+	{
+		print_export_error (str);
+		return (0);
+	}
+	while (str[i] != '\0' && str[i] != '=')
+	{
+		if (ft_isalnum(str[i]) == 0 && str[i] != '_')
+		{
+			print_export_error (str);
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}
+
 int	env_export(char **cmd, t_env *local_env)
 {
 	int	i;
@@ -49,8 +78,17 @@ int	env_export(char **cmd, t_env *local_env)
 		print_export(local_env);
 	while (cmd[i] != NULL)
 	{
+		if (check_export_name(cmd[i]) == 0)
+			return (1);
 		update_variable(cmd[i], local_env);
 		i++;
 	}
 	return (0);
 }
+
+/*RULES
+
+cant start by number
+can contain alphanumeric char
+can contain '_'
+*/

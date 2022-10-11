@@ -18,6 +18,7 @@ SRCS		=	${addprefix common/, \
 				signal_handler.c} \
 				${addprefix parsing/, \
 				bool_str.c \
+				syntaxerror.c \
 				ft_strtrim_replace.c \
 				tokenizer.c \
 				token_assign.c \
@@ -38,6 +39,8 @@ SRCS		=	${addprefix common/, \
 				ft_strlen.c \
 				ft_split.c \
 				ft_atoi.c \
+				ft_isalnum.c \
+				ft_isdigit.c \
 				ft_itoa.c \
 				ft_strtrim.c \
 				ft_memset.c \

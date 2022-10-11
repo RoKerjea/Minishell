@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 17:01:46 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/09 21:34:22 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/11 14:11:13 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int	check_input(char *input)
 	while (input[i] != '\0')
 	{
 		if (input[i] == '\'' || input[i] == '\"' )
-			i += find_end_quote(input + i, input[i]) - 1;
-		if (i > len + 1)
+			i += find_end_quote(input + i, input[i]);
+		if (i > len + 1 || input [i] == '\0')
 		{
 			write(2, "unclosed quotes!\n", 17);
 			return (NO);
@@ -93,11 +93,11 @@ int	input(t_env *local_env)
 		if (input[0] == '\0' || is_only_space(input) || !check_input(input))
 		{
 			free(input);
+			local_env->lst_exit = 2;
 			continue ;
 		}
 		add_history (input);
 		cmd_list = parser(input, local_env);
-		free(input);
 		if (check_valid_cmd(cmd_list, local_env) == NO)
 			continue ;
 		local_env->lst_exit = exec_controller(cmd_list, local_env);

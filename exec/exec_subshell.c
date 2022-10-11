@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_subshell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 00:08:30 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/09 21:40:39 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/10 02:10:19 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,5 @@ void	exec_subshell(t_parsed_cmd *cmd, t_list_info *info, t_env *local_env)
 	if (errno == EACCES || errno == EISDIR
 		|| errno == EPERM || errno == ENOEXEC || errno == EINVAL)
 		exit(126);
+	exit (127);
 }

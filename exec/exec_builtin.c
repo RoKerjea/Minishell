@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 17:44:29 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/09 19:58:45 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/11 10:57:09 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "../include/exec.h"
 #include "../include/minishell.h"
 #include "../include/builtins.h"
+#include "../include/macro.h"
 #include <stdio.h>
 
 int	str_table_counter(char **str_table)
@@ -76,7 +77,7 @@ int	builtin_main(t_list_info *list_info, t_env *local_env)
 	exit_status = exec_builtin(cmd_list, local_env);
 	if (cmd_list->redir_out || cmd_list->redir_append)
 	{
-		dup2(cpy_stdout, STDOUT_FILENO);
+		dup2(cpy_stdout, 1);
 		close(cpy_stdout);
 	}
 	return (exit_status);

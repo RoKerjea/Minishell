@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 16:06:43 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/09/21 02:32:24 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/11 13:58:54 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,7 @@ static char	**split_path(char *path)
 	char	**paths;
 
 	if (!path)
-	{
-		print_err(errno, __FILE__, __LINE__ - 3);
 		return (NULL);
-	}
 	paths = ft_split(path, ':');
 	if (!paths)
 	{
@@ -61,6 +58,8 @@ char	**get_paths(char *const envp[])
 
 	path = get_path_envp(envp);
 	paths = split_path(path);
+	if (!path || !paths)
+		return (NULL);
 	i = 0;
 	while (paths[i])
 	{
@@ -70,7 +69,6 @@ char	**get_paths(char *const envp[])
 		{
 			free_err_join(path, tmp, &paths[i + 1]);
 			free(paths);
-			print_err(errno, __FILE__, __LINE__ - 3);
 			return (NULL);
 		}
 		free(tmp);

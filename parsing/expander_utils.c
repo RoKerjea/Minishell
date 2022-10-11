@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 17:09:47 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/09 17:10:35 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/11 14:00:43 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,6 @@ char	*extract_name(char *str)
 	i = wordlen(str);
 	name = ft_strndup(str + 1, i - 1);
 	return (name);
-}
-
-int	ft_isdigit(char c)
-{
-	if (c >= '0' && c <= '9')
-		return (YES);
-	return (NO);
 }
 
 int	wordlen(char *str)

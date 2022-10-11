@@ -1,37 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wait.c                                             :+:      :+:    :+:   */
+/*   reset_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/09 18:03:53 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/11 09:32:31 by rokerjea         ###   ########.fr       */
+/*   Created: 2022/10/11 10:49:29 by rokerjea          #+#    #+#             */
+/*   Updated: 2022/10/11 10:55:51 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include <fcntl.h>
 #include <sys/types.h>
-#include <sys/wait.h>
+#include <sys/stat.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <errno.h>
 
-int	wait_for_child(pid_t *cpid, unsigned int max_proc)
+int	main(void)
 {
-	ssize_t	i;
-	int		status;
+	int bak, new;
+	
+	// fflush(stdout);
+	bak = dup(1);
+	new = open("./outtest", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	dup2(new, 1);
+	close(new);
 
-	i = 0;
-	status = 0;
-	while (i < max_proc)
-	{
-		waitpid(cpid[i], &status, 0);
-		if (cpid[i] == cpid[max_proc - 1])
-		{
-			if (status == SIGINT)
-				write(STDERR_FILENO, "\n", 1);
-			if (status == 131)
-				write(STDERR_FILENO, "Quit (core dumped)\n", 19);
-		}
-		i++;
-	}
-	return (status);
+	write (1, "what?\n", 7);
+	//printf ("ceci est un test\n");
+
+	// fflush(stdout);
+	dup2(bak, 1);
+	close(bak);
+	write (1, "what2?\n", 7);
+	return (0);
 }

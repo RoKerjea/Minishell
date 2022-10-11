@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 17:39:19 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/09 21:39:35 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/11 14:11:17 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_parsed	*parser(char *input, t_env *local_env)
 	parsed_list = list_parser(temp);
 	if (check_parsed_cmd(parsed_list) == NO)
 		destroy_final_list(parsed_list);
+	free(input);
 	return (parsed_list);
 }
 

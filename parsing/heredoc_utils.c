@@ -6,7 +6,7 @@
 /*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 17:18:56 by rokerjea          #+#    #+#             */
-/*   Updated: 2022/10/09 17:22:10 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/11 09:25:22 by rokerjea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ char	*findnewname(char *name)
 	rand[1] = '\n';
 	res = ft_strjoin("/tmp/", name);
 	if (!res)
+	{
+		free (rand);
 		return (0);
+	}
 	while (access(res, F_OK) == 0)
 	{
 		temp = ft_strjoin(res, "a");
