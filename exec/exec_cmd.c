@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rokerjea <rokerjea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 14:28:44 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/11 14:42:40 by rokerjea         ###   ########.fr       */
+/*   Updated: 2022/10/13 21:42:48 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -73,6 +72,8 @@ int	exec_cmd(char **cmd, char **envp)
 	{
 		if (cmd[0][0] && search_path_loop(paths, cmd, envp))
 		{
+			if (!ft_strchr(cmd[0], '/'))
+				errno = -1;
 			print_err(errno, cmd[0], 0);
 			ft_freetab(paths);
 			ft_freetab(cmd);
