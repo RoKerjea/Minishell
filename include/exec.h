@@ -6,7 +6,7 @@
 /*   By: nvasilev <nvasilev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 02:12:12 by nvasilev          #+#    #+#             */
-/*   Updated: 2022/10/09 21:16:47 by nvasilev         ###   ########.fr       */
+/*   Updated: 2022/10/15 16:13:01 by nvasilev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@ enum e_fd_dup_type
 	READ_END,
 	WRITE_END,
 	TEMP_READ_END
+};
+
+enum e_redir_type
+{
+	P_IN,
+	P_OUT,
 };
 
 typedef struct s_list_info
